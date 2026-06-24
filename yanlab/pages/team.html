@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>团队成员 · YanLab</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@400;500;600&family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+  <style>
+    .page-hero {
+      padding: calc(var(--nav-height) + 48px) 0 52px;
+      background: var(--cream);
+      border-bottom: 1px solid rgba(44,36,22,0.06);
+    }
+    .page-hero h1 { margin-bottom: 10px; }
+    .page-hero p  { color: var(--text-light); max-width: 560px; }
+
+    /* role filter tabs */
+    .filter-tabs {
+      display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 40px;
+    }
+    .filter-tab {
+      padding: 7px 18px;
+      border-radius: 20px;
+      font-size: 0.83rem;
+      font-weight: 600;
+      cursor: pointer;
+      border: 1.5px solid transparent;
+      transition: all 0.2s;
+      background: var(--white);
+      color: var(--text-mid);
+      border-color: rgba(44,36,22,0.12);
+    }
+    .filter-tab.active, .filter-tab:hover {
+      background: var(--nav-bg);
+      color: var(--white);
+      border-color: var(--blue);
+    }
+
+    /* member grid */
+    .member-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 20px;
+    }
+
+    .member-card {
+      background: var(--white);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+      transition: box-shadow 0.2s, transform 0.2s;
+    }
+    .member-card:hover {
+      box-shadow: var(--shadow-md);
+      transform: translateY(-3px);
+    }
+
+    /* colored top stripe per role */
+    .member-stripe { height: 5px; }
+    .stripe-pi     { background: var(--coral); }
+    .stripe-postdoc{ background: var(--mint); }
+    .stripe-phd    { background: var(--purple); }
+    .stripe-master { background: var(--sky); }
+    .stripe-undergrad { background: var(--gold); }
+
+    .member-body { padding: 20px 16px; text-align: center; }
+
+    .member-avatar {
+      width: 72px; height: 72px;
+      border-radius: 50%;
+      margin: 0 auto 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: #fff;
+      font-family: var(--font-display);
+      overflow: hidden;
+    }
+    .member-avatar img { width:100%;height:100%;object-fit:cover;border-radius:50%; }
+
+    .member-name { font-size: 0.95rem; font-weight: 600; margin-bottom: 4px; font-family: var(--font-body); }
+    .member-role { font-size: 0.75rem; margin-bottom: 8px; }
+    .member-focus { font-size: 0.78rem; color: var(--text-light); line-height: 1.5; margin-bottom: 10px; }
+
+    .group-label {
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-light);
+      margin: 40px 0 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .group-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: rgba(44,36,22,0.08);
+    }
+
+    .alumni-section { margin-top: 64px; }
+    .alumni-list { display:flex;flex-wrap:wrap;gap:10px; }
+    .alumni-pill {
+      background: var(--white);
+      border-radius: var(--radius-md);
+      padding: 10px 16px;
+      font-size: 0.83rem;
+      color: var(--text-mid);
+      box-shadow: var(--shadow-sm);
+    }
+    .alumni-pill span { color: var(--text-light); font-size: 0.75rem; margin-left: 6px; }
+
+    @media(max-width:600px){
+      .member-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+    }
+  </style>
+</head>
+<body class="lang-zh">
+  <script src="../js/nav-footer.js"></script>
+
+  <div class="page-hero">
+    <div class="container">
+      <span class="section-tag"><span data-zh>团队成员</span><span data-en>Team</span></span>
+      <h1><span data-zh>我们是一家人</span><span data-en>We are family</span></h1>
+      <p><span data-zh>来自五湖四海的伙伴，因为对生命科学的热爱聚在一起，在闫老师带领下共同探索与成长。</span><span data-en>Colleagues from near and far, united by a passion for life sciences, growing together under Prof. Yan's guidance.</span></p>
+    </div>
+  </div>
+
+  <section class="section">
+    <div class="container">
+
+      <!-- PI -->
+      <div class="group-label"><span data-zh>课题组长</span><span data-en>Principal Investigator</span></div>
+      <div class="member-grid">
+        <div class="member-card reveal">
+          <div class="member-stripe stripe-pi"></div>
+          <div class="member-body">
+            <div class="member-avatar" style="background:var(--coral);">闫</div>
+            <div class="member-name"><span data-zh>闫丽盈</span><span data-en>Liying Yan</span></div>
+            <div class="member-role"><span class="tag tag-coral"><span data-zh>研究员 · PI</span><span data-en>PI · Professor</span></span></div>
+            <div class="member-focus"><span data-zh>生殖遗传 · 表观遗传 · 辅助生殖</span><span data-en>Reproductive genetics · Epigenetics · ART</span></div>
+            <a href="pi.html" class="btn btn-outline" style="padding:6px 16px;font-size:0.78rem;"><span data-zh>个人主页</span><span data-en>Profile</span></a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Postdocs -->
+      <div class="group-label"><span data-zh>博士后</span><span data-en>Postdoctoral Researchers</span></div>
+      <div class="member-grid">
+        <!-- Placeholder cards — to be filled by lab members -->
+        <div class="member-card reveal">
+          <div class="member-stripe stripe-postdoc"></div>
+          <div class="member-body">
+            <div class="member-avatar" style="background:var(--mint);">?</div>
+            <div class="member-name"><span data-zh>待补充</span><span data-en>To be added</span></div>
+            <div class="member-role"><span class="tag tag-mint"><span data-zh>博士后</span><span data-en>Postdoc</span></span></div>
+            <div class="member-focus"><span data-zh>研究方向待补充</span><span data-en>Research focus TBD</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PhD students -->
+      <div class="group-label"><span data-zh>博士研究生</span><span data-en>PhD Students</span></div>
+      <div class="member-grid" id="phd-grid">
+        <div class="member-card reveal">
+          <div class="member-stripe stripe-phd"></div>
+          <div class="member-body">
+            <div class="member-avatar" style="background:var(--purple);">?</div>
+            <div class="member-name"><span data-zh>待补充</span><span data-en>To be added</span></div>
+            <div class="member-role"><span class="tag tag-purple"><span data-zh>博士生</span><span data-en>PhD student</span></span></div>
+            <div class="member-focus"><span data-zh>研究方向待补充</span><span data-en>Research focus TBD</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Master students -->
+      <div class="group-label"><span data-zh>硕士研究生</span><span data-en>Master's Students</span></div>
+      <div class="member-grid">
+        <div class="member-card reveal">
+          <div class="member-stripe stripe-master"></div>
+          <div class="member-body">
+            <div class="member-avatar" style="background:var(--sky);">?</div>
+            <div class="member-name"><span data-zh>待补充</span><span data-en>To be added</span></div>
+            <div class="member-role"><span class="tag tag-sky"><span data-zh>硕士生</span><span data-en>Master's student</span></span></div>
+            <div class="member-focus"><span data-zh>研究方向待补充</span><span data-en>Research focus TBD</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Alumni -->
+      <div class="alumni-section reveal">
+        <span class="section-tag"><span data-zh>实验室校友</span><span data-en>Alumni</span></span>
+        <h3 style="margin-bottom:20px;"><span data-zh>毕业去向</span><span data-en>Where our alumni are now</span></h3>
+        <div class="alumni-list">
+          <div class="alumni-pill"><span data-zh>待补充</span><span data-en>To be added</span> <span><span data-zh>（届次·去向）</span><span data-en>(year · destination)</span></span></div>
+          <div class="alumni-pill"><span data-zh>欢迎实验室同学补充校友信息</span><span data-en>Lab members welcome to add alumni info</span></div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <script src="../js/main.js"></script>
+</body>
+</html>

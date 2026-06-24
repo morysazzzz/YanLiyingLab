@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>加入我们 · YanLab</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@400;500;600&family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+  <style>
+    .page-hero {
+      padding: calc(var(--nav-height) + 48px) 0 52px;
+      background: var(--tiffany-light);
+      border-bottom: 1px solid rgba(44,36,22,0.06);
+    }
+    .positions-grid { display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:20px; }
+    .position-card {
+      background:var(--white); border-radius:var(--radius-lg);
+      padding:28px; box-shadow:var(--shadow-sm);
+      border-top:4px solid var(--pos-color, var(--coral));
+      transition: box-shadow 0.2s, transform 0.2s;
+    }
+    .position-card:hover { box-shadow:var(--shadow-md);transform:translateY(-2px); }
+    .pos-icon { font-size:2rem;margin-bottom:12px; }
+    .pos-title { font-size:1.05rem;font-weight:600;margin-bottom:8px;font-family:var(--font-body); }
+    .pos-reqs { font-size:0.83rem;color:var(--text-light);line-height:1.7; }
+    .req-item { padding:4px 0; }
+    .req-item::before { content:'✓ '; color:var(--mint); font-weight:700; }
+
+    .values-grid { display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:40px; }
+    .value-card {
+      background:var(--cream); border-radius:var(--radius-lg);
+      padding:24px; text-align:center;
+    }
+    .value-icon { font-size:1.8rem;margin-bottom:10px; }
+    .value-title { font-size:0.9rem;font-weight:600;margin-bottom:6px; }
+    .value-desc { font-size:0.8rem;color:var(--text-light); }
+
+    .apply-box {
+      background:var(--nav-bg); border-radius:var(--radius-xl);
+      padding:48px; text-align:center; color:#fff;
+      position:relative;overflow:hidden;
+    }
+    .apply-box h2 { color:#fff;margin-bottom:12px; }
+    .apply-box p { color:rgba(255,255,255,0.75);margin-bottom:28px;max-width:480px;margin-left:auto;margin-right:auto; }
+    .apply-box .blob { position:absolute;border-radius:50%;opacity:0.12; }
+
+    @media(max-width:768px){ .values-grid { grid-template-columns:1fr 1fr; } }
+    @media(max-width:480px){ .values-grid { grid-template-columns:1fr; } }
+  </style>
+</head>
+<body class="lang-zh">
+  <script src="../js/nav-footer.js"></script>
+
+  <div class="page-hero">
+    <div class="container">
+      <span class="section-tag"><span data-zh>加入我们</span><span data-en>Join Us</span></span>
+      <h1><span data-zh>和我们一起探索生命的奥秘</span><span data-en>Explore life's mysteries with us</span></h1>
+      <p style="max-width:560px;margin-top:12px;color:var(--text-mid);">
+        <span data-zh>我们欢迎充满好奇心、勤奋踏实的伙伴加入。无论你处于学术生涯的哪个阶段，都真诚欢迎你来聊聊。</span>
+        <span data-en>We welcome curious, dedicated people at any stage of their academic career. We'd genuinely love to hear from you.</span>
+      </p>
+    </div>
+  </div>
+
+  <section class="section">
+    <div class="container">
+      <span class="section-tag"><span data-zh>招募职位</span><span data-en>Open Positions</span></span>
+      <h2 style="margin-bottom:32px;"><span data-zh>我们在寻找</span><span data-en>We are looking for</span></h2>
+      <div class="positions-grid">
+        <div class="position-card reveal" style="--pos-color:var(--coral);">
+          <div class="pos-icon">🔬</div>
+          <div class="pos-title"><span data-zh>博士后研究员</span><span data-en>Postdoctoral Researcher</span></div>
+          <div class="pos-reqs">
+            <div class="req-item"><span data-zh>生命科学相关方向博士学位</span><span data-en>PhD in life sciences or related fields</span></div>
+            <div class="req-item"><span data-zh>良好的英文写作与沟通能力</span><span data-en>Strong English writing and communication</span></div>
+            <div class="req-item"><span data-zh>对生殖遗传/表观遗传有浓厚兴趣</span><span data-en>Strong interest in reproductive genetics/epigenetics</span></div>
+            <div class="req-item"><span data-zh>具备独立科研能力</span><span data-en>Ability to conduct independent research</span></div>
+          </div>
+        </div>
+        <div class="position-card reveal" style="--pos-color:var(--purple);transition-delay:0.1s;">
+          <div class="pos-icon">🎓</div>
+          <div class="pos-title"><span data-zh>博士研究生</span><span data-en>PhD Student</span></div>
+          <div class="pos-reqs">
+            <div class="req-item"><span data-zh>生命科学/医学相关背景</span><span data-en>Background in life sciences / medicine</span></div>
+            <div class="req-item"><span data-zh>对基础研究有热情与执着</span><span data-en>Passion and perseverance for basic research</span></div>
+            <div class="req-item"><span data-zh>具备良好的学习与沟通能力</span><span data-en>Good learning and communication skills</span></div>
+          </div>
+        </div>
+        <div class="position-card reveal" style="--pos-color:var(--sky);transition-delay:0.2s;">
+          <div class="pos-icon">📚</div>
+          <div class="pos-title"><span data-zh>硕士研究生</span><span data-en>Master's Student</span></div>
+          <div class="pos-reqs">
+            <div class="req-item"><span data-zh>相关专业本科背景</span><span data-en>Relevant undergraduate background</span></div>
+            <div class="req-item"><span data-zh>认真踏实，有科研探索精神</span><span data-en>Diligent and curious about scientific exploration</span></div>
+            <div class="req-item"><span data-zh>欢迎推免直博同学咨询</span><span data-en>Highly recommended students welcome</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Why join -->
+      <div style="margin-top:72px;" class="reveal">
+        <span class="section-tag"><span data-zh>为什么加入我们</span><span data-en>Why join us</span></span>
+        <h2><span data-zh>你将获得</span><span data-en>What you'll get</span></h2>
+        <div class="values-grid">
+          <div class="value-card">
+            <div class="value-icon">🏆</div>
+            <div class="value-title"><span data-zh>顶尖科研平台</span><span data-en>Top research platform</span></div>
+            <div class="value-desc"><span data-zh>北医三院世界一流的生殖医学研究环境</span><span data-en>World-class reproductive medicine research environment at PUTH</span></div>
+          </div>
+          <div class="value-card">
+            <div class="value-icon">💡</div>
+            <div class="value-title"><span data-zh>严谨的科研训练</span><span data-en>Rigorous research training</span></div>
+            <div class="value-desc"><span data-zh>从选题到发表的全过程指导与培养</span><span data-en>Full mentorship from topic selection to publication</span></div>
+          </div>
+          <div class="value-card">
+            <div class="value-icon">❤️</div>
+            <div class="value-title"><span data-zh>温暖的实验室文化</span><span data-en>Warm lab culture</span></div>
+            <div class="value-desc"><span data-zh>闫老师关心每一位学生的成长与生活</span><span data-en>Prof. Yan cares about every student's growth and well-being</span></div>
+          </div>
+          <div class="value-card">
+            <div class="value-icon">🌏</div>
+            <div class="value-title"><span data-zh>国际交流机会</span><span data-en>International opportunities</span></div>
+            <div class="value-desc"><span data-zh>参加国际学术会议，开阔学术视野</span><span data-en>Attend international conferences and broaden your academic horizons</span></div>
+          </div>
+          <div class="value-card">
+            <div class="value-icon">🤝</div>
+            <div class="value-title"><span data-zh>优秀的团队伙伴</span><span data-en>Outstanding teammates</span></div>
+            <div class="value-desc"><span data-zh>和来自五湖四海的优秀同学共同成长</span><span data-en>Grow alongside talented colleagues from across the country</span></div>
+          </div>
+          <div class="value-card">
+            <div class="value-icon">🎉</div>
+            <div class="value-title"><span data-zh>丰富的课外活动</span><span data-en>Rich extracurricular life</span></div>
+            <div class="value-desc"><span data-zh>团建、聚餐、节日庆典……生活不只是实验室</span><span data-en>Team outings, dinners, celebrations — life is more than the lab</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Apply CTA -->
+      <div class="apply-box reveal" style="margin-top:64px;">
+        <div class="blob" style="width:250px;height:250px;background:var(--coral);top:-60px;right:5%;"></div>
+        <div class="blob" style="width:160px;height:160px;background:var(--gold);bottom:-40px;left:10%;"></div>
+        <h2><span data-zh>感兴趣？直接联系我们！</span><span data-en>Interested? Reach out directly!</span></h2>
+        <p>
+          <span data-zh>请将个人简历和一封简短的自我介绍发送至闫老师邮箱。我们会认真阅读每一封邮件。</span>
+          <span data-en>Send your CV and a brief self-introduction to Prof. Yan's email. We read every message carefully.</span>
+        </p>
+        <a href="mailto:yanliying@bjmu.edu.cn" class="btn btn-white">
+          ✉️ yanliying@bjmu.edu.cn
+        </a>
+      </div>
+
+    </div>
+  </section>
+
+  <script src="../js/main.js"></script>
+</body>
+</html>

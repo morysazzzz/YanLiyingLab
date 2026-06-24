@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>实验室生活 · YanLab</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@400;500;600&family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+  <style>
+    .page-hero {
+      padding: calc(var(--nav-height) + 48px) 0 52px;
+      background: var(--nav-bg);
+      position: relative; overflow: hidden;
+    }
+    .page-hero .blob { position:absolute;border-radius:50%;opacity:0.15; }
+    .page-hero h1 { color: #fff; }
+    .page-hero p { color: rgba(255,255,255,0.85); max-width: 520px; }
+
+    /* Category tabs */
+    .cat-tabs { display:flex;gap:10px;flex-wrap:wrap;margin-bottom:40px; }
+    .cat-tab {
+      padding: 8px 20px; border-radius: 20px;
+      font-size: 0.82rem; font-weight: 600; cursor: pointer;
+      background: var(--white); color: var(--text-mid);
+      border: 1.5px solid rgba(44,36,22,0.1);
+      transition: all 0.2s;
+    }
+    .cat-tab.active, .cat-tab:hover {
+      background: var(--coral); color: #fff; border-color: var(--coral);
+    }
+
+    /* Polaroid wall */
+    .polaroid-wall {
+      columns: 4;
+      column-gap: 16px;
+    }
+
+    .polaroid-item {
+      break-inside: avoid;
+      margin-bottom: 16px;
+      display: inline-block;
+      width: 100%;
+    }
+
+    .polaroid-card {
+      background: var(--white);
+      border-radius: 6px;
+      padding: 10px 10px 36px;
+      box-shadow: var(--shadow-md);
+      transform: rotate(var(--rot, 0deg));
+      transition: transform 0.3s, box-shadow 0.3s;
+      cursor: pointer;
+    }
+    .polaroid-card:hover {
+      transform: rotate(0deg) scale(1.04);
+      box-shadow: 0 8px 32px rgba(44,36,22,0.14);
+      z-index: 10;
+      position: relative;
+    }
+
+    .polaroid-img {
+      width: 100%;
+      aspect-ratio: 1;
+      border-radius: 3px;
+      overflow: hidden;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.72rem;
+      color: var(--text-light);
+      text-align: center;
+    }
+
+    .polaroid-img img { width:100%;height:100%;object-fit:cover; }
+
+    .polaroid-cap {
+      margin-top: 8px;
+      font-size: 0.72rem;
+      text-align: center;
+      color: var(--text-mid);
+      font-family: var(--font-display);
+      font-style: italic;
+      line-height: 1.4;
+    }
+
+    /* Event cards */
+    .events-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 20px;
+      margin-top: 48px;
+    }
+
+    .event-card {
+      background: var(--white);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      box-shadow: var(--shadow-sm);
+      transition: box-shadow 0.2s, transform 0.2s;
+      border-top: 4px solid var(--color, var(--coral));
+    }
+    .event-card:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); }
+
+    .event-emoji { font-size: 2rem; margin-bottom: 12px; }
+    .event-name { font-size: 1rem; font-weight: 600; margin-bottom: 6px; }
+    .event-desc { font-size: 0.83rem; color: var(--text-light); line-height: 1.6; }
+
+    /* upload CTA */
+    .upload-cta {
+      background: var(--nav-bg);
+      border-radius: var(--radius-xl);
+      padding: 48px;
+      text-align: center;
+      color: #fff;
+      position: relative; overflow: hidden;
+    }
+    .upload-cta h2 { color: #fff; margin-bottom: 12px; }
+    .upload-cta p { color: rgba(255,255,255,0.75); margin-bottom: 28px; }
+
+    @media(max-width:900px) { .polaroid-wall { columns: 3; } }
+    @media(max-width:600px) { .polaroid-wall { columns: 2; } }
+  </style>
+</head>
+<body class="lang-zh">
+  <script src="../js/nav-footer.js"></script>
+
+  <div class="page-hero">
+    <div class="blob" style="width:300px;height:300px;background:var(--gold);top:-60px;right:-40px;"></div>
+    <div class="blob" style="width:200px;height:200px;background:var(--white);bottom:-40px;left:10%;"></div>
+    <div class="container" style="position:relative;z-index:1;">
+      <span class="section-tag" style="background:rgba(129,216,208,0.2);color:var(--tiffany);">
+        <span data-zh>实验室生活</span><span data-en>Lab Life</span>
+      </span>
+      <h1><span data-zh>不只是科研，也是家人</span><span data-en>More than research — we're family</span></h1>
+      <p style="margin-top:12px;"><span data-zh>团建、聚餐、旅行、节日、毕业……每一刻都值得被记录。</span><span data-en>Team activities, dinners, trips, celebrations, graduations — every moment worth remembering.</span></p>
+    </div>
+  </div>
+
+  <section class="section">
+    <div class="container">
+
+      <!-- Category filters -->
+      <div class="cat-tabs">
+        <span class="cat-tab active"><span data-zh>全部</span><span data-en>All</span></span>
+        <span class="cat-tab">🏕️ <span data-zh>团建</span><span data-en>Retreat</span></span>
+        <span class="cat-tab">🎉 <span data-zh>聚会</span><span data-en>Party</span></span>
+        <span class="cat-tab">🎓 <span data-zh>毕业</span><span data-en>Graduation</span></span>
+        <span class="cat-tab">✈️ <span data-zh>旅行</span><span data-en>Travel</span></span>
+        <span class="cat-tab">🔬 <span data-zh>日常</span><span data-en>Daily</span></span>
+      </div>
+
+      <!-- Polaroid wall — placeholders for now -->
+      <div class="polaroid-wall">
+        <div class="polaroid-item reveal">
+          <div class="polaroid-card" style="--rot:-2deg;">
+            <div class="polaroid-img" style="background:var(--mint-light);">
+              <span data-zh>📸 照片待上传</span><span data-en>📸 Photo to upload</span>
+            </div>
+            <div class="polaroid-cap"><span data-zh>年度团建</span><span data-en>Annual retreat</span></div>
+          </div>
+        </div>
+        <div class="polaroid-item reveal" style="transition-delay:0.05s;">
+          <div class="polaroid-card" style="--rot:1.5deg;">
+            <div class="polaroid-img" style="background:var(--coral-light);aspect-ratio:0.85;">
+              <span data-zh>📸 照片待上传</span><span data-en>📸 Photo to upload</span>
+            </div>
+            <div class="polaroid-cap"><span data-zh>节日聚餐</span><span data-en>Holiday dinner</span></div>
+          </div>
+        </div>
+        <div class="polaroid-item reveal" style="transition-delay:0.1s;">
+          <div class="polaroid-card" style="--rot:-1deg;">
+            <div class="polaroid-img" style="background:var(--gold-light);">
+              <span data-zh>📸 照片待上传</span><span data-en>📸 Photo to upload</span>
+            </div>
+            <div class="polaroid-cap"><span data-zh>毕业快乐</span><span data-en>Graduation day</span></div>
+          </div>
+        </div>
+        <div class="polaroid-item reveal" style="transition-delay:0.15s;">
+          <div class="polaroid-card" style="--rot:2deg;">
+            <div class="polaroid-img" style="background:var(--purple-light);aspect-ratio:1.2;">
+              <span data-zh>📸 照片待上传</span><span data-en>📸 Photo to upload</span>
+            </div>
+            <div class="polaroid-cap"><span data-zh>实验室日常</span><span data-en>Lab daily life</span></div>
+          </div>
+        </div>
+        <div class="polaroid-item reveal" style="transition-delay:0.2s;">
+          <div class="polaroid-card" style="--rot:-2.5deg;">
+            <div class="polaroid-img" style="background:var(--sky-light);">
+              <span data-zh>📸 照片待上传</span><span data-en>📸 Photo to upload</span>
+            </div>
+            <div class="polaroid-cap"><span data-zh>户外活动</span><span data-en>Outdoor activity</span></div>
+          </div>
+        </div>
+        <div class="polaroid-item reveal" style="transition-delay:0.25s;">
+          <div class="polaroid-card" style="--rot:1deg;">
+            <div class="polaroid-img" style="background:var(--blue-light);aspect-ratio:0.9;">
+              <span data-zh>📸 照片待上传</span><span data-en>📸 Photo to upload</span>
+            </div>
+            <div class="polaroid-cap"><span data-zh>会议交流</span><span data-en>Conference</span></div>
+          </div>
+        </div>
+        <div class="polaroid-item reveal" style="transition-delay:0.3s;">
+          <div class="polaroid-card" style="--rot:-1.5deg;">
+            <div class="polaroid-img" style="background:var(--mint-light);">
+              <span data-zh>📸 照片待上传</span><span data-en>📸 Photo to upload</span>
+            </div>
+            <div class="polaroid-cap"><span data-zh>新年快乐</span><span data-en>Happy New Year</span></div>
+          </div>
+        </div>
+        <div class="polaroid-item reveal" style="transition-delay:0.35s;">
+          <div class="polaroid-card" style="--rot:2.5deg;">
+            <div class="polaroid-img" style="background:var(--coral-light);">
+              <span data-zh>📸 照片待上传</span><span data-en>📸 Photo to upload</span>
+            </div>
+            <div class="polaroid-cap"><span data-zh>待补充</span><span data-en>To be added</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Lab traditions -->
+      <div style="margin-top:64px;" class="reveal">
+        <span class="section-tag"><span data-zh>实验室传统</span><span data-en>Lab Traditions</span></span>
+        <h2 style="margin-bottom:32px;"><span data-zh>我们的小传统</span><span data-en>Our little traditions</span></h2>
+        <div class="events-grid">
+          <div class="event-card" style="--color:var(--coral);">
+            <div class="event-emoji">🏕️</div>
+            <div class="event-name"><span data-zh>年度团建</span><span data-en>Annual Retreat</span></div>
+            <div class="event-desc"><span data-zh>每年一次，一起出游放松，增进感情。</span><span data-en>Once a year, we travel together to relax and bond.</span></div>
+          </div>
+          <div class="event-card" style="--color:var(--gold);">
+            <div class="event-emoji">🎂</div>
+            <div class="event-name"><span data-zh>生日惊喜</span><span data-en>Birthday Surprises</span></div>
+            <div class="event-desc"><span data-zh>每个成员的生日都会被记住，闫老师总会送上惊喜。</span><span data-en>Every member's birthday is remembered, and Prof. Yan always has a surprise ready.</span></div>
+          </div>
+          <div class="event-card" style="--color:var(--mint);">
+            <div class="event-emoji">🎓</div>
+            <div class="event-name"><span data-zh>毕业庆典</span><span data-en>Graduation Celebration</span></div>
+            <div class="event-desc"><span data-zh>送别每一位毕业生，留住最美好的回忆。</span><span data-en>Celebrating each graduate and preserving the most beautiful memories.</span></div>
+          </div>
+          <div class="event-card" style="--color:var(--purple);">
+            <div class="event-emoji">🥢</div>
+            <div class="event-name"><span data-zh>实验室聚餐</span><span data-en>Lab Dinners</span></div>
+            <div class="event-desc"><span data-zh>节日、新生入学、项目完成……总有理由一起吃饭。</span><span data-en>Holidays, new members, project completions — always a reason to dine together.</span></div>
+          </div>
+          <div class="event-card" style="--color:var(--sky);">
+            <div class="event-emoji">✈️</div>
+            <div class="event-name"><span data-zh>学术会议</span><span data-en>Conferences</span></div>
+            <div class="event-desc"><span data-zh>一起出席学术会议，顺道探索新城市。</span><span data-en>Attending academic conferences together and exploring new cities along the way.</span></div>
+          </div>
+          <div class="event-card reveal" style="--color:var(--coral);background:var(--cream);border:2px dashed var(--coral-light);">
+            <div class="event-emoji">✨</div>
+            <div class="event-name"><span data-zh>待补充</span><span data-en>To be added</span></div>
+            <div class="event-desc"><span data-zh>实验室还有更多传统，欢迎学姐学长补充！</span><span data-en>More lab traditions to be added by senior members!</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Upload CTA -->
+      <div class="upload-cta reveal" style="margin-top:64px;">
+        <div class="blob" style="width:200px;height:200px;background:var(--coral);top:-40px;right:10%;position:absolute;opacity:0.15;"></div>
+        <h2><span data-zh>有照片想分享？</span><span data-en>Got photos to share?</span></h2>
+        <p><span data-zh>实验室的每一张照片都是我们共同的回忆。如果你有想上传的照片，联系网站管理员。</span><span data-en>Every photo is a shared memory. If you have photos to contribute, contact the site admin.</span></p>
+        <a href="contact.html" class="btn btn-white"><span data-zh>联系我们</span><span data-en>Contact us</span> →</a>
+      </div>
+
+    </div>
+  </section>
+
+  <script src="../js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>联系我们 · YanLab</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@400;500;600&family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+  <style>
+    .page-hero {
+      padding: calc(var(--nav-height) + 48px) 0 52px;
+      background: var(--nav-bg);
+      position: relative; overflow: hidden;
+    }
+    .page-hero h1 { color:#fff; }
+    .page-hero p { color:rgba(255,255,255,0.75);max-width:520px; }
+    .page-hero .blob { position:absolute;border-radius:50%;opacity:0.12; }
+
+    .contact-grid { display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:start; }
+
+    .contact-info-card {
+      background:var(--white); border-radius:var(--radius-lg);
+      padding:32px; box-shadow:var(--shadow-sm);
+    }
+    .contact-row {
+      display:flex; align-items:flex-start; gap:14px;
+      padding:16px 0; border-bottom:1px solid rgba(44,36,22,0.07);
+    }
+    .contact-row:last-child { border-bottom:none;padding-bottom:0; }
+    .contact-icon {
+      width:40px;height:40px;border-radius:10px;flex-shrink:0;
+      display:flex;align-items:center;justify-content:center;font-size:1.1rem;
+    }
+    .contact-label { font-size:0.75rem;font-weight:600;color:var(--text-light);margin-bottom:3px; }
+    .contact-value { font-size:0.9rem;color:var(--text-dark);font-weight:500; }
+    .contact-value a { color:var(--blue); }
+    .contact-value a:hover { text-decoration:underline; }
+
+    /* map placeholder */
+    .map-placeholder {
+      background:var(--blue-light); border-radius:var(--radius-lg);
+      height:280px; display:flex;align-items:center;justify-content:center;
+      color:var(--blue); flex-direction:column; gap:8px; font-size:0.85rem; text-align:center;
+    }
+
+    .social-links { display:flex;gap:12px;margin-top:20px;flex-wrap:wrap; }
+    .social-link {
+      display:flex;align-items:center;gap:8px;
+      background:var(--cream); border-radius:var(--radius-md);
+      padding:10px 16px; font-size:0.83rem;color:var(--text-mid);
+      transition: background 0.2s, color 0.2s;
+      font-weight:500;
+    }
+    .social-link:hover { background:var(--nav-bg);color:#fff; }
+
+    @media(max-width:768px){ .contact-grid { grid-template-columns:1fr; } }
+  </style>
+</head>
+<body class="lang-zh">
+  <script src="../js/nav-footer.js"></script>
+
+  <div class="page-hero">
+    <div class="blob" style="width:300px;height:300px;background:var(--coral);top:-60px;right:-40px;"></div>
+    <div class="blob" style="width:200px;height:200px;background:var(--gold);bottom:-40px;left:15%;"></div>
+    <div class="container" style="position:relative;z-index:1;">
+      <span class="section-tag" style="background:rgba(255,255,255,0.15);color:var(--gold);">
+        <span data-zh>联系我们</span><span data-en>Contact</span>
+      </span>
+      <h1><span data-zh>随时欢迎联系</span><span data-en>We'd love to hear from you</span></h1>
+      <p style="margin-top:12px;">
+        <span data-zh>无论是学术合作、招聘咨询，还是只是想了解我们的研究，都欢迎来信。</span>
+        <span data-en>Whether for academic collaboration, joining the lab, or simply learning about our research — write to us anytime.</span>
+      </p>
+    </div>
+  </div>
+
+  <section class="section">
+    <div class="container">
+      <div class="contact-grid">
+
+        <div class="reveal">
+          <h2 style="margin-bottom:24px;"><span data-zh>联系方式</span><span data-en>Contact Info</span></h2>
+          <div class="contact-info-card">
+            <div class="contact-row">
+              <div class="contact-icon" style="background:var(--coral-light);">✉️</div>
+              <div>
+                <div class="contact-label"><span data-zh>电子邮件</span><span data-en>Email</span></div>
+                <div class="contact-value"><a href="mailto:yanliying@bjmu.edu.cn">yanliying@bjmu.edu.cn</a></div>
+              </div>
+            </div>
+            <div class="contact-row">
+              <div class="contact-icon" style="background:var(--mint-light);">📍</div>
+              <div>
+                <div class="contact-label"><span data-zh>地址</span><span data-en>Address</span></div>
+                <div class="contact-value">
+                  <span data-zh>北京市海淀区花园北路49号<br>北京大学第三医院 生殖医学科<br>邮编：100191</span>
+                  <span data-en>49 North Garden Road, Haidian District<br>Reproductive Medicine Center, PUTH<br>Beijing 100191, China</span>
+                </div>
+              </div>
+            </div>
+            <div class="contact-row">
+              <div class="contact-icon" style="background:var(--blue-light);">🏥</div>
+              <div>
+                <div class="contact-label"><span data-zh>所在机构</span><span data-en>Institution</span></div>
+                <div class="contact-value">
+                  <span data-zh>北京大学第三医院（北医三院）</span>
+                  <span data-en>Peking University Third Hospital (PUTH)</span>
+                </div>
+              </div>
+            </div>
+            <div class="contact-row">
+              <div class="contact-icon" style="background:var(--gold-light);">🔬</div>
+              <div>
+                <div class="contact-label"><span data-zh>实验室主页</span><span data-en>Department page</span></div>
+                <div class="contact-value">
+                  <a href="https://www.puh3.net.cn" target="_blank">www.puh3.net.cn</a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="social-links">
+            <a href="https://pubmed.ncbi.nlm.nih.gov/?term=Yan+Liying%5Bauthor%5D" target="_blank" class="social-link">
+              📄 PubMed
+            </a>
+            <a href="pages/joinus.html" class="social-link">
+              🎓 <span data-zh>加入我们</span><span data-en>Join Us</span>
+            </a>
+          </div>
+        </div>
+
+        <div class="reveal" style="transition-delay:0.1s;">
+          <h2 style="margin-bottom:24px;"><span data-zh>如何到达</span><span data-en>Getting here</span></h2>
+          <div class="map-placeholder">
+            <span style="font-size:2rem;">🗺️</span>
+            <span>
+              <span data-zh>北京大学第三医院<br>海淀区花园北路49号<br>（地图待嵌入）</span>
+              <span data-en>Peking University Third Hospital<br>49 North Garden Road, Haidian<br>(Map to be embedded)</span>
+            </span>
+          </div>
+          <div style="margin-top:16px;padding:16px 20px;background:var(--white);border-radius:var(--radius-md);box-shadow:var(--shadow-sm);">
+            <div style="font-size:0.82rem;color:var(--text-mid);line-height:1.8;">
+              <span data-zh>
+                🚇 地铁：4号线/16号线 海淀黄庄站，步行约15分钟<br>
+                🚌 公交：多路公交直达北医三院站
+              </span>
+              <span data-en>
+                🚇 Metro: Line 4/16, Haidian Huangzhuang Station, ~15 min walk<br>
+                🚌 Bus: Multiple routes to PUTH stop
+              </span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <script src="../js/main.js"></script>
+</body>
+</html>

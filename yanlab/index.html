@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>YanLab · 闫丽盈实验室</title>
+  <meta name="description" content="YanLab — 北京大学第三医院闫丽盈教授实验室，专注生殖发育与遗传研究。">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@400;500;600&family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    /* ── Hero ── */
+    .hero {
+      min-height: 100vh;
+      padding-top: var(--nav-height);
+      display: flex;
+      align-items: center;
+      background: var(--cream);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-deco {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    /* colorful decorative blobs */
+    .blob {
+      position: absolute;
+      border-radius: 50%;
+      opacity: 0.13;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1fr 420px;
+      gap: 60px;
+      align-items: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-eyebrow {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .hero-eyebrow-line {
+      width: 32px;
+      height: 2px;
+      background: var(--tiffany);
+      border-radius: 2px;
+    }
+
+    .hero-eyebrow-text {
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--tiffany-deep);
+    }
+
+    .hero h1 {
+      margin-bottom: 20px;
+      color: var(--text-dark);
+    }
+
+    .hero h1 em {
+      font-style: normal;
+      color: var(--coral);
+    }
+
+    .hero-desc {
+      font-size: 1.05rem;
+      color: var(--text-mid);
+      margin-bottom: 36px;
+      max-width: 480px;
+    }
+
+    .hero-btns {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    /* Hero visual — photo frame + handdrawn deco */
+    .hero-visual {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .hero-photo-ring {
+      width: 340px;
+      height: 340px;
+      border-radius: 50%;
+      border: 6px solid var(--tiffany-light);
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .hero-photo-inner {
+      width: 300px;
+      height: 300px;
+      border-radius: 50%;
+      background: var(--tiffany-light);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: var(--tiffany-deep);
+      font-size: 0.82rem;
+      text-align: center;
+      padding: 20px;
+      line-height: 1.6;
+      overflow: hidden;
+    }
+
+    .hero-photo-inner img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 50%;
+    }
+
+    /* Handdrawn placeholder spots around the ring */
+    .deco-item {
+      position: absolute;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+    }
+
+    .deco-bubble {
+      background: var(--white);
+      border-radius: 50%;
+      box-shadow: var(--shadow-sm);
+      width: 52px;
+      height: 52px;
+    }
+
+    /* handdrawn frame placeholder overlay */
+    .handdrawn-overlay {
+      position: absolute;
+      inset: -40px;
+      pointer-events: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .handdrawn-frame {
+      width: 420px;
+      height: 420px;
+      border: 2.5px dashed var(--coral-light);
+      border-radius: 48% 52% 46% 54% / 50% 46% 54% 50%;
+      position: absolute;
+      opacity: 0.5;
+    }
+
+    /* ── Stats bar ── */
+    .stats-bar {
+      background: var(--nav-bg);
+      padding: 40px 0;
+      margin-top: -1px;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px;
+      text-align: center;
+    }
+
+    .stat-item { color: var(--white); }
+
+    .stat-number {
+      font-family: var(--font-display);
+      font-size: 2.4rem;
+      font-weight: 700;
+      color: var(--tiffany);
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+
+    .stat-label {
+      font-size: 0.82rem;
+      color: rgba(255,255,255,0.7);
+    }
+
+    /* ── Research preview ── */
+    .research-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    .research-card {
+      background: var(--white);
+      border-radius: var(--radius-lg);
+      padding: 28px;
+      box-shadow: var(--shadow-sm);
+      transition: box-shadow 0.2s, transform 0.2s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .research-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 4px;
+    }
+
+    .research-card:nth-child(1)::before { background: var(--tiffany); }
+    .research-card:nth-child(2)::before { background: var(--coral); }
+    .research-card:nth-child(3)::before { background: var(--purple); }
+
+    .research-card:hover {
+      box-shadow: var(--shadow-md);
+      transform: translateY(-3px);
+    }
+
+    .research-icon {
+      font-size: 2rem;
+      margin-bottom: 14px;
+    }
+
+    .research-card h3 {
+      margin-bottom: 10px;
+      font-size: 1.1rem;
+    }
+
+    .research-card p {
+      font-size: 0.88rem;
+      line-height: 1.7;
+    }
+
+    /* ── News preview ── */
+    .news-list {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .news-item {
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+      background: var(--white);
+      border-radius: var(--radius-md);
+      padding: 20px 24px;
+      box-shadow: var(--shadow-sm);
+      transition: box-shadow 0.2s;
+    }
+
+    .news-item:hover { box-shadow: var(--shadow-md); }
+
+    .news-date {
+      flex-shrink: 0;
+      text-align: center;
+      width: 52px;
+    }
+
+    .news-date-month {
+      font-size: 0.7rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      color: var(--coral);
+      letter-spacing: 0.08em;
+    }
+
+    .news-date-day {
+      font-size: 1.6rem;
+      font-weight: 700;
+      font-family: var(--font-display);
+      color: var(--text-dark);
+      line-height: 1;
+    }
+
+    .news-content h4 {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text-dark);
+      margin-bottom: 5px;
+      font-family: var(--font-body);
+    }
+
+    .news-content p {
+      font-size: 0.83rem;
+      color: var(--text-light);
+    }
+
+    /* ── Lab Life teaser ── */
+    .lablife-teaser {
+      background: var(--nav-bg);
+      border-radius: var(--radius-xl);
+      padding: 56px 48px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .lablife-text h2 { color: var(--white); margin-bottom: 14px; }
+    .lablife-text p  { color: rgba(255,255,255,0.75); margin-bottom: 28px; }
+
+    .polaroid-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .polaroid {
+      background: var(--white);
+      border-radius: var(--radius-sm);
+      padding: 8px 8px 28px;
+      transform: rotate(var(--rot, 0deg));
+      box-shadow: var(--shadow-md);
+    }
+
+    .polaroid-img {
+      width: 100%;
+      aspect-ratio: 1;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.7rem;
+      color: var(--text-light);
+      text-align: center;
+    }
+
+    .polaroid-caption {
+      font-size: 0.68rem;
+      text-align: center;
+      color: var(--text-mid);
+      margin-top: 6px;
+      font-family: var(--font-display);
+    }
+
+    /* ── Scroll reveal ── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .reveal.revealed {
+      opacity: 1;
+      transform: none;
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 900px) {
+      .hero-grid { grid-template-columns: 1fr; text-align: center; }
+      .hero-visual { display: none; }
+      .hero-btns { justify-content: center; }
+      .hero-eyebrow { justify-content: center; }
+      .stats-grid { grid-template-columns: repeat(2, 1fr); }
+      .research-grid { grid-template-columns: 1fr; }
+      .lablife-teaser { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 600px) {
+      .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 16px; }
+      .lablife-teaser { padding: 36px 24px; }
+    }
+  </style>
+</head>
+<body class="lang-zh">
+
+  <!-- Nav + Footer injected by JS -->
+  <script src="js/nav-footer.js"></script>
+
+  <!-- ══════════════ HERO ══════════════ -->
+  <section class="hero" id="home">
+    <!-- background blobs -->
+    <div class="hero-deco">
+      <div class="blob" style="width:420px;height:420px;background:var(--tiffany);top:-120px;right:-80px;"></div>
+      <div class="blob" style="width:300px;height:300px;background:var(--sky);bottom:-60px;left:-60px;"></div>
+      <div class="blob" style="width:180px;height:180px;background:var(--gold);bottom:20%;right:30%;"></div>
+      <div class="blob" style="width:120px;height:120px;background:var(--purple);top:30%;left:20%;"></div>
+    </div>
+
+    <div class="container">
+      <div class="hero-grid">
+        <!-- Text side -->
+        <div class="hero-text">
+          <div class="hero-eyebrow">
+            <div class="hero-eyebrow-line"></div>
+            <span class="hero-eyebrow-text">
+              <span data-zh>北京大学第三医院 · 生殖医学科</span>
+              <span data-en>Peking University Third Hospital · Reproductive Medicine</span>
+            </span>
+          </div>
+
+          <h1>
+            <span data-zh>探索生命<em>起点</em>的奥秘</span>
+            <span data-en>Decoding the <em>origins</em> of life</span>
+          </h1>
+
+          <p class="hero-desc">
+            <span data-zh>我们致力于揭示人类早期生命发育的遗传与表观遗传调控规律，让更多家庭实现健康生育的梦想。</span>
+            <span data-en>We unravel the genetic and epigenetic logic of early human development, helping more families realize the dream of healthy reproduction.</span>
+          </p>
+
+          <div class="hero-btns">
+            <a href="pages/research.html" class="btn btn-primary">
+              <span data-zh>了解我们的研究</span>
+              <span data-en>Our Research</span>
+              →
+            </a>
+            <a href="pages/joinus.html" class="btn btn-outline">
+              <span data-zh>加入我们</span>
+              <span data-en>Join Us</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Visual side -->
+        <div class="hero-visual">
+          <!-- Hand-drawn decoration frame placeholder -->
+          <div class="handdrawn-overlay">
+            <div class="handdrawn-frame"></div>
+          </div>
+
+          <!-- Decorative floating bubbles -->
+          <div class="deco-item deco-bubble" style="top:-10px;right:40px;background:var(--gold-light);">🧬</div>
+          <div class="deco-item deco-bubble" style="bottom:10px;right:20px;background:var(--mint-light);">🔬</div>
+          <div class="deco-item deco-bubble" style="top:60px;left:-10px;background:var(--purple-light);">✨</div>
+          <div class="deco-item deco-bubble" style="bottom:80px;left:10px;background:var(--coral-light);">🌱</div>
+
+          <!-- Photo ring -->
+          <div class="hero-photo-ring">
+            <div class="hero-photo-inner" id="hero-photo">
+              <!-- Replace src with actual photo -->
+              <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin-bottom:10px;opacity:0.4;">
+                <circle cx="40" cy="30" r="18" stroke="#2B5F8A" stroke-width="2.5"/>
+                <path d="M10 70c0-16.569 13.431-30 30-30s30 13.431 30 30" stroke="#2B5F8A" stroke-width="2.5" stroke-linecap="round"/>
+              </svg>
+              <span style="color:var(--blue);font-size:0.78rem;opacity:0.7;padding:0 16px;">
+                <span data-zh>闫老师写真照<br>（待替换）</span>
+                <span data-en>Photo coming soon</span>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════ STATS ══════════════ -->
+  <div class="stats-bar">
+    <div class="container">
+      <div class="stats-grid">
+        <div class="stat-item">
+          <div class="stat-number count-up" data-target="45" data-suffix="+">0</div>
+          <div class="stat-label">
+            <span data-zh>发表论文</span>
+            <span data-en>Publications</span>
+          </div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number count-up" data-target="2200" data-suffix="+">0</div>
+          <div class="stat-label">
+            <span data-zh>论文被引次数</span>
+            <span data-en>Citations</span>
+          </div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number count-up" data-target="2">0</div>
+          <div class="stat-label">
+            <span data-zh>入选中国科学十大进展</span>
+            <span data-en>China Top-10 Science Advances</span>
+          </div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number count-up" data-target="20" data-suffix="+">0</div>
+          <div class="stat-label">
+            <span data-zh>实验室成员</span>
+            <span data-en>Lab Members</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════ RESEARCH PREVIEW ══════════════ -->
+  <section class="section" id="research-preview">
+    <div class="container">
+      <div class="reveal">
+        <span class="section-tag">
+          <span data-zh>研究方向</span>
+          <span data-en>Research</span>
+        </span>
+        <h2 class="section-title">
+          <span data-zh>我们在探索什么</span>
+          <span data-en>What we explore</span>
+        </h2>
+        <p class="section-subtitle">
+          <span data-zh>聚焦人类早期胚胎发育、遗传与表观遗传调控，推动辅助生殖技术的科学突破。</span>
+          <span data-en>Focusing on human early embryo development, genetic and epigenetic regulation, advancing breakthroughs in assisted reproduction.</span>
+        </p>
+      </div>
+
+      <div class="research-grid">
+        <div class="research-card reveal">
+          <div class="research-icon">🧬</div>
+          <h3>
+            <span data-zh>生殖遗传与胚胎诊断</span>
+            <span data-en>Reproductive Genetics & Embryo Diagnosis</span>
+          </h3>
+          <p>
+            <span data-zh>开发基于转录组测序的胚胎着床前遗传学检测新方法，提高单基因病筛查的准确性与适用范围。</span>
+            <span data-en>Developing transcriptome-based preimplantation genetic testing methods to improve accuracy and applicability for monogenic disease screening.</span>
+          </p>
+          <div style="margin-top:16px;">
+            <span class="tag tag-coral">
+              <span data-zh>胚胎诊断</span>
+              <span data-en>PGT</span>
+            </span>
+          </div>
+        </div>
+
+        <div class="research-card reveal" style="transition-delay:0.1s;">
+          <div class="research-icon">🔬</div>
+          <h3>
+            <span data-zh>表观遗传调控机制</span>
+            <span data-en>Epigenetic Regulation</span>
+          </h3>
+          <p>
+            <span data-zh>解析早期胚胎及原始生殖细胞发育过程中的DNA甲基化调控规律，探索基因表达的表观遗传机制。</span>
+            <span data-en>Deciphering DNA methylation regulation during early embryo and primordial germ cell development, exploring epigenetic mechanisms of gene expression.</span>
+          </p>
+          <div style="margin-top:16px;">
+            <span class="tag tag-mint">
+              <span data-zh>表观遗传</span>
+              <span data-en>Epigenetics</span>
+            </span>
+          </div>
+        </div>
+
+        <div class="research-card reveal" style="transition-delay:0.2s;">
+          <div class="research-icon">👶</div>
+          <h3>
+            <span data-zh>辅助生殖技术转化</span>
+            <span data-en>Translational ART</span>
+          </h3>
+          <p>
+            <span data-zh>将基础研究成果转化为临床应用，提高辅助生殖治疗成功率，帮助更多不孕不育家庭实现生育梦想。</span>
+            <span data-en>Translating basic research into clinical applications to improve ART success rates and help infertile families achieve their reproductive goals.</span>
+          </p>
+          <div style="margin-top:16px;">
+            <span class="tag tag-purple">
+              <span data-zh>临床转化</span>
+              <span data-en>Clinical Translation</span>
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div style="text-align:center;margin-top:36px;" class="reveal">
+        <a href="pages/research.html" class="btn btn-outline">
+          <span data-zh>查看全部研究方向</span>
+          <span data-en>View all research</span>
+          →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════ NEWS PREVIEW ══════════════ -->
+  <section class="section" style="background:var(--white);padding:72px 0;" id="news-preview">
+    <div class="container">
+      <div class="reveal" style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:36px;flex-wrap:wrap;gap:16px;">
+        <div>
+          <span class="section-tag">
+            <span data-zh>新闻动态</span>
+            <span data-en>News</span>
+          </span>
+          <h2 class="section-title" style="margin-bottom:0;">
+            <span data-zh>实验室最新动态</span>
+            <span data-en>Latest from the lab</span>
+          </h2>
+        </div>
+        <a href="pages/news.html" class="btn btn-outline" style="flex-shrink:0;">
+          <span data-zh>全部动态</span>
+          <span data-en>All news</span>
+          →
+        </a>
+      </div>
+
+      <div class="news-list">
+        <div class="news-item reveal">
+          <div class="news-date">
+            <div class="news-date-month"><span data-zh>六月</span><span data-en>Jun</span></div>
+            <div class="news-date-day">20</div>
+            <div style="font-size:0.7rem;color:var(--text-light);">2024</div>
+          </div>
+          <div class="news-content">
+            <div style="margin-bottom:8px;">
+              <span class="tag tag-coral" style="font-size:0.7rem;">
+                <span data-zh>论文发表</span>
+                <span data-en>Publication</span>
+              </span>
+            </div>
+            <h4>
+              <span data-zh>团队在 Advanced Science 发表胚胎诊断新方法</span>
+              <span data-en>Team publishes novel embryo diagnostic method in Advanced Science</span>
+            </h4>
+            <p>
+              <span data-zh>基于RNA转录组测序，同步实现胚胎单基因病诊断与着床潜能评估。</span>
+              <span data-en>Concurrent preimplantation genetic testing and competence assessment via transcriptome sequencing.</span>
+            </p>
+          </div>
+        </div>
+
+        <div class="news-item reveal" style="transition-delay:0.1s;">
+          <div class="news-date">
+            <div class="news-date-month"><span data-zh>待更新</span><span data-en>TBD</span></div>
+            <div class="news-date-day">—</div>
+          </div>
+          <div class="news-content">
+            <div style="margin-bottom:8px;">
+              <span class="tag tag-gold" style="font-size:0.7rem;">
+                <span data-zh>占位新闻</span>
+                <span data-en>Placeholder</span>
+              </span>
+            </div>
+            <h4>
+              <span data-zh>更多新闻即将由实验室同学补充</span>
+              <span data-en>More news to be added by lab members</span>
+            </h4>
+            <p>
+              <span data-zh>实验室最新动态、活动与荣誉持续更新中。</span>
+              <span data-en>Lab updates, activities, and awards coming soon.</span>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════ LAB LIFE TEASER ══════════════ -->
+  <section class="section" id="lablife-teaser">
+    <div class="container">
+      <div class="lablife-teaser reveal">
+        <!-- colorful blobs inside -->
+        <div class="blob" style="width:200px;height:200px;background:var(--coral);top:-40px;right:20%;opacity:0.15;"></div>
+        <div class="blob" style="width:150px;height:150px;background:var(--gold);bottom:-20px;right:10%;opacity:0.15;"></div>
+
+        <div class="lablife-text">
+          <span class="section-tag" style="background:rgba(129,216,208,0.15);color:var(--tiffany);">
+            <span data-zh>实验室生活</span>
+            <span data-en>Lab Life</span>
+          </span>
+          <h2>
+            <span data-zh>不只是科研，也是家人</span>
+            <span data-en>More than research — we're family</span>
+          </h2>
+          <p>
+            <span data-zh>团建、聚餐、旅行、节日……闫老师带着大家一起工作，也一起生活。</span>
+            <span data-en>Team building, dinners, trips, celebrations — Prof. Yan leads us in work and in life.</span>
+          </p>
+          <a href="pages/lablife.html" class="btn btn-white">
+            <span data-zh>看看我们的日常</span>
+            <span data-en>See our moments</span>
+            →
+          </a>
+        </div>
+
+        <!-- Polaroid grid placeholder -->
+        <div class="polaroid-grid">
+          <div class="polaroid" style="--rot:-3deg;">
+            <div class="polaroid-img" style="background:var(--mint-light);">
+              <span style="font-size:0.7rem;color:var(--text-light);padding:8px;text-align:center;">
+                <span data-zh>📸 团建照片</span>
+                <span data-en>📸 Team photo</span>
+              </span>
+            </div>
+            <div class="polaroid-caption">
+              <span data-zh>年度团建</span>
+              <span data-en>Annual retreat</span>
+            </div>
+          </div>
+          <div class="polaroid" style="--rot:2deg;margin-top:20px;">
+            <div class="polaroid-img" style="background:var(--coral-light);">
+              <span style="font-size:0.7rem;color:var(--text-light);padding:8px;text-align:center;">
+                <span data-zh>📸 节日庆典</span>
+                <span data-en>📸 Celebration</span>
+              </span>
+            </div>
+            <div class="polaroid-caption">
+              <span data-zh>节日聚会</span>
+              <span data-en>Lab party</span>
+            </div>
+          </div>
+          <div class="polaroid" style="--rot:1.5deg;">
+            <div class="polaroid-img" style="background:var(--gold-light);">
+              <span style="font-size:0.7rem;color:var(--text-light);padding:8px;text-align:center;">
+                <span data-zh>📸 毕业季</span>
+                <span data-en>📸 Graduation</span>
+              </span>
+            </div>
+            <div class="polaroid-caption">
+              <span data-zh>毕业快乐</span>
+              <span data-en>Graduation day</span>
+            </div>
+          </div>
+          <div class="polaroid" style="--rot:-2deg;margin-top:20px;">
+            <div class="polaroid-img" style="background:var(--purple-light);">
+              <span style="font-size:0.7rem;color:var(--text-light);padding:8px;text-align:center;">
+                <span data-zh>📸 实验日常</span>
+                <span data-en>📸 Lab daily</span>
+              </span>
+            </div>
+            <div class="polaroid-caption">
+              <span data-zh>实验日常</span>
+              <span data-en>In the lab</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════ JOIN TEASER ══════════════ -->
+  <section class="section" style="background:var(--cream);padding:64px 0;text-align:center;">
+    <div class="container">
+      <div class="reveal">
+        <span class="section-tag">
+          <span data-zh>加入我们</span>
+          <span data-en>Join Us</span>
+        </span>
+        <h2 style="margin-bottom:14px;">
+          <span data-zh>我们欢迎有热情的你</span>
+          <span data-en>We welcome passionate minds</span>
+        </h2>
+        <p style="max-width:520px;margin:0 auto 32px;color:var(--text-mid);">
+          <span data-zh>无论你是博士生、硕士生、博士后，还是对生殖发育充满好奇的本科生，都欢迎来聊聊。</span>
+          <span data-en>Whether PhD, master's, postdoc, or an undergrad curious about reproductive biology — we'd love to hear from you.</span>
+        </p>
+        <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap;">
+          <a href="pages/joinus.html" class="btn btn-primary">
+            <span data-zh>查看招生信息</span>
+            <span data-en>See open positions</span>
+            →
+          </a>
+          <a href="pages/contact.html" class="btn btn-outline">
+            <span data-zh>联系我们</span>
+            <span data-en>Contact us</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

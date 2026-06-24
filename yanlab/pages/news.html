@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>新闻动态 · YanLab</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@400;500;600&family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+  <style>
+    .page-hero {
+      padding: calc(var(--nav-height) + 48px) 0 52px;
+      background: var(--white);
+      border-bottom: 1px solid rgba(44,36,22,0.06);
+    }
+    .news-grid { display:grid;grid-template-columns:1fr 1fr;gap:24px; }
+    .news-card {
+      background:var(--white); border-radius:var(--radius-lg);
+      padding:28px; box-shadow:var(--shadow-sm);
+      transition:box-shadow 0.2s, transform 0.2s;
+      border-top: 4px solid var(--card-color, var(--coral));
+    }
+    .news-card:hover { box-shadow:var(--shadow-md);transform:translateY(-2px); }
+    .news-card-date { font-size:0.75rem;color:var(--text-light);margin-bottom:10px; }
+    .news-card-title { font-size:1rem;font-weight:600;margin-bottom:8px;color:var(--text-dark);font-family:var(--font-body); }
+    .news-card-desc { font-size:0.85rem;color:var(--text-light);line-height:1.7; }
+
+    .news-card.featured {
+      grid-column: span 2;
+      display:grid;grid-template-columns:auto 1fr;gap:24px;
+    }
+    .news-featured-date {
+      text-align:center; padding:16px 20px;
+      background:var(--coral); border-radius:var(--radius-md);
+      color:#fff; align-self:start; min-width:80px;
+    }
+    .news-featured-date .month { font-size:0.72rem;font-weight:600;text-transform:uppercase;opacity:0.85; }
+    .news-featured-date .day { font-size:2rem;font-weight:700;font-family:var(--font-display);line-height:1; }
+    .news-featured-date .year { font-size:0.72rem;opacity:0.7; }
+
+    @media(max-width:768px){
+      .news-grid { grid-template-columns:1fr; }
+      .news-card.featured { grid-column:span 1; grid-template-columns:1fr; }
+    }
+  </style>
+</head>
+<body class="lang-zh">
+  <script src="../js/nav-footer.js"></script>
+
+  <div class="page-hero">
+    <div class="container">
+      <span class="section-tag"><span data-zh>新闻动态</span><span data-en>News</span></span>
+      <h1><span data-zh>实验室最新动态</span><span data-en>Latest from the lab</span></h1>
+      <p style="max-width:520px;margin-top:12px;color:var(--text-mid);">
+        <span data-zh>论文发表、学术报告、团队荣誉、实验室活动……这里记录我们的每一个重要时刻。</span>
+        <span data-en>Publications, talks, honors, and activities — here we document every important moment.</span>
+      </p>
+    </div>
+  </div>
+
+  <section class="section">
+    <div class="container">
+      <div class="news-grid">
+
+        <!-- Featured -->
+        <div class="news-card featured reveal" style="--card-color:var(--coral);">
+          <div class="news-featured-date">
+            <div class="month"><span data-zh>六月</span><span data-en>Jun</span></div>
+            <div class="day">20</div>
+            <div class="year">2024</div>
+          </div>
+          <div>
+            <div style="margin-bottom:10px;">
+              <span class="tag tag-coral"><span data-zh>论文发表</span><span data-en>Publication</span></span>
+            </div>
+            <div class="news-card-title">
+              <span data-zh>团队在 Advanced Science 发表胚胎诊断新方法</span>
+              <span data-en>Team publishes novel embryo diagnostic method in Advanced Science</span>
+            </div>
+            <div class="news-card-desc">
+              <span data-zh>乔杰院士、闫丽盈教授、严智强副研究员团队开发出基于RNA转录组测序的胚胎诊断方法，可同步实现单基因病诊断与着床潜能评估，研究发表于 Advanced Science 期刊。</span>
+              <span data-en>The team led by Academician Qiao Jie, Prof. Yan Liying, and Associate Researcher Yan Zhiqiang developed an RNA-based embryo diagnostic method enabling concurrent monogenic disease diagnosis and implantation potential assessment, published in Advanced Science.</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Placeholder news cards -->
+        <div class="news-card reveal" style="--card-color:var(--mint);">
+          <div class="news-card-date"><span data-zh>待填写</span><span data-en>Date TBD</span></div>
+          <div style="margin-bottom:10px;"><span class="tag tag-mint"><span data-zh>荣誉奖项</span><span data-en>Award</span></span></div>
+          <div class="news-card-title"><span data-zh>待补充新闻标题</span><span data-en>News title to be added</span></div>
+          <div class="news-card-desc"><span data-zh>实验室同学帮助补充实验室荣誉、获奖等动态信息。</span><span data-en>Lab members to add award and honor news here.</span></div>
+        </div>
+
+        <div class="news-card reveal" style="--card-color:var(--gold);">
+          <div class="news-card-date"><span data-zh>待填写</span><span data-en>Date TBD</span></div>
+          <div style="margin-bottom:10px;"><span class="tag tag-gold"><span data-zh>学术报告</span><span data-en>Talk</span></span></div>
+          <div class="news-card-title"><span data-zh>待补充新闻标题</span><span data-en>News title to be added</span></div>
+          <div class="news-card-desc"><span data-zh>学术会议、受邀报告等动态。</span><span data-en>Conferences, invited talks, and more.</span></div>
+        </div>
+
+        <div class="news-card reveal" style="--card-color:var(--purple);">
+          <div class="news-card-date"><span data-zh>待填写</span><span data-en>Date TBD</span></div>
+          <div style="margin-bottom:10px;"><span class="tag tag-purple"><span data-zh>实验室动态</span><span data-en>Lab update</span></span></div>
+          <div class="news-card-title"><span data-zh>待补充新闻标题</span><span data-en>News title to be added</span></div>
+          <div class="news-card-desc"><span data-zh>新成员加入、毕业送别、团建活动等。</span><span data-en>New members, farewells, team activities, etc.</span></div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <script src="../js/main.js"></script>
+</body>
+</html>

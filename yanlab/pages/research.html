@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>研究方向 · YanLab</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@400;500;600&family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+  <style>
+    .page-hero {
+      padding: calc(var(--nav-height) + 48px) 0 52px;
+      background: var(--cream);
+      border-bottom: 1px solid rgba(44,36,22,0.06);
+    }
+    .research-block {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 48px;
+      align-items: center; margin-bottom: 72px;
+      padding-bottom: 72px;
+      border-bottom: 1px solid rgba(44,36,22,0.07);
+    }
+    .research-block:last-child { border-bottom: none; margin-bottom: 0; }
+    .research-block.reverse { direction: rtl; }
+    .research-block.reverse > * { direction: ltr; }
+
+    .research-visual {
+      border-radius: var(--radius-lg);
+      aspect-ratio: 4/3;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 3rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .research-accent {
+      position: absolute;
+      width: 80px; height: 80px;
+      border-radius: 50%;
+      opacity: 0.2;
+    }
+    .kw-list { display:flex;flex-wrap:wrap;gap:8px;margin-top:16px; }
+
+    @media(max-width:768px){
+      .research-block, .research-block.reverse { grid-template-columns:1fr;direction:ltr; }
+    }
+  </style>
+</head>
+<body class="lang-zh">
+  <script src="../js/nav-footer.js"></script>
+
+  <div class="page-hero">
+    <div class="container">
+      <span class="section-tag"><span data-zh>研究方向</span><span data-en>Research</span></span>
+      <h1><span data-zh>我们在探索什么</span><span data-en>What we explore</span></h1>
+      <p style="max-width:580px;margin-top:12px;color:var(--text-mid);">
+        <span data-zh>围绕人类早期胚胎发育与生殖遗传，我们的研究横跨基础科学与临床转化，致力于让更多家庭受益。</span>
+        <span data-en>Spanning basic science and clinical translation, our work on early human embryo development and reproductive genetics aims to benefit more families.</span>
+      </p>
+    </div>
+  </div>
+
+  <section class="section">
+    <div class="container">
+
+      <div class="research-block reveal">
+        <div>
+          <span class="section-tag"><span data-zh>方向一</span><span data-en>Area 1</span></span>
+          <h2><span data-zh>生殖遗传与胚胎诊断</span><span data-en>Reproductive Genetics & Embryo Diagnosis</span></h2>
+          <p style="margin-bottom:16px;">
+            <span data-zh>开发基于转录组测序的胚胎着床前遗传学检测（PGT）新方法，利用滋养外胚层细胞中丰富的mRNA转录拷贝进行突变检测，同步评估胚胎着床潜能，提高单基因病阻断的准确性与适用范围。</span>
+            <span data-en>We develop novel preimplantation genetic testing (PGT) methods using transcriptome sequencing of trophectoderm cells to simultaneously detect mutations and assess embryo implantation potential, improving accuracy and applicability for monogenic disease prevention.</span>
+          </p>
+          <div class="kw-list">
+            <span class="tag tag-coral">PGT</span>
+            <span class="tag tag-coral"><span data-zh>转录组</span><span data-en>Transcriptomics</span></span>
+            <span class="tag tag-coral"><span data-zh>单基因病</span><span data-en>Monogenic disease</span></span>
+            <span class="tag tag-coral"><span data-zh>胚胎着床</span><span data-en>Embryo implantation</span></span>
+          </div>
+        </div>
+        <div class="research-visual" style="background:var(--coral-light);">
+          <div class="research-accent" style="background:var(--coral);top:-20px;right:-20px;"></div>
+          <div class="research-accent" style="background:var(--gold);bottom:20px;left:10px;"></div>
+          <span>🧬</span>
+        </div>
+      </div>
+
+      <div class="research-block reverse reveal">
+        <div>
+          <span class="section-tag"><span data-zh>方向二</span><span data-en>Area 2</span></span>
+          <h2><span data-zh>表观遗传调控机制</span><span data-en>Epigenetic Regulation Mechanisms</span></h2>
+          <p style="margin-bottom:16px;">
+            <span data-zh>系统研究人类早期胚胎及原始生殖细胞发育过程中的DNA甲基化调控机制，解析卵母细胞减数分裂染色体重组的遗传特征，揭示表观遗传对基因表达的精准调控规律。</span>
+            <span data-en>We systematically study DNA methylation regulation during human early embryo and primordial germ cell development, characterizing the genetic features of oocyte meiotic chromosome recombination, and revealing precise epigenetic control of gene expression.</span>
+          </p>
+          <div class="kw-list">
+            <span class="tag tag-mint"><span data-zh>DNA甲基化</span><span data-en>DNA Methylation</span></span>
+            <span class="tag tag-mint"><span data-zh>原始生殖细胞</span><span data-en>Primordial Germ Cells</span></span>
+            <span class="tag tag-mint"><span data-zh>染色体重组</span><span data-en>Chromosome Recombination</span></span>
+          </div>
+        </div>
+        <div class="research-visual" style="background:var(--mint-light);">
+          <div class="research-accent" style="background:var(--mint);top:10px;left:-10px;"></div>
+          <div class="research-accent" style="background:var(--nav-bg);bottom:-10px;right:20px;"></div>
+          <span>🔬</span>
+        </div>
+      </div>
+
+      <div class="research-block reveal">
+        <div>
+          <span class="section-tag"><span data-zh>方向三</span><span data-en>Area 3</span></span>
+          <h2><span data-zh>辅助生殖技术临床转化</span><span data-en>Translational Assisted Reproduction</span></h2>
+          <p style="margin-bottom:16px;">
+            <span data-zh>将基础研究成果成功转化为临床应用，包括胚胎植入前单基因疾病诊断、提高疑难不孕患者治疗成功率等，推动辅助生殖技术的精准化与个体化。</span>
+            <span data-en>We successfully translate basic findings into clinical applications, including preimplantation diagnosis of monogenic diseases and improving success rates for difficult infertility cases, advancing precision and personalized assisted reproduction.</span>
+          </p>
+          <div class="kw-list">
+            <span class="tag tag-purple"><span data-zh>临床转化</span><span data-en>Clinical Translation</span></span>
+            <span class="tag tag-purple"><span data-zh>不孕不育</span><span data-en>Infertility</span></span>
+            <span class="tag tag-purple"><span data-zh>精准医学</span><span data-en>Precision Medicine</span></span>
+          </div>
+        </div>
+        <div class="research-visual" style="background:var(--purple-light);">
+          <div class="research-accent" style="background:var(--purple);top:-10px;right:10px;"></div>
+          <div class="research-accent" style="background:var(--sky);bottom:10px;left:-10px;"></div>
+          <span>👶</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <script src="../js/main.js"></script>
+</body>
+</html>

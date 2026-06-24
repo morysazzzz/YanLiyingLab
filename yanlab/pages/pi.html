@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>关于闫老师 · YanLab</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@400;500;600&family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+  <style>
+    .page-hero {
+      padding: calc(var(--nav-height) + 56px) 0 64px;
+      background: var(--nav-bg);
+      position: relative;
+      overflow: hidden;
+    }
+    .page-hero .blob {
+      position: absolute; border-radius: 50%; opacity: 0.12;
+    }
+    .page-hero-inner {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: 56px;
+      align-items: center;
+      position: relative; z-index: 1;
+    }
+    .pi-photo-wrap {
+      position: relative;
+    }
+    .pi-photo {
+      width: 260px; height: 260px;
+      border-radius: 50%;
+      border: 5px solid rgba(255,255,255,0.3);
+      background: var(--blue-light);
+      display: flex; align-items: center; justify-content: center;
+      overflow: hidden;
+      margin: 0 auto;
+    }
+    .pi-photo img { width:100%;height:100%;object-fit:cover;border-radius:50%; }
+    .pi-badge {
+      position: absolute;
+      bottom: 8px; right: 8px;
+      background: var(--coral);
+      color: #fff;
+      font-size: 0.72rem;
+      font-weight: 600;
+      padding: 6px 14px;
+      border-radius: 20px;
+    }
+    .pi-name { font-size: clamp(2rem,4vw,2.8rem); color: #fff; margin-bottom: 8px; }
+    .pi-title { color: rgba(255,255,255,0.8); margin-bottom: 20px; font-size: 1rem; }
+    .pi-tags { display:flex;flex-wrap:wrap;gap:8px;margin-bottom:28px; }
+    .pi-tag {
+      background: rgba(255,255,255,0.15);
+      color: #fff;
+      border-radius: 20px;
+      padding: 5px 14px;
+      font-size: 0.78rem;
+    }
+    .pi-contact a {
+      display:inline-flex;align-items:center;gap:6px;
+      color:rgba(255,255,255,0.8); font-size:0.85rem;
+      margin-right:20px;
+    }
+    .pi-contact a:hover { color:var(--gold); }
+
+    /* Timeline */
+    .timeline { position:relative; padding-left: 24px; }
+    .timeline::before {
+      content:''; position:absolute; left:7px; top:0; bottom:0;
+      width:2px; background:var(--coral-light);
+    }
+    .tl-item { position:relative; margin-bottom:28px; }
+    .tl-dot {
+      position:absolute; left:-24px; top:4px;
+      width:14px; height:14px; border-radius:50%;
+      background:var(--coral); border:2px solid var(--white);
+      box-shadow: 0 0 0 3px var(--coral-light);
+    }
+    .tl-year { font-size:0.75rem;font-weight:600;color:var(--coral);margin-bottom:4px;letter-spacing:0.05em; }
+    .tl-title { font-size:0.95rem;font-weight:600;color:var(--text-dark);margin-bottom:3px;font-family:var(--font-body); }
+    .tl-desc { font-size:0.85rem;color:var(--text-light); }
+
+    /* Awards */
+    .awards-grid { display:grid;grid-template-columns:repeat(2,1fr);gap:16px; }
+    .award-card {
+      background:var(--white);border-radius:var(--radius-md);
+      padding:20px;box-shadow:var(--shadow-sm);
+      display:flex;gap:14px;align-items:flex-start;
+    }
+    .award-icon {
+      width:40px;height:40px;border-radius:10px;
+      display:flex;align-items:center;justify-content:center;
+      font-size:1.2rem;flex-shrink:0;
+    }
+
+    .two-col { display:grid;grid-template-columns:1fr 1fr;gap:48px; }
+
+    .quote-block {
+      background:var(--nav-bg);
+      border-radius:var(--radius-lg);
+      padding:40px 48px;
+      text-align:center;
+      position:relative;
+      overflow:hidden;
+    }
+    .quote-mark {
+      font-family:var(--font-display);
+      font-size:5rem;
+      color:var(--coral);
+      opacity:0.3;
+      line-height:1;
+      position:absolute;
+      top:10px;left:24px;
+    }
+    .quote-text {
+      font-family:var(--font-display);
+      font-size:1.3rem;
+      color:#fff;
+      font-style:italic;
+      position:relative;z-index:1;
+      margin-bottom:16px;
+    }
+    .quote-attr { color:rgba(255,255,255,0.6);font-size:0.85rem; }
+
+    @media(max-width:768px){
+      .page-hero-inner { grid-template-columns:1fr;text-align:center; }
+      .pi-tags { justify-content:center; }
+      .pi-contact { text-align:center; }
+      .two-col { grid-template-columns:1fr; }
+      .awards-grid { grid-template-columns:1fr; }
+    }
+  </style>
+</head>
+<body class="lang-zh">
+  <script src="../js/nav-footer.js"></script>
+
+  <!-- PAGE HERO -->
+  <div class="page-hero">
+    <div class="blob" style="width:350px;height:350px;background:var(--coral);top:-80px;right:-60px;"></div>
+    <div class="blob" style="width:200px;height:200px;background:var(--gold);bottom:-40px;left:10%;"></div>
+    <div class="container">
+      <div class="page-hero-inner">
+        <div class="pi-photo-wrap">
+          <div class="pi-photo">
+            <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg" style="opacity:0.4;">
+              <circle cx="40" cy="30" r="18" stroke="#2B5F8A" stroke-width="2.5"/>
+              <path d="M10 70c0-16.569 13.431-30 30-30s30 13.431 30 30" stroke="#2B5F8A" stroke-width="2.5" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <div class="pi-badge">
+            <span data-zh>实验室 PI</span>
+            <span data-en>Lab PI</span>
+          </div>
+        </div>
+        <div>
+          <h1 class="pi-name">
+            <span data-zh>闫丽盈</span>
+            <span data-en>Prof. Liying Yan</span>
+          </h1>
+          <p class="pi-title">
+            <span data-zh>研究员 · 博士生导师 · 科研处处长</span>
+            <span data-en>Principal Investigator · PhD Supervisor · Director of Research Office</span>
+          </p>
+          <div class="pi-tags">
+            <span class="pi-tag"><span data-zh>国家杰出青年科学基金获得者</span><span data-en>NSFC Distinguished Young Scholar</span></span>
+            <span class="pi-tag"><span data-zh>辅助生殖教育部重点实验室副主任</span><span data-en>Deputy Director, MOE Key Lab of ART</span></span>
+          </div>
+          <div class="pi-contact">
+            <a href="mailto:yanliying@bjmu.edu.cn">✉️ yanliying@bjmu.edu.cn</a>
+            <a href="pages/contact.html"><span data-zh>📍 北医三院</span><span data-en>📍 PUTH, Beijing</span></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BIO -->
+  <section class="section">
+    <div class="container">
+      <div class="two-col">
+        <div class="reveal">
+          <span class="section-tag"><span data-zh>个人简介</span><span data-en>Biography</span></span>
+          <h2 class="section-title"><span data-zh>关于闫老师</span><span data-en>About Prof. Yan</span></h2>
+          <p style="margin-bottom:16px;">
+            <span data-zh>闫丽盈研究员现任职于北京大学第三医院生殖医学科，担任科研处处长及辅助生殖教育部重点实验室副主任。她是国家杰出青年科学基金获得者，长期致力于人类早期胚胎发育的遗传与表观遗传调控研究。</span>
+            <span data-en>Prof. Liying Yan is a Principal Investigator at the Reproductive Medicine Center, Peking University Third Hospital (PUTH), where she also serves as Director of the Research Office and Deputy Director of the MOE Key Laboratory for Assisted Reproduction. She is a recipient of the NSFC Distinguished Young Scholar Award.</span>
+          </p>
+          <p style="margin-bottom:16px;">
+            <span data-zh>作为通讯或第一作者，她已在 Nature、Cell、Nature Genetics、Molecular Cell、Nature Communications 等国际顶级期刊发表论文45篇，他引超过2200次。研究成果两次入选"中国科学十大进展"，一篇论文荣登 Cell 杂志封面，三篇被评为 Web of Science 高被引论文。</span>
+            <span data-en>As corresponding or first author, she has published 45 papers in top journals including Nature, Cell, Nature Genetics, Molecular Cell, and Nature Communications, with over 2,200 citations. Her work has twice been selected among China's Top 10 Scientific Advances, with one paper featured on the cover of Cell and three designated as highly cited by Web of Science.</span>
+          </p>
+          <p>
+            <span data-zh>她对学生倾注深厚的关怀，热衷于组织实验室团建活动，是学生们心中既严谨治学又温暖如家的好老师。</span>
+            <span data-en>Known for her deep care for her students, she frequently organizes team activities and is cherished by lab members as a mentor who is both academically rigorous and genuinely warm.</span>
+          </p>
+        </div>
+
+        <!-- Timeline -->
+        <div class="reveal" style="transition-delay:0.1s;">
+          <span class="section-tag"><span data-zh>学术经历</span><span data-en>Career</span></span>
+          <h2 class="section-title"><span data-zh>成长历程</span><span data-en>Academic journey</span></h2>
+          <div class="timeline">
+            <div class="tl-item">
+              <div class="tl-dot"></div>
+              <div class="tl-year"><span data-zh>现任</span><span data-en>Present</span></div>
+              <div class="tl-title"><span data-zh>北京大学第三医院 科研处处长</span><span data-en>Director of Research Office, PUTH</span></div>
+              <div class="tl-desc"><span data-zh>辅助生殖教育部重点实验室副主任</span><span data-en>Deputy Director, MOE Key Lab of ART</span></div>
+            </div>
+            <div class="tl-item">
+              <div class="tl-dot"></div>
+              <div class="tl-year"><span data-zh>博士生导师</span><span data-en>PhD Supervisor</span></div>
+              <div class="tl-title"><span data-zh>北京大学 研究员</span><span data-en>Principal Investigator, Peking University</span></div>
+              <div class="tl-desc"><span data-zh>生殖发育与遗传研究</span><span data-en>Research on reproductive development and genetics</span></div>
+            </div>
+            <div class="tl-item">
+              <div class="tl-dot" style="background:var(--mint);box-shadow:0 0 0 3px var(--mint-light);"></div>
+              <div class="tl-year"><span data-zh>待补充</span><span data-en>To be filled</span></div>
+              <div class="tl-title"><span data-zh>更多经历由实验室同学补充</span><span data-en>More to be added by lab members</span></div>
+              <div class="tl-desc"><span data-zh>博士、博士后经历等</span><span data-en>PhD, postdoc training, etc.</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- AWARDS -->
+  <section class="section" style="background:var(--white);padding:72px 0;">
+    <div class="container">
+      <div class="reveal" style="text-align:center;margin-bottom:40px;">
+        <span class="section-tag"><span data-zh>荣誉奖项</span><span data-en>Awards & Honors</span></span>
+        <h2><span data-zh>学术荣誉</span><span data-en>Academic Honors</span></h2>
+      </div>
+      <div class="awards-grid reveal">
+        <div class="award-card">
+          <div class="award-icon" style="background:var(--gold-light);">🏆</div>
+          <div>
+            <div style="font-size:0.75rem;font-weight:600;color:var(--coral);margin-bottom:4px;"><span data-zh>×2</span><span data-en>×2</span></div>
+            <div style="font-weight:600;font-size:0.95rem;margin-bottom:3px;"><span data-zh>中国科学十大进展</span><span data-en>China Top-10 Science Advances</span></div>
+            <div style="font-size:0.83rem;color:var(--text-light);"><span data-zh>研究成果两次入选</span><span data-en>Selected twice for this prestigious list</span></div>
+          </div>
+        </div>
+        <div class="award-card">
+          <div class="award-icon" style="background:var(--coral-light);">⭐</div>
+          <div>
+            <div style="font-size:0.75rem;font-weight:600;color:var(--coral);margin-bottom:4px;"><span data-zh>国家级</span><span data-en>National</span></div>
+            <div style="font-weight:600;font-size:0.95rem;margin-bottom:3px;"><span data-zh>国家杰出青年科学基金</span><span data-en>NSFC Distinguished Young Scholar</span></div>
+            <div style="font-size:0.83rem;color:var(--text-light);"><span data-zh>国家自然科学基金委最高荣誉之一</span><span data-en>One of NSFC's highest honors</span></div>
+          </div>
+        </div>
+        <div class="award-card">
+          <div class="award-icon" style="background:var(--mint-light);">📄</div>
+          <div>
+            <div style="font-size:0.75rem;font-weight:600;color:var(--coral);margin-bottom:4px;">Cell</div>
+            <div style="font-weight:600;font-size:0.95rem;margin-bottom:3px;"><span data-zh>Cell 封面文章</span><span data-en>Cell Cover Article</span></div>
+            <div style="font-size:0.83rem;color:var(--text-light);"><span data-zh>研究成果登上顶级期刊封面</span><span data-en>Research featured on the cover of Cell</span></div>
+          </div>
+        </div>
+        <div class="award-card">
+          <div class="award-icon" style="background:var(--purple-light);">🔥</div>
+          <div>
+            <div style="font-size:0.75rem;font-weight:600;color:var(--coral);margin-bottom:4px;">×3 Web of Science</div>
+            <div style="font-weight:600;font-size:0.95rem;margin-bottom:3px;"><span data-zh>高被引论文</span><span data-en>Highly Cited Papers</span></div>
+            <div style="font-size:0.83rem;color:var(--text-light);"><span data-zh>三篇论文被评为全球高被引论文</span><span data-en>Three papers designated as globally highly cited</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- QUOTE -->
+  <section class="section">
+    <div class="container">
+      <div class="quote-block reveal">
+        <div class="blob" style="width:200px;height:200px;background:var(--coral);top:-60px;right:10%;opacity:0.15;position:absolute;"></div>
+        <div class="quote-mark">"</div>
+        <p class="quote-text">
+          <span data-zh>这里是闫老师的一句话或寄语，<br>由实验室同学帮助补充。</span>
+          <span data-en>A quote or message from Prof. Yan,<br>to be added by lab members.</span>
+        </p>
+        <p class="quote-attr">— <span data-zh>闫丽盈</span><span data-en>Prof. Liying Yan</span></p>
+      </div>
+    </div>
+  </section>
+
+  <script src="../js/main.js"></script>
+</body>
+</html>

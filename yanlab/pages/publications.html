@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>学术成果 · YanLab</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@400;500;600&family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+  <style>
+    .page-hero {
+      padding: calc(var(--nav-height) + 48px) 0 52px;
+      background: var(--nav-bg);
+      position: relative; overflow: hidden;
+    }
+    .page-hero h1, .page-hero .section-tag { color: #fff; }
+    .page-hero p { color: rgba(255,255,255,0.75); }
+    .page-hero .blob { position:absolute;border-radius:50%;opacity:0.12; }
+
+    /* stats row */
+    .pub-stats {
+      display: flex; gap: 32px; flex-wrap: wrap; margin-top: 28px;
+    }
+    .pub-stat { text-align: left; }
+    .pub-stat-n {
+      font-family: var(--font-display);
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--coral);
+      line-height: 1;
+    }
+    .pub-stat-l { font-size: 0.78rem; color: rgba(255,255,255,0.65); margin-top: 3px; }
+
+    /* filter bar */
+    .filter-bar {
+      display: flex; gap: 8px; flex-wrap: wrap;
+      margin-bottom: 36px;
+    }
+    .filter-chip {
+      padding: 6px 16px; border-radius: 20px;
+      font-size: 0.8rem; font-weight: 600; cursor: pointer;
+      border: 1.5px solid rgba(44,36,22,0.12);
+      background: var(--white); color: var(--text-mid);
+      transition: all 0.2s;
+    }
+    .filter-chip.active, .filter-chip:hover {
+      background: var(--coral); color: #fff; border-color: var(--coral);
+    }
+
+    /* paper card */
+    .paper-card {
+      background: var(--white);
+      border-radius: var(--radius-md);
+      padding: 24px 28px;
+      box-shadow: var(--shadow-sm);
+      margin-bottom: 16px;
+      border-left: 4px solid transparent;
+      transition: box-shadow 0.2s, transform 0.2s;
+      position: relative;
+    }
+    .paper-card:hover { box-shadow: var(--shadow-md); transform: translateX(2px); }
+    .paper-card.featured { border-left-color: var(--gold); }
+    .paper-card.high-cited { border-left-color: var(--coral); }
+    .paper-card.top-advance { border-left-color: var(--mint); }
+
+    .paper-badges { display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px; }
+
+    .badge-cover  { background: var(--gold-light);   color: #7a5c00; }
+    .badge-cited  { background: var(--coral-light);  color: var(--coral-dark); }
+    .badge-advance{ background: var(--mint-light);   color: #0F6B45; }
+    .badge-nature { background: var(--blue-light);   color: var(--blue-dark); }
+
+    .paper-title {
+      font-size: 0.97rem;
+      font-weight: 600;
+      color: var(--text-dark);
+      margin-bottom: 6px;
+      line-height: 1.45;
+      font-family: var(--font-body);
+    }
+    .paper-title a { color: var(--blue); }
+    .paper-title a:hover { text-decoration: underline; }
+
+    .paper-authors { font-size: 0.82rem; color: var(--text-light); margin-bottom: 6px; }
+    .paper-authors strong { color: var(--coral-dark); }
+
+    .paper-journal {
+      display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+    }
+    .journal-name { font-size: 0.82rem; font-style: italic; color: var(--text-mid); font-weight: 600; }
+    .paper-year { font-size: 0.78rem; color: var(--text-light); }
+
+    .year-divider {
+      font-family: var(--font-display);
+      font-size: 1.4rem;
+      color: var(--text-dark);
+      margin: 40px 0 20px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid var(--coral-light);
+    }
+  </style>
+</head>
+<body class="lang-zh">
+  <script src="../js/nav-footer.js"></script>
+
+  <div class="page-hero">
+    <div class="blob" style="width:300px;height:300px;background:var(--coral);top:-60px;right:-40px;"></div>
+    <div class="blob" style="width:180px;height:180px;background:var(--gold);bottom:-30px;left:15%;"></div>
+    <div class="container" style="position:relative;z-index:1;">
+      <span class="section-tag" style="background:rgba(129,216,208,0.15);color:var(--tiffany);">
+        <span data-zh>学术成果</span><span data-en>Publications</span>
+      </span>
+      <h1 style="color:#fff;margin-bottom:10px;">
+        <span data-zh>发表论文</span><span data-en>Our Publications</span>
+      </h1>
+      <p><span data-zh>在 Nature、Cell、Nature Genetics 等顶级期刊发表论文45篇，他引超过2200次。</span><span data-en>45 papers published in Nature, Cell, Nature Genetics and other top journals, with over 2,200 citations.</span></p>
+      <div class="pub-stats">
+        <div class="pub-stat"><div class="pub-stat-n">45+</div><div class="pub-stat-l"><span data-zh>发表论文</span><span data-en>Publications</span></div></div>
+        <div class="pub-stat"><div class="pub-stat-n">2200+</div><div class="pub-stat-l"><span data-zh>被引次数</span><span data-en>Citations</span></div></div>
+        <div class="pub-stat"><div class="pub-stat-n">655</div><div class="pub-stat-l"><span data-zh>单篇最高被引</span><span data-en>Top single-paper citations</span></div></div>
+        <div class="pub-stat"><div class="pub-stat-n">3</div><div class="pub-stat-l"><span data-zh>高被引论文</span><span data-en>Highly Cited Papers</span></div></div>
+      </div>
+    </div>
+  </div>
+
+  <section class="section">
+    <div class="container">
+      <!-- Filter -->
+      <div class="filter-bar">
+        <span class="filter-chip active"><span data-zh>全部</span><span data-en>All</span></span>
+        <span class="filter-chip">Nature / Cell</span>
+        <span class="filter-chip"><span data-zh>高被引</span><span data-en>Highly Cited</span></span>
+        <span class="filter-chip"><span data-zh>中国科学十大进展</span><span data-en>Top-10 Advance</span></span>
+        <span class="filter-chip">2024</span>
+        <span class="filter-chip">2023</span>
+        <span class="filter-chip">2022</span>
+      </div>
+
+      <!-- 2024 -->
+      <div class="year-divider">2024</div>
+
+      <div class="paper-card featured reveal">
+        <div class="paper-badges">
+          <span class="tag badge-nature">Advanced Science</span>
+        </div>
+        <div class="paper-title">
+          Concurrent Preimplantation Genetic Testing and Competence Assessment of Human Embryos by Transcriptome Sequencing
+        </div>
+        <div class="paper-authors">
+          Wang Y, Li Y, Zhu X, … <strong><span data-zh>闫丽盈</span><span data-en>Yan L</span>*</strong>, Qiao J*
+        </div>
+        <div class="paper-journal">
+          <span class="journal-name">Advanced Science</span>
+          <span class="paper-year">2024</span>
+        </div>
+      </div>
+
+      <!-- Placeholder for more papers -->
+      <div class="paper-card reveal" style="border-left-color:var(--coral);">
+        <div class="paper-badges">
+          <span class="tag badge-cited"><span data-zh>高被引</span><span data-en>Highly Cited</span></span>
+          <span class="tag badge-cover">Cell <span data-zh>封面</span><span data-en>Cover</span></span>
+        </div>
+        <div class="paper-title">
+          <span data-zh>封面论文 — 待实验室同学补充完整引用信息</span>
+          <span data-en>Cover paper — citation details to be added by lab members</span>
+        </div>
+        <div class="paper-authors">
+          <strong><span data-zh>闫丽盈</span><span data-en>Yan L</span>*</strong> et al.
+        </div>
+        <div class="paper-journal">
+          <span class="journal-name">Cell</span>
+          <span class="paper-year"><span data-zh>年份待填</span><span data-en>Year TBD</span></span>
+        </div>
+      </div>
+
+      <div class="paper-card reveal" style="border-left-color:var(--mint);">
+        <div class="paper-badges">
+          <span class="tag badge-advance"><span data-zh>中国科学十大进展</span><span data-en>China Top-10 Advance</span></span>
+        </div>
+        <div class="paper-title">
+          <span data-zh>入选"中国科学十大进展"论文 — 待补充</span>
+          <span data-en>China Top-10 Advance paper — to be filled</span>
+        </div>
+        <div class="paper-authors">
+          <strong><span data-zh>闫丽盈</span><span data-en>Yan L</span></strong> et al.
+        </div>
+        <div class="paper-journal">
+          <span class="journal-name">Nature / Nature Genetics</span>
+          <span class="paper-year"><span data-zh>年份待填</span><span data-en>Year TBD</span></span>
+        </div>
+      </div>
+
+      <div style="text-align:center;margin-top:40px;padding:32px;background:var(--white);border-radius:var(--radius-lg);box-shadow:var(--shadow-sm);" class="reveal">
+        <p style="color:var(--text-light);font-size:0.9rem;margin-bottom:16px;">
+          <span data-zh>完整论文列表由实验室同学整理补充。总计45+篇。</span>
+          <span data-en>Full publication list to be compiled by lab members. Total: 45+ papers.</span>
+        </p>
+        <a href="https://pubmed.ncbi.nlm.nih.gov/?term=Yan+Liying%5Bauthor%5D" target="_blank" class="btn btn-outline">
+          <span data-zh>在 PubMed 查看全部</span>
+          <span data-en>View all on PubMed</span>
+          ↗
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <script src="../js/main.js"></script>
+</body>
+</html>
