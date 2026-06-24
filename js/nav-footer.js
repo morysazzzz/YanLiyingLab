@@ -3,7 +3,7 @@
 const NAV_HTML = `
 <nav class="navbar">
   <div class="nav-inner">
-    <a href="index.html" class="nav-logo">
+    <a href="/index.html" class="nav-logo">
       <div class="nav-logo-mark">Y</div>
       <div class="nav-logo-text">
         <span class="main">YanLab</span>
@@ -13,15 +13,15 @@ const NAV_HTML = `
     </a>
 
     <ul class="nav-links">
-      <li><a href="index.html"><span data-zh>首页</span><span data-en>Home</span></a></li>
-      <li><a href="pages/pi.html"><span data-zh>关于闫老师</span><span data-en>About PI</span></a></li>
-      <li><a href="pages/research.html"><span data-zh>研究方向</span><span data-en>Research</span></a></li>
-      <li><a href="pages/team.html"><span data-zh>团队成员</span><span data-en>Team</span></a></li>
-      <li><a href="pages/publications.html"><span data-zh>学术成果</span><span data-en>Publications</span></a></li>
-      <li><a href="pages/news.html"><span data-zh>新闻动态</span><span data-en>News</span></a></li>
-      <li><a href="pages/lablife.html"><span data-zh>实验室生活</span><span data-en>Lab Life</span></a></li>
-      <li><a href="pages/joinus.html"><span data-zh>加入我们</span><span data-en>Join Us</span></a></li>
-      <li><a href="pages/contact.html"><span data-zh>联系我们</span><span data-en>Contact</span></a></li>
+      <li><a href="/index.html"><span data-zh>首页</span><span data-en>Home</span></a></li>
+      <li><a href="/pages/pi.html"><span data-zh>关于闫老师</span><span data-en>About PI</span></a></li>
+      <li><a href="/pages/research.html"><span data-zh>研究方向</span><span data-en>Research</span></a></li>
+      <li><a href="/pages/team.html"><span data-zh>团队成员</span><span data-en>Team</span></a></li>
+      <li><a href="/pages/publications.html"><span data-zh>学术成果</span><span data-en>Publications</span></a></li>
+      <li><a href="/pages/news.html"><span data-zh>新闻动态</span><span data-en>News</span></a></li>
+      <li><a href="/pages/lablife.html"><span data-zh>实验室生活</span><span data-en>Lab Life</span></a></li>
+      <li><a href="/pages/joinus.html"><span data-zh>加入我们</span><span data-en>Join Us</span></a></li>
+      <li><a href="/pages/contact.html"><span data-zh>联系我们</span><span data-en>Contact</span></a></li>
     </ul>
 
     <div class="nav-right">
@@ -54,11 +54,11 @@ const FOOTER_HTML = `
       <div>
         <h4><span data-zh>快速导航</span><span data-en>Navigation</span></h4>
         <ul style="display:flex;flex-direction:column;gap:8px;">
-          <li><a href="index.html"><span data-zh>首页</span><span data-en>Home</span></a></li>
-          <li><a href="pages/research.html"><span data-zh>研究方向</span><span data-en>Research</span></a></li>
-          <li><a href="pages/team.html"><span data-zh>团队成员</span><span data-en>Team</span></a></li>
-          <li><a href="pages/publications.html"><span data-zh>学术成果</span><span data-en>Publications</span></a></li>
-          <li><a href="pages/lablife.html"><span data-zh>实验室生活</span><span data-en>Lab Life</span></a></li>
+          <li><a href="/index.html"><span data-zh>首页</span><span data-en>Home</span></a></li>
+          <li><a href="/pages/research.html"><span data-zh>研究方向</span><span data-en>Research</span></a></li>
+          <li><a href="/pages/team.html"><span data-zh>团队成员</span><span data-en>Team</span></a></li>
+          <li><a href="/pages/publications.html"><span data-zh>学术成果</span><span data-en>Publications</span></a></li>
+          <li><a href="/pages/lablife.html"><span data-zh>实验室生活</span><span data-en>Lab Life</span></a></li>
         </ul>
       </div>
       <div>
@@ -69,7 +69,7 @@ const FOOTER_HTML = `
             <span data-en>📍 49 North Garden Road, Haidian<br>Beijing, China 100191</span>
           </li>
           <li>✉️ yanliying@bjmu.edu.cn</li>
-          <li><a href="pages/joinus.html"><span data-zh>🎓 招生信息</span><span data-en>🎓 Join Us</span></a></li>
+          <li><a href="/pages/joinus.html"><span data-zh>🎓 招生信息</span><span data-en>🎓 Join Us</span></a></li>
         </ul>
       </div>
     </div>
