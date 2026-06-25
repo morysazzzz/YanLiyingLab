@@ -2,6 +2,177 @@
 if (!window.__ADMIN_PAGE__) {
 
 function getCMS() {
+  try { return JSON.parse(localStorage.getItem('yanlab_cms') || 'null'); }
+  catch(e) { return null; }
+}
+
+function setText(selector, zhVal, enVal) {
+  // Try data-cms selector with data-zh/data-en children
+  document.querySelectorAll(selector).forEach(el => {
+    const zhEl = el.querySelector('[data-zh]');
+    const enEl = el.querySelector('[data-en]');
+    if (zhEl && zhVal) zhEl.textContent = zhVal;
+    if (enEl && enVal) enEl.textContent = enVal;
+    // If no children, set directly based on lang
+    if (!zhEl && !enEl) {
+      const lang = document.body.classList.contains('lang-en') ? 'en' : 'zh';
+      if (lang === 'zh' && zhVal) el.textContent = zhVal;
+      if (lang === 'en' && enVal) el.textContent = enVal;
+    }
+  });
+  // Also handle direct data-cms elements with data-zh/data-en attribute
+  document.querySelectorAll('[data-cms]').forEach(el => {
+    const cms = el.getAttribute('data-cms');
+    const fullSel = selector.replace('[data-cms="','').replace('"]','');
+    if (cms !== fullSel) return;
+    if (el.hasAttribute('data-zh') && zhVal) el.textContent = zhVal;
+    if (el.hasAttribute('data-en') && enVal) el.textContent = enVal;
+  });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  const S = getCMS();
+  if (!S) return;
+  const page = location.pathname.split('/').pop() || 'index.html';
+  applyCMS(S, page);
+
+  document.querySelectorAll('.lang-btn').forEach(btn => {
+    btn.addEventListener('click', () => setTimeout(() => applyCMS(S, page), 60));
+  });
+});
+
+function applyCMS(S, page) {
+  if (page === 'index.html' || page === '' || page === '/') {
+    if (S.home?.slogan_zh) setText('[data-cms="slogan"]', S.home.slogan_zh, S.home.slogan_en);
+    if (S.home?.desc_zh)   setText('[data-cms="desc"]',   S.home.desc_zh,   S.home.desc_en);
+  }
+  if (page === 'pi.html') {
+    setText('[data-cms="pi-name"]',  S.pi?.name_zh,  S.pi?.name_en);
+    setText('[data-cms="pi-title"]', S.pi?.title_zh, S.pi?.title_en);
+    setText('[data-cms="pi-tag1"]',  S.pi?.tag1_zh,  S.pi?.tag1_en);
+    setText('[data-cms="pi-tag2"]',  S.pi?.tag2_zh,  S.pi?.tag2_en);
+    setText('[data-cms="pi-bio"]',   S.pi?.bio_zh,   S.pi?.bio_en);
+    setText('[data-cms="pi-quote"]', S.pi?.quote_zh, S.pi?.quote_en);
+  }
+  if (page === 'team.html' && S.team?.members)        renderTeam(S.team.members);
+  if (page === 'publications.html' && S.pubs?.papers) renderPubs(S.pubs.papers);
+  if (page === 'news.html' && S.news?.items)          renderNews(S.news.items);
+  if (page === 'lablife.html' && S.life?.photos)      renderLabLife(S.life.photos);
+  if (page === 'contact.html') {
+    setText('[data-cms="contact-email"]',   S.contact?.email,      S.contact?.email);
+    setText('[data-cms="contact-address"]', S.contact?.address_zh, S.contact?.address_en);
+    setText('[data-cms="contact-dept"]',    S.contact?.dept_zh,    S.contact?.dept_en);
+  }
+  if (page === 'joinus.html') {
+    setText('[data-cms="joinus-intro"]',   S.join?.intro_zh,   S.join?.intro_en);
+    setText('[data-cms="joinus-phd"]',     S.join?.phd_zh,     S.join?.phd_en);
+    setText('[data-cms="joinus-postdoc"]', S.join?.postdoc_zh, S.join?.postdoc_en);
+  }
+}
+
+const ROLE_COLORS = { PI:'#E8734A', Postdoc:'#81D8D0', PhD:'#A78BCA', Master:'#5BA8D8', Undergrad:'#F5C842', Staff:'#81D8D0' };
+const ROLE_ZH = { PI:'PI · 研究员', Postdoc:'博士后', PhD:'博士生', Master:'硕士生', Undergrad:'本科生', Staff:'科研人员' };
+const ROLE_EN = { PI:'PI · Professor', Postdoc:'Postdoc', PhD:'PhD Student', Master:"Master's Student", Undergrad:'Undergraduate', Staff:'Research Staff' };
+const GRP_ZH  = { PI:'课题组长', Postdoc:'博士后', PhD:'博士研究生', Master:'硕士研究生', Undergrad:'本科生', Staff:'科研人员' };
+const GRP_EN  = { PI:'Principal Investigator', Postdoc:'Postdoctoral Researchers', PhD:'PhD Students', Master:"Master's Students", Undergrad:'Undergraduate', Staff:'Research Staff' };
+
+function renderTeam(members) {
+  const c = document.getElementById('members-container'); if (!c) return;
+  const zh = !document.body.classList.contains('lang-en');
+  const order = ['PI','Postdoc','PhD','Master','Undergrad','Staff'];
+  const groups = {}; order.forEach(r=>groups[r]=[]);
+  members.forEach(m=>{ const r=m.role||'Staff'; if(!groups[r]) groups[r]=[]; groups[r].push(m); });
+  let html = '';
+  order.forEach(role => {
+    if (!groups[role].length) return;
+    const col = ROLE_COLORS[role]||'#81D8D0';
+    html += `<div class="group-label">${zh?GRP_ZH[role]:GRP_EN[role]}</div><div class="member-grid">`;
+    groups[role].forEach(m => {
+      const name  = zh?(m.name_zh||m.name_en):(m.name_en||m.name_zh);
+      const focus = zh?(m.focus_zh||m.focus_en):(m.focus_en||m.focus_zh);
+      html += `<div class="member-card">
+        <div class="member-stripe" style="height:5px;background:${col};"></div>
+        <div class="member-body">
+          <div class="member-avatar" style="${m.photo?`background:url('${m.photo}') center/cover`:''};background-color:${col};">${m.photo?'':((m.name_zh||m.name_en||'?')[0])}</div>
+          <div class="member-name">${name||''}</div>
+          <div class="member-role"><span class="tag" style="background:${col}22;color:${col};">${zh?ROLE_ZH[role]:ROLE_EN[role]}</span></div>
+          <div class="member-focus">${focus||''}</div>
+          ${m.email?`<a href="mailto:${m.email}" style="font-size:0.75rem;color:var(--tiffany-dark);">✉ ${m.email}</a>`:''}
+        </div></div>`;
+    });
+    html += '</div>';
+  });
+  c.innerHTML = html;
+}
+
+function renderPubs(papers) {
+  const c = document.getElementById('pubs-container'); if (!c) return;
+  const zh = !document.body.classList.contains('lang-en');
+  const byY = {}; papers.forEach(p=>{ const y=p.year||'2024'; if(!byY[y]) byY[y]=[]; byY[y].push(p); });
+  let html = '';
+  Object.keys(byY).sort((a,b)=>b-a).forEach(y => {
+    html += `<div class="year-divider">${y}</div>`;
+    byY[y].forEach(p => {
+      const b = [];
+      if(p.cover)   b.push(`<span class="tag badge-cover">Cover</span>`);
+      if(p.cited)   b.push(`<span class="tag badge-cited">${zh?'高被引':'Highly Cited'}</span>`);
+      if(p.advance) b.push(`<span class="tag badge-advance">${zh?'中国科学十大进展':'Top-10 Advance'}</span>`);
+      if(p.journal) b.push(`<span class="tag badge-nature">${p.journal}</span>`);
+      html += `<div class="paper-card">
+        ${b.length?`<div class="paper-badges">${b.join('')}</div>`:''}
+        <div class="paper-title">${p.doi?`<a href="${p.doi}" target="_blank">${p.title}</a>`:p.title}</div>
+        <div class="paper-authors">${p.authors||''}</div>
+        <div class="paper-journal"><span class="journal-name">${p.journal||''}</span><span class="paper-year">${p.year||''}</span></div>
+      </div>`;
+    });
+  });
+  c.innerHTML = html;
+}
+
+function renderNews(items) {
+  const c = document.getElementById('news-container'); if (!c) return;
+  const zh = !document.body.classList.contains('lang-en');
+  let html = '';
+  items.forEach(n => {
+    const title = zh?(n.title_zh||n.title_en):(n.title_en||n.title_zh);
+    const desc  = zh?(n.desc_zh||n.desc_en):(n.desc_en||n.desc_zh);
+    const tag   = zh?(n.tag_zh||n.tag_en):(n.tag_en||n.tag_zh);
+    const parts = (n.date||'').split('-');
+    html += `<div class="news-item">
+      <div class="news-date">
+        <div class="news-date-month">${parts[1]||''}</div>
+        <div class="news-date-day">${parts[2]||'—'}</div>
+        <div style="font-size:0.7rem;color:var(--text-light);">${parts[0]||''}</div>
+      </div>
+      <div class="news-content">
+        ${tag?`<div style="margin-bottom:8px;"><span class="tag tag-coral">${tag}</span></div>`:''}
+        <h4>${title||''}</h4><p>${desc||''}</p>
+      </div></div>`;
+  });
+  if (html) c.innerHTML = html;
+}
+
+function renderLabLife(photos) {
+  const c = document.getElementById('lablife-container'); if (!c) return;
+  const zh = !document.body.classList.contains('lang-en');
+  const rots=[-2,1.5,-1,2,-2.5,1,-1.5,2.5];
+  const bgs=['var(--mint-light)','var(--coral-light)','var(--gold-light)','var(--purple-light)','var(--sky-light)','var(--tiffany-light)'];
+  let html='';
+  photos.forEach((p,i)=>{
+    const cap=zh?(p.caption_zh||p.caption_en):(p.caption_en||p.caption_zh);
+    html+=`<div class="polaroid-item"><div class="polaroid-card" style="--rot:${rots[i%rots.length]}deg;">
+      <div class="polaroid-img" style="${p.url?`background:url('${p.url}') center/cover`:`background:${bgs[i%bgs.length]}`};">
+        ${!p.url?`<span style="font-size:0.7rem;color:var(--text-light);padding:8px;text-align:center;">📸</span>`:''}
+      </div>
+      <div class="polaroid-cap">${cap||''}</div>
+    </div></div>`;
+  });
+  if(html) c.innerHTML=html;
+}
+
+}
+
+function getCMS() {
   try {
     return JSON.parse(localStorage.getItem('yanlab_cms') || 'null');
   } catch(e) { return null; }
