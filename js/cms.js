@@ -1,4 +1,5 @@
 /* cms.js — reads content from admin panel and applies to pages */
+if (!window.__ADMIN_PAGE__) {
 
 function getCMS() {
   try {
@@ -204,4 +205,5 @@ function renderLabLife(photos, lang) {
     </div></div>`;
   });
   if (html) container.innerHTML = html;
+}
 }

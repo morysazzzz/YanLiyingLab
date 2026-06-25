@@ -1,4 +1,5 @@
 /* nav-footer.js — injects shared navbar + footer into every page */
+if (window.__ADMIN_PAGE__) { /* skip */ } else {
 
 const NAV_HTML = `
 <nav class="navbar">
@@ -87,3 +88,4 @@ document.addEventListener('DOMContentLoaded', () => {
   // inject footer at end of body
   document.body.insertAdjacentHTML('beforeend', FOOTER_HTML);
 });
+}
