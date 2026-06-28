@@ -329,7 +329,8 @@ function mc(m,i){
 
 function pc(p,i){
   var t=function(k,l){return'<button class="bt '+(p[k]?'bt-on':'bt-off')+'" onclick="S.pubs.papers['+i+'].'+k+'=!S.pubs.papers['+i+'].'+k+';render()">'+l+'</button>';};
-  return'<div class="card" style="border-left:3px solid '+(p.advance?'#F5C842':p.cited?'#E8734A':p.cover?'#81D8D0':'rgba(255,255,255,0.08))+'">'
+  var borderColor=p.advance?'#F5C842':p.cited?'#E8734A':p.cover?'#81D8D0':'rgba(255,255,255,0.08)';
+  return'<div class="card" style="border-left:3px solid '+borderColor+'">'
     +'<div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin-bottom:10px;">'+t('cover','📰 封面')+t('cited','🔥 高被引')+t('advance','🏆 十大进展')+'<button class="xbtn" style="margin-left:auto;" onclick="S.pubs.papers.splice('+i+',1);render()">✕</button></div>'
     +'<input type="text" value="'+v(p.title||'')+'" placeholder="论文标题" oninput="S.pubs.papers['+i+'].title=this.value" style="margin-bottom:7px;">'
     +'<input type="text" value="'+v(p.authors||'')+'" placeholder="作者列表（通讯作者用*标注）" oninput="S.pubs.papers['+i+'].authors=this.value" style="margin-bottom:7px;">'
