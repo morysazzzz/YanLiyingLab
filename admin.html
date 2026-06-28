@@ -5,15 +5,15 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>YanLab 后台管理</title>
 <style>
-html,body{margin:0!important;padding:0!important;width:100%!important;height:100%!important;overflow:hidden!important;font-family:-apple-system,'PingFang SC','Noto Sans SC',sans-serif!important;background:#0D1B2A!important;color:#E8F4F0!important;font-size:14px!important;}
+html,body{margin:0!important;padding:0!important;width:100%!important;height:100%!important;overflow:hidden!important;font-family:-apple-system,'PingFang SC',sans-serif!important;background:#0D1B2A!important;color:#E8F4F0!important;font-size:14px!important;}
 *,*::before,*::after{box-sizing:border-box!important;}
 #app{display:flex;flex-direction:column;width:100vw;height:100vh;overflow:hidden;}
 #topbar{height:52px;min-height:52px;background:#060F1A;border-bottom:1px solid rgba(129,216,208,0.2);display:flex;align-items:center;padding:0 20px;gap:12px;flex-shrink:0;}
 .t-logo{width:30px;height:30px;background:#81D8D0;border-radius:7px;display:flex;align-items:center;justify-content:center;font-weight:700;color:#0D1B2A;font-size:13px;flex-shrink:0;}
 .t-title{font-size:14px;font-weight:600;color:#fff;}
-.t-sub{font-size:11px;color:rgba(255,255,255,0.35);margin-left:2px;}
-.t-link{margin-left:auto;padding:6px 14px;border-radius:6px;border:1px solid rgba(129,216,208,0.3);background:transparent;color:#81D8D0;font-size:11px;cursor:pointer;text-decoration:none;white-space:nowrap;}
-#body{display:flex;flex:1;overflow:hidden;width:100%;}
+.t-sub{font-size:11px;color:rgba(255,255,255,0.35);}
+.t-link{margin-left:auto;padding:6px 14px;border-radius:6px;border:1px solid rgba(129,216,208,0.3);background:transparent;color:#81D8D0;font-size:11px;cursor:pointer;text-decoration:none;}
+#body{display:flex;flex:1;overflow:hidden;}
 #sidebar{width:190px;min-width:190px;background:#060F1A;border-right:1px solid rgba(129,216,208,0.12);overflow-y:auto;flex-shrink:0;padding:12px 0;}
 .s-section{font-size:10px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.25);padding:10px 14px 4px;}
 .s-item{display:flex;align-items:center;gap:8px;padding:8px 14px;cursor:pointer;font-size:13px;color:rgba(255,255,255,0.55);border-left:2px solid transparent;transition:all 0.12s;white-space:nowrap;}
@@ -38,7 +38,8 @@ textarea{min-height:72px;}
 textarea:focus,input[type=text]:focus{outline:none;border-color:rgba(129,216,208,0.4);}
 .card{background:rgba(0,0,0,0.2);border:1px solid rgba(255,255,255,0.08);border-radius:9px;padding:14px;margin-bottom:10px;position:relative;}
 .ch{display:flex;align-items:center;gap:8px;margin-bottom:10px;}
-.av{width:32px;height:32px;border-radius:50%;background:#81D8D0;display:flex;align-items:center;justify-content:center;font-weight:700;color:#0D1B2A;font-size:13px;flex-shrink:0;}
+.av{width:32px;height:32px;border-radius:50%;background:#81D8D0;display:flex;align-items:center;justify-content:center;font-weight:700;color:#0D1B2A;font-size:13px;flex-shrink:0;overflow:hidden;}
+.av img{width:100%;height:100%;object-fit:cover;}
 select{background:rgba(0,0,0,0.35);border:1px solid rgba(255,255,255,0.12);border-radius:6px;color:#E8F4F0;font-size:12px;padding:5px 8px;font-family:inherit;}
 .xbtn{width:26px;height:26px;border-radius:5px;border:1px solid rgba(232,115,74,0.3);background:transparent;color:rgba(232,115,74,0.65);cursor:pointer;font-size:13px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
 .xbtn:hover{background:rgba(232,115,74,0.12);color:#E8734A;}
@@ -48,10 +49,27 @@ select{background:rgba(0,0,0,0.35);border:1px solid rgba(255,255,255,0.12);borde
 .bt-off{border-color:rgba(255,255,255,0.15);color:rgba(255,255,255,0.35);background:transparent;}
 .bt-on{border-color:#F5C842;color:#F5C842;background:rgba(245,200,66,0.1);}
 .note{background:rgba(245,200,66,0.07);border:1px solid rgba(245,200,66,0.18);border-radius:7px;padding:10px 14px;font-size:11px;color:rgba(245,200,66,0.75);margin-bottom:16px;line-height:1.6;}
-.pg{display:grid;grid-template-columns:80px 1fr;gap:12px;align-items:start;}
-.pthumb{width:80px;height:80px;border-radius:7px;background:rgba(129,216,208,0.07);border:1.5px dashed rgba(129,216,208,0.2);display:flex;align-items:center;justify-content:center;font-size:22px;overflow:hidden;flex-shrink:0;}
-.pthumb img{width:100%;height:100%;object-fit:cover;}
 .sect{font-size:13px;font-weight:600;color:rgba(129,216,208,0.9);margin:20px 0 10px;padding-bottom:6px;border-bottom:1px solid rgba(129,216,208,0.15);}
+
+/* Image upload drop zone */
+.img-drop{border:2px dashed rgba(129,216,208,0.3);border-radius:8px;padding:16px;text-align:center;cursor:pointer;transition:all 0.2s;position:relative;background:rgba(0,0,0,0.15);}
+.img-drop:hover,.img-drop.over{border-color:#81D8D0;background:rgba(129,216,208,0.06);}
+.img-drop input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;}
+.img-preview{width:100%;max-height:140px;object-fit:cover;border-radius:6px;margin-bottom:8px;display:none;}
+.img-drop-text{font-size:11px;color:rgba(255,255,255,0.4);}
+.img-drop-icon{font-size:24px;margin-bottom:4px;}
+
+/* Photo card grid layout */
+.photo-row{display:grid;grid-template-columns:130px 1fr;gap:12px;align-items:start;}
+
+/* Search bar for publications */
+.search-bar{display:flex;gap:8px;margin-bottom:16px;}
+.search-bar input{flex:1;}
+.search-bar select{width:120px;}
+
+/* Stats chips */
+.stat-row{display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap;}
+.stat-chip{background:rgba(129,216,208,0.1);border:1px solid rgba(129,216,208,0.2);border-radius:20px;padding:4px 12px;font-size:11px;color:rgba(129,216,208,0.8);}
 </style>
 </head>
 <body>
@@ -59,7 +77,7 @@ select{background:rgba(0,0,0,0.35);border:1px solid rgba(255,255,255,0.12);borde
 <div id="app">
   <div id="topbar">
     <div class="t-logo">Y</div>
-    <span class="t-title">YanLab 后台管理</span>
+    <span class="t-title">YanLab 后台</span>
     <span class="t-sub">Content Manager</span>
     <a href="/index.html" class="t-link" target="_blank">↗ 查看网站</a>
   </div>
@@ -90,7 +108,45 @@ select{background:rgba(0,0,0,0.35);border:1px solid rgba(255,255,255,0.12);borde
 <div id="toast">✅ 保存成功！</div>
 
 <script>
-// ── Default content (every string on every page) ─────────────
+// ── Image upload helpers ─────────────────────────────────────
+function setupDrop(zoneId, onImage) {
+  var zone = document.getElementById(zoneId);
+  if (!zone) return;
+  var inp = zone.querySelector('input[type=file]');
+  var preview = zone.querySelector('.img-preview');
+  var txt = zone.querySelector('.img-drop-text');
+
+  function handleFile(file) {
+    if (!file || !file.type.startsWith('image/')) return;
+    var reader = new FileReader();
+    reader.onload = function(e) {
+      var b64 = e.target.result;
+      if (preview) { preview.src = b64; preview.style.display = 'block'; }
+      if (txt) txt.textContent = file.name;
+      onImage(b64);
+    };
+    reader.readAsDataURL(file);
+  }
+
+  zone.addEventListener('dragover', function(e){ e.preventDefault(); zone.classList.add('over'); });
+  zone.addEventListener('dragleave', function(){ zone.classList.remove('over'); });
+  zone.addEventListener('drop', function(e){ e.preventDefault(); zone.classList.remove('over'); handleFile(e.dataTransfer.files[0]); });
+  if (inp) inp.addEventListener('change', function(){ handleFile(inp.files[0]); });
+}
+
+function imgDropZone(id, currentSrc, onchangeExpr) {
+  var hasImg = currentSrc && currentSrc.length > 10;
+  return '<div class="img-drop" id="'+id+'">'
+    +(hasImg?'<img class="img-preview" style="display:block" src="'+currentSrc+'">'
+            :'<img class="img-preview">')
+    +'<input type="file" accept="image/*">'
+    +'<div class="img-drop-icon">📷</div>'
+    +'<div class="img-drop-text">'+(hasImg?'点击或拖拽替换图片':'点击或拖拽上传图片')+'</div>'
+    +'</div>'
+    +'<script>setupDrop("'+id+'",function(b64){'+onchangeExpr+'});<\/script>';
+}
+
+// ── Default data ─────────────────────────────────────────────
 var DEF = {
   home:{
     slogan_zh:'探索生命起点的奥秘', slogan_en:'Decoding the origins of life',
@@ -109,54 +165,56 @@ var DEF = {
     life_desc_en:'Team building, dinners, trips, celebrations — Prof. Yan leads us in work and in life.',
     join_title_zh:'我们欢迎有热情的你', join_title_en:'We welcome passionate minds',
     join_desc_zh:'无论你是博士生、硕士生、博士后，还是对生殖发育充满好奇的本科生，都欢迎来聊聊。',
-    join_desc_en:'Whether PhD, master\'s, postdoc, or an undergrad curious about reproductive biology — we\'d love to hear from you.',
+    join_desc_en:"Whether PhD, master's, postdoc, or an undergrad curious about reproductive biology — we'd love to hear from you.",
   },
   pi:{
     name_zh:'闫丽盈', name_en:'Liying Yan',
     title_zh:'研究员 · 博士生导师 · 科研处处长', title_en:'Principal Investigator · PhD Supervisor · Director of Research Office',
     tag1_zh:'国家杰出青年科学基金获得者', tag1_en:'NSFC Distinguished Young Scholar',
     tag2_zh:'辅助生殖教育部重点实验室副主任', tag2_en:'Deputy Director, MOE Key Lab of ART',
-    bio_zh:'闫丽盈研究员现任职于北京大学第三医院生殖医学科，担任科研处处长及辅助生殖教育部重点实验室副主任。她是国家杰出青年科学基金获得者，长期致力于人类早期胚胎发育的遗传与表观遗传调控研究。\n\n作为通讯或第一作者，她已在Nature、Cell、Nature Genetics、Molecular Cell等国际顶级期刊发表论文45篇，两次入选"中国科学十大进展"，一篇论文荣登Cell杂志封面，三篇被评为高被引论文。',
-    bio_en:'Prof. Liying Yan is a Principal Investigator at the Reproductive Medicine Center, PUTH, where she also serves as Director of the Research Office and Deputy Director of the MOE Key Laboratory for Assisted Reproduction. She is a recipient of the NSFC Distinguished Young Scholar Award.\n\nAs corresponding or first author, she has published 45 papers in top journals including Nature, Cell, Nature Genetics, and Molecular Cell, with her work twice selected among China\'s Top-10 Scientific Advances.',
-    quote_zh:'请在这里填写闫老师的寄语或座右铭。', quote_en:'A quote or message from Prof. Yan — to be filled.',
-    email:'yanliying@bjmu.edu.cn',
-    tl1_zh:'北京大学第三医院 科研处处长', tl1_en:'Director of Research Office, PUTH',
-    tl1_sub_zh:'辅助生殖教育部重点实验室副主任', tl1_sub_en:'Deputy Director, MOE Key Lab of ART',
-    tl2_zh:'北京大学 研究员', tl2_en:'Principal Investigator, Peking University',
-    tl2_sub_zh:'生殖发育与遗传研究', tl2_sub_en:'Research on reproductive development and genetics',
+    bio_zh:'闫丽盈研究员现任职于北京大学第三医院生殖医学科，担任科研处处长及辅助生殖教育部重点实验室副主任。她是国家杰出青年科学基金获得者，长期致力于人类早期胚胎发育的遗传与表观遗传调控研究。\n\n作为通讯或第一作者，她已在Nature、Cell、Nature Genetics、Molecular Cell等国际顶级期刊发表论文198篇，被引11,791次，两次入选"中国科学十大进展"。',
+    bio_en:'Prof. Liying Yan is a Principal Investigator at the Reproductive Medicine Center, PUTH. She is a recipient of the NSFC Distinguished Young Scholar Award, and has published 198 papers with 11,791 citations in top journals including Nature, Cell, and Nature Genetics. Her work has twice been selected among China\'s Top-10 Scientific Advances.',
+    quote_zh:'请在这里填写闫老师的寄语或座右铭。', quote_en:"A quote from Prof. Yan — to be filled.",
+    email:'yanliying@bjmu.edu.cn', photo:'',
   },
-  research:{
-    page_title_zh:'我们在探索什么', page_title_en:'What we explore',
-    page_desc_zh:'围绕人类早期胚胎发育与生殖遗传，我们的研究横跨基础科学与临床转化，致力于让更多家庭受益。',
-    page_desc_en:'Spanning basic science and clinical translation, our work on early human embryo development and reproductive genetics aims to benefit more families.',
-    areas:[
-      {icon:'🧬',
-       title_zh:'生殖遗传与胚胎诊断', title_en:'Reproductive Genetics & Embryo Diagnosis',
-       desc_zh:'开发基于转录组测序的胚胎着床前遗传学检测（PGT）新方法，利用滋养外胚层细胞中丰富的mRNA转录拷贝进行突变检测，同步评估胚胎着床潜能，提高单基因病阻断的准确性与适用范围。',
-       desc_en:'We develop novel preimplantation genetic testing (PGT) methods using transcriptome sequencing to simultaneously detect mutations and assess embryo implantation potential, improving accuracy and applicability for monogenic disease prevention.',
-       tag_zh:'胚胎诊断', tag_en:'PGT'},
-      {icon:'🔬',
-       title_zh:'表观遗传调控机制', title_en:'Epigenetic Regulation Mechanisms',
-       desc_zh:'系统研究人类早期胚胎及原始生殖细胞发育过程中的DNA甲基化调控机制，解析卵母细胞减数分裂染色体重组的遗传特征，揭示表观遗传对基因表达的精准调控规律。',
-       desc_en:'We systematically study DNA methylation regulation during human early embryo and primordial germ cell development, characterizing the genetic features of oocyte meiotic chromosome recombination.',
-       tag_zh:'表观遗传', tag_en:'Epigenetics'},
-      {icon:'👶',
-       title_zh:'辅助生殖技术临床转化', title_en:'Translational Assisted Reproduction',
-       desc_zh:'将基础研究成果成功转化为临床应用，包括胚胎植入前单基因疾病诊断、提高疑难不孕患者治疗成功率等，推动辅助生殖技术的精准化与个体化。',
-       desc_en:'We successfully translate basic findings into clinical applications, including preimplantation diagnosis of monogenic diseases and improving success rates for difficult infertility cases.',
-       tag_zh:'临床转化', tag_en:'Clinical Translation'},
-    ]
-  },
+  research:{areas:[
+    {icon:'🧬',title_zh:'生殖遗传与胚胎诊断',title_en:'Reproductive Genetics & Embryo Diagnosis',desc_zh:'开发基于转录组测序的胚胎着床前遗传学检测新方法，利用滋养外胚层细胞中丰富的mRNA转录拷贝进行突变检测，同步评估胚胎着床潜能，提高单基因病阻断的准确性与适用范围。',desc_en:'Developing novel PGT methods using transcriptome sequencing to simultaneously detect mutations and assess embryo implantation potential.',tag_zh:'胚胎诊断',tag_en:'PGT'},
+    {icon:'🔬',title_zh:'表观遗传调控机制',title_en:'Epigenetic Regulation Mechanisms',desc_zh:'系统研究人类早期胚胎及原始生殖细胞发育过程中的DNA甲基化调控机制，解析卵母细胞减数分裂染色体重组的遗传特征。',desc_en:'Systematically studying DNA methylation regulation during human early embryo and primordial germ cell development.',tag_zh:'表观遗传',tag_en:'Epigenetics'},
+    {icon:'👶',title_zh:'辅助生殖技术临床转化',title_en:'Translational Assisted Reproduction',desc_zh:'将基础研究成果成功转化为临床应用，包括胚胎植入前单基因疾病诊断、提高疑难不孕患者治疗成功率等，推动辅助生殖技术的精准化与个体化。',desc_en:'Translating basic findings into clinical applications to improve ART success rates.',tag_zh:'临床转化',tag_en:'Clinical Translation'},
+  ]},
   team:{members:[
     {name_zh:'闫丽盈',name_en:'Liying Yan',role:'PI',focus_zh:'生殖遗传 · 表观遗传 · 辅助生殖',focus_en:'Reproductive genetics · Epigenetics · ART',email:'yanliying@bjmu.edu.cn',photo:''},
-    {name_zh:'待填写',name_en:'To be filled',role:'Postdoc',focus_zh:'研究方向待填',focus_en:'TBD',email:'',photo:''},
-    {name_zh:'待填写',name_en:'To be filled',role:'PhD',focus_zh:'研究方向待填',focus_en:'TBD',email:'',photo:''},
   ]},
   pubs:{papers:[
-    {title:'Concurrent Preimplantation Genetic Testing and Competence Assessment of Human Embryos by Transcriptome Sequencing',authors:'Wang Y, Li Y, Zhu X, Yan L*, Qiao J*',journal:'Advanced Science',year:'2024',doi:'',cover:false,cited:false,advance:false},
+    // 2026
+    {title:'Third-generation sequencing enables accurate preimplantation genetic testing of monogenic defects for de novo variants and incomplete pedigrees',authors:'Fang Y, Wang Y, Zhan Y, [...], Yan L*',journal:'Human Reproduction',year:'2026',doi:'',cover:false,cited:false,advance:false},
+    {title:'Multi-omics profiling identifies inosine as a key metabolite associated with embryonic arrest in hydrosalpinx-associated infertility',authors:'Peng Y, Fang Y, Wang N, [...], Qiao J*',journal:'EBioMedicine',year:'2026',doi:'',cover:false,cited:false,advance:false},
+    {title:'The dynamic expression pattern of signaling pathways involved in early embryo development',authors:'Song Z, Song S, Wang N, [...], Yuan P*',journal:'Cell Communication and Signaling',year:'2026',doi:'',cover:false,cited:false,advance:false},
+    {title:'Ypel5 preserves female fertility by regulating folliculogenesis and oocyte maturation',authors:'Ding L, Guo Q, Li Y, [...], Yan L*',journal:'Cell Death and Differentiation',year:'2026',doi:'',cover:false,cited:false,advance:false},
+    {title:'Uridine restores oocyte quality and mitigates female reproductive aging by inhibition of ferroptosis in mice',authors:'Chen J, Shen J, Li D, [...], Qiao J*',journal:'Nature Communications',year:'2026',doi:'',cover:false,cited:false,advance:false},
+    {title:'Single-oocyte full-length isoform sequencing unveils the impact of transposable elements on RNA diversity and stability',authors:'Wang Y, Wei W, Liu Y, [...], Yuan P*',journal:'Nature Communications',year:'2026',doi:'',cover:false,cited:false,advance:false},
+    {title:'Identification of candidate genes associated with mitotic-origin aneuploidy: a genome-wide association study',authors:'Lyu Z, An J, Song S, [...], Qiao J*',journal:'Journal of Assisted Reproduction and Genetics',year:'2026',doi:'',cover:false,cited:false,advance:false},
+    {title:'Ncbp1 deficiency affects morula-to-blastocyst transition through lipid metabolic dysregulation',authors:'Liu Y, He Y, Wang X, [...], Yan L*',journal:'Reproduction',year:'2026',doi:'',cover:false,cited:false,advance:false},
+    // 2025
+    {title:'Extra X chromosome affects male germ cell development — selected as China Top-10 Science Advance of 2024',authors:'Qiao J*, Yuan P, Yan L*, Wei Y* et al.',journal:'Nature',year:'2025',doi:'',cover:false,cited:false,advance:true},
+    {title:'Moving toward totipotency: the molecular and cellular features of totipotent and naive pluripotent stem cells',authors:'Hua L, Peng Y, Yan L, [...], Qiao J*',journal:'Human Reproduction Update',year:'2025',doi:'',cover:false,cited:false,advance:false},
+    {title:'Single-cell metabolomics reveals that bisphosphoglycerate mutase influences oocyte maturation through glucose metabolism',authors:'Wang J, Liu Q, Yan Z, [...], Yan L*',journal:'Molecular Human Reproduction',year:'2025',doi:'',cover:false,cited:false,advance:false},
+    {title:'Chromosomal segregation and recombination in human sperm cells from reciprocal translocation carriers',authors:'Yang Y, Yang M, Shao M, [...], Yan Z*',journal:'Journal of Assisted Reproduction and Genetics',year:'2025',doi:'',cover:false,cited:false,advance:false},
+    {title:'RRS1 regulates proliferation, migration, and invasion of HTR-8/SVneo human trophoblasts',authors:'Wu Y, Li Y, Wang J, [...], Yuan P*',journal:'Frontiers of Medicine',year:'2025',doi:'',cover:false,cited:false,advance:false},
   ]},
   news:{items:[
-    {date:'2024-06-20',title_zh:'团队在Advanced Science发表胚胎诊断新成果',title_en:'Team publishes embryo diagnostic method in Advanced Science',desc_zh:'基于RNA转录组测序实现胚胎单基因病诊断与着床潜能同步评估。',desc_en:'Concurrent preimplantation genetic testing and competence assessment via transcriptome sequencing.',tag_zh:'论文发表',tag_en:'Publication'},
+    {date:'2025-03-27',
+     title_zh:'团队研究成果入选"2024年度中国科学十大进展"',
+     title_en:"Team research selected as one of China's Top-10 Science Advances of 2024",
+     desc_zh:'北京大学乔杰、袁鹏、闫丽盈、魏瑗等从多维度揭示了额外X染色体影响男性生殖细胞发育的机制，为克氏综合征患者不育的发病机制及早期治疗提供了重要依据。研究成果于2025年3月27日在2025中关村论坛年会上获颁"2024年度中国科学十大进展"奖。',
+     desc_en:"The team's research on how extra X chromosomes affect male germ cell development in Klinefelter syndrome was recognized at the 2025 ZGC Forum as one of China's Top-10 Science Advances of 2024.",
+     tag_zh:'重大荣誉',tag_en:'Major Award',photo:''},
+    {date:'2024-06-20',
+     title_zh:'团队在Advanced Science发表胚胎诊断新成果',
+     title_en:'Team publishes embryo diagnostic method in Advanced Science',
+     desc_zh:'基于RNA转录组测序实现胚胎单基因病诊断与着床潜能同步评估。',
+     desc_en:'Concurrent preimplantation genetic testing and competence assessment via transcriptome sequencing.',
+     tag_zh:'论文发表',tag_en:'Publication',photo:''},
   ]},
   life:{
     title_zh:'不只是科研，也是家人', title_en:"More than research — we're family",
@@ -165,43 +223,27 @@ var DEF = {
     trad_title_zh:'我们的小传统', trad_title_en:'Our little traditions',
     traditions:[
       {emoji:'🏕️',name_zh:'年度团建',name_en:'Annual Retreat',desc_zh:'每年一次，一起出游放松，增进感情。',desc_en:'Once a year, we travel together to relax and bond.'},
-      {emoji:'🎂',name_zh:'生日惊喜',name_en:'Birthday Surprises',desc_zh:'每个成员的生日都会被记住，闫老师总会送上惊喜。',desc_en:"Every member's birthday is remembered, and Prof. Yan always has a surprise ready."},
+      {emoji:'🎂',name_zh:'生日惊喜',name_en:'Birthday Surprises',desc_zh:'每个成员的生日都会被记住，闫老师总会送上惊喜。',desc_en:"Every member's birthday is remembered — Prof. Yan always has a surprise."},
       {emoji:'🎓',name_zh:'毕业庆典',name_en:'Graduation Celebration',desc_zh:'送别每一位毕业生，留住最美好的回忆。',desc_en:'Celebrating each graduate and preserving the most beautiful memories.'},
       {emoji:'🥢',name_zh:'实验室聚餐',name_en:'Lab Dinners',desc_zh:'节日、新生入学、项目完成……总有理由一起吃饭。',desc_en:'Holidays, new members, project completions — always a reason to dine together.'},
-      {emoji:'✈️',name_zh:'学术会议',name_en:'Conferences',desc_zh:'一起出席学术会议，顺道探索新城市。',desc_en:'Attending academic conferences together and exploring new cities along the way.'},
+      {emoji:'✈️',name_zh:'学术会议',name_en:'Conferences',desc_zh:'一起出席学术会议，顺道探索新城市。',desc_en:'Attending conferences together and exploring new cities along the way.'},
     ],
     photos:[
-      {url:'',caption_zh:'年度团建',caption_en:'Annual retreat'},
-      {url:'',caption_zh:'毕业季',caption_en:'Graduation'},
-      {url:'',caption_zh:'节日聚餐',caption_en:'Holiday dinner'},
+      {url:'',caption_zh:'2025中关村论坛 — 获颁中国科学十大进展',caption_en:'2025 ZGC Forum — China Top-10 Science Advances Award'},
+      {url:'',caption_zh:'北医三院生殖医学中心团队合影',caption_en:'Reproductive Medicine Center team photo'},
+      {url:'',caption_zh:'中关村论坛获奖合影',caption_en:'Award ceremony at ZGC Forum'},
     ]
   },
   join:{
     page_title_zh:'和我们一起探索生命的奥秘', page_title_en:"Explore life's mysteries with us",
     intro_zh:'我们欢迎充满好奇心、勤奋踏实的伙伴加入。无论你处于学术生涯的哪个阶段，都真诚欢迎你来聊聊。',
-    intro_en:"We welcome curious, dedicated people at any stage of their academic career. We'd genuinely love to hear from you.",
-    postdoc_title_zh:'博士后研究员', postdoc_title_en:'Postdoctoral Researcher',
+    intro_en:"We welcome curious, dedicated people at any stage of their academic career.",
     postdoc_req_zh:'生命科学相关方向博士学位\n良好的英文写作与沟通能力\n对生殖遗传/表观遗传有浓厚兴趣\n具备独立科研能力',
     postdoc_req_en:'PhD in life sciences or related fields\nStrong English writing and communication\nStrong interest in reproductive genetics/epigenetics\nAbility to conduct independent research',
-    phd_title_zh:'博士研究生', phd_title_en:'PhD Student',
     phd_req_zh:'生命科学/医学相关背景\n对基础研究有热情与执着\n具备良好的学习与沟通能力',
     phd_req_en:'Background in life sciences / medicine\nPassion and perseverance for basic research\nGood learning and communication skills',
-    master_title_zh:'硕士研究生', master_title_en:"Master's Student",
     master_req_zh:'相关专业本科背景\n认真踏实，有科研探索精神\n欢迎推免直博同学咨询',
-    master_req_en:'Relevant undergraduate background\nDiligent and curious about scientific exploration\nHighly recommended students welcome',
-    why_title_zh:'为什么加入我们', why_title_en:'Why join us',
-    why1_zh:'顶尖科研平台', why1_en:'Top research platform',
-    why1d_zh:'北医三院世界一流的生殖医学研究环境', why1d_en:'World-class reproductive medicine research environment at PUTH',
-    why2_zh:'严谨的科研训练', why2_en:'Rigorous research training',
-    why2d_zh:'从选题到发表的全过程指导与培养', why2d_en:'Full mentorship from topic selection to publication',
-    why3_zh:'温暖的实验室文化', why3_en:'Warm lab culture',
-    why3d_zh:'闫老师关心每一位学生的成长与生活', why3d_en:"Prof. Yan cares about every student's growth and well-being",
-    why4_zh:'国际交流机会', why4_en:'International opportunities',
-    why4d_zh:'参加国际学术会议，开阔学术视野', why4d_en:'Attend international conferences and broaden your academic horizons',
-    why5_zh:'优秀的团队伙伴', why5_en:'Outstanding teammates',
-    why5d_zh:'和来自五湖四海的优秀同学共同成长', why5d_en:'Grow alongside talented colleagues from across the country',
-    why6_zh:'丰富的课外活动', why6_en:'Rich extracurricular life',
-    why6d_zh:'团建、聚餐、节日庆典……生活不只是实验室', why6d_en:'Team outings, dinners, celebrations — life is more than the lab',
+    master_req_en:'Relevant undergraduate background\nDiligent and curious about scientific exploration',
     cta_zh:'感兴趣？直接联系我们！', cta_en:'Interested? Reach out directly!',
     cta_desc_zh:'请将个人简历和一封简短的自我介绍发送至闫老师邮箱。我们会认真阅读每一封邮件。',
     cta_desc_en:"Send your CV and a brief self-introduction to Prof. Yan's email. We read every message carefully.",
@@ -209,7 +251,7 @@ var DEF = {
   contact:{
     page_title_zh:'随时欢迎联系', page_title_en:"We'd love to hear from you",
     page_desc_zh:'无论是学术合作、招聘咨询，还是只是想了解我们的研究，都欢迎来信。',
-    page_desc_en:'Whether for academic collaboration, joining the lab, or simply learning about our research — write to us anytime.',
+    page_desc_en:'Whether for academic collaboration, joining the lab, or simply learning about our research — write to us.',
     email:'yanliying@bjmu.edu.cn',
     address_zh:'北京市海淀区花园北路49号\n北京大学第三医院 生殖医学科\n邮编：100191',
     address_en:'49 North Garden Road, Haidian District\nReproductive Medicine Center, PUTH\nBeijing 100191, China',
@@ -220,271 +262,129 @@ var DEF = {
 };
 
 var S = JSON.parse(localStorage.getItem('yanlab_cms')||'null') || JSON.parse(JSON.stringify(DEF));
-// Merge missing keys from DEF
-function merge(target, source) {
-  for (var k in source) {
-    if (!(k in target)) target[k] = JSON.parse(JSON.stringify(source[k]));
-    else if (typeof source[k]==='object' && !Array.isArray(source[k]) && source[k]!==null && typeof target[k]==='object') merge(target[k], source[k]);
-  }
-}
-merge(S, DEF);
+function merge(t,s){for(var k in s){if(!(k in t))t[k]=JSON.parse(JSON.stringify(s[k]));else if(typeof s[k]==='object'&&!Array.isArray(s[k])&&s[k]!==null&&typeof t[k]==='object')merge(t[k],s[k]);}}
+merge(S,DEF);
 
-var cur = 'home';
+var cur='home';
+function v(x){return(x||'').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;');}
+function inp(val,expr,ph,multi,rows){var h=rows?rows*26:72;if(multi)return'<textarea style="min-height:'+h+'px" oninput="'+expr+'" placeholder="'+(ph||'')+'">'+( val||'')+'</textarea>';return'<input type="text" value="'+v(val)+'" oninput="'+expr+'" placeholder="'+(ph||'')+'">';}
+function bi(lbl,vzh,ven,ezh,een,multi,rows){return'<div class="fg"><div class="fl">'+lbl+'</div><div class="bi"><div class="iw">'+inp(vzh,ezh,'中文...',multi,rows)+'<span class="il">中文</span></div><div class="iw">'+inp(ven,een,'English...',multi,rows)+'<span class="il">EN</span></div></div></div>';}
+function si(lbl,val,expr,ph){return'<div class="fg"><div class="fl">'+lbl+'</div>'+inp(val,expr,ph)+'</div>';}
 
-function v(val){ return (val||'').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;'); }
-function inp(val, expr, ph, multi, rows) {
-  var h = rows?rows*26:72;
-  if (multi) return '<textarea style="min-height:'+h+'px" oninput="'+expr+'" placeholder="'+(ph||'')+'">'+( val||'')+'</textarea>';
-  return '<input type="text" value="'+v(val)+'" oninput="'+expr+'" placeholder="'+(ph||'')+'">';
-}
-function bi(lbl, vzh, ven, ezh, een, multi, rows) {
-  return '<div class="fg"><div class="fl">'+lbl+'</div><div class="bi">'
-    +'<div class="iw">'+inp(vzh,ezh,'中文...',multi,rows)+'<span class="il">中文</span></div>'
-    +'<div class="iw">'+inp(ven,een,'English...',multi,rows)+'<span class="il">EN</span></div>'
-    +'</div></div>';
-}
-function si(lbl, val, expr, ph) {
-  return '<div class="fg"><div class="fl">'+lbl+'</div>'+inp(val,expr,ph)+'</div>';
-}
-
-// ── Page renderers ────────────────────────────────────────────
+// ── Page renders ─────────────────────────────────────────────
 var PAGES = {
-  home: function() {
-    var h=S.home;
-    return '<div class="pg-title">🏠 首页</div><div class="pg-desc">首页所有文字内容</div>'
-      +'<div class="sect">Hero 区</div>'
-      +bi('主标语',h.slogan_zh,h.slogan_en,"S.home.slogan_zh=this.value","S.home.slogan_en=this.value")
-      +bi('描述文字',h.desc_zh,h.desc_en,"S.home.desc_zh=this.value","S.home.desc_en=this.value",true,3)
-      +'<div class="sect">统计数字标签</div>'
-      +bi('发表论文',h.stats_papers_zh,h.stats_papers_en,"S.home.stats_papers_zh=this.value","S.home.stats_papers_en=this.value")
-      +bi('被引次数',h.stats_cited_zh,h.stats_cited_en,"S.home.stats_cited_zh=this.value","S.home.stats_cited_en=this.value")
-      +bi('十大进展',h.stats_advance_zh,h.stats_advance_en,"S.home.stats_advance_zh=this.value","S.home.stats_advance_en=this.value")
-      +bi('实验室成员',h.stats_members_zh,h.stats_members_en,"S.home.stats_members_zh=this.value","S.home.stats_members_en=this.value")
-      +'<div class="sect">研究方向预览</div>'
-      +bi('小标题',h.research_title_zh,h.research_title_en,"S.home.research_title_zh=this.value","S.home.research_title_en=this.value")
-      +bi('描述',h.research_desc_zh,h.research_desc_en,"S.home.research_desc_zh=this.value","S.home.research_desc_en=this.value",true)
-      +'<div class="sect">新闻动态预览</div>'
-      +bi('标题',h.news_title_zh,h.news_title_en,"S.home.news_title_zh=this.value","S.home.news_title_en=this.value")
-      +'<div class="sect">实验室生活预览</div>'
-      +bi('标题',h.life_title_zh,h.life_title_en,"S.home.life_title_zh=this.value","S.home.life_title_en=this.value")
-      +bi('描述',h.life_desc_zh,h.life_desc_en,"S.home.life_desc_zh=this.value","S.home.life_desc_en=this.value",true)
-      +'<div class="sect">加入我们预览</div>'
-      +bi('标题',h.join_title_zh,h.join_title_en,"S.home.join_title_zh=this.value","S.home.join_title_en=this.value")
-      +bi('描述',h.join_desc_zh,h.join_desc_en,"S.home.join_desc_zh=this.value","S.home.join_desc_en=this.value",true);
-  },
+  home:function(){var h=S.home;return'<div class="pg-title">🏠 首页</div><div class="pg-desc">首页所有文字</div><div class="sect">Hero 区</div>'+bi('主标语',h.slogan_zh,h.slogan_en,"S.home.slogan_zh=this.value","S.home.slogan_en=this.value")+bi('描述',h.desc_zh,h.desc_en,"S.home.desc_zh=this.value","S.home.desc_en=this.value",true,3)+'<div class="sect">统计数字</div>'+bi('发表论文',h.stats_papers_zh,h.stats_papers_en,"S.home.stats_papers_zh=this.value","S.home.stats_papers_en=this.value")+bi('被引次数',h.stats_cited_zh,h.stats_cited_en,"S.home.stats_cited_zh=this.value","S.home.stats_cited_en=this.value")+bi('十大进展',h.stats_advance_zh,h.stats_advance_en,"S.home.stats_advance_zh=this.value","S.home.stats_advance_en=this.value")+bi('实验室成员',h.stats_members_zh,h.stats_members_en,"S.home.stats_members_zh=this.value","S.home.stats_members_en=this.value")+'<div class="sect">其他版块预览文字</div>'+bi('研究标题',h.research_title_zh,h.research_title_en,"S.home.research_title_zh=this.value","S.home.research_title_en=this.value")+bi('研究描述',h.research_desc_zh,h.research_desc_en,"S.home.research_desc_zh=this.value","S.home.research_desc_en=this.value",true)+bi('新闻标题',h.news_title_zh,h.news_title_en,"S.home.news_title_zh=this.value","S.home.news_title_en=this.value")+bi('Lab Life标题',h.life_title_zh,h.life_title_en,"S.home.life_title_zh=this.value","S.home.life_title_en=this.value")+bi('Lab Life描述',h.life_desc_zh,h.life_desc_en,"S.home.life_desc_zh=this.value","S.home.life_desc_en=this.value",true)+bi('加入标题',h.join_title_zh,h.join_title_en,"S.home.join_title_zh=this.value","S.home.join_title_en=this.value")+bi('加入描述',h.join_desc_zh,h.join_desc_en,"S.home.join_desc_zh=this.value","S.home.join_desc_en=this.value",true);},
 
-  pi: function() {
-    var p=S.pi;
-    return '<div class="pg-title">👩‍🔬 闫老师介绍</div><div class="pg-desc">关于PI页面的所有文字</div>'
+  pi:function(){var p=S.pi;
+    var hasPhoto=p.photo&&p.photo.length>10;
+    return'<div class="pg-title">👩‍🔬 闫老师介绍</div><div class="pg-desc">PI页面所有内容</div><div class="sect">头像照片</div>'
+      +'<div class="fg"><div class="fl">闫老师照片（拖拽或点击上传）</div>'
+      +(hasPhoto?'<img src="'+p.photo+'" style="max-height:160px;border-radius:8px;margin-bottom:8px;display:block;">':'')
+      +'<div class="img-drop" id="pi-photo-drop"><input type="file" accept="image/*"><div class="img-drop-icon">📷</div><div class="img-drop-text">'+(hasPhoto?'点击替换照片':'点击或拖拽上传照片')+'</div></div></div>'
+      +'<script>setupDrop("pi-photo-drop",function(b64){S.pi.photo=b64;render();});<\/script>'
       +'<div class="sect">基本信息</div>'
       +bi('姓名',p.name_zh,p.name_en,"S.pi.name_zh=this.value","S.pi.name_en=this.value")
       +bi('职称',p.title_zh,p.title_en,"S.pi.title_zh=this.value","S.pi.title_en=this.value")
-      +bi('标签1（杰青等）',p.tag1_zh,p.tag1_en,"S.pi.tag1_zh=this.value","S.pi.tag1_en=this.value")
-      +bi('标签2（职务等）',p.tag2_zh,p.tag2_en,"S.pi.tag2_zh=this.value","S.pi.tag2_en=this.value")
+      +bi('标签1',p.tag1_zh,p.tag1_en,"S.pi.tag1_zh=this.value","S.pi.tag1_en=this.value")
+      +bi('标签2',p.tag2_zh,p.tag2_en,"S.pi.tag2_zh=this.value","S.pi.tag2_en=this.value")
       +si('联系邮箱',p.email,"S.pi.email=this.value")
-      +'<div class="sect">个人简介</div>'
-      +bi('简介正文',p.bio_zh,p.bio_en,"S.pi.bio_zh=this.value","S.pi.bio_en=this.value",true,6)
-      +'<div class="sect">寄语</div>'
-      +bi('寄语/座右铭',p.quote_zh,p.quote_en,"S.pi.quote_zh=this.value","S.pi.quote_en=this.value",true)
-      +'<div class="sect">学术经历时间轴</div>'
-      +bi('经历1标题',p.tl1_zh,p.tl1_en,"S.pi.tl1_zh=this.value","S.pi.tl1_en=this.value")
-      +bi('经历1副标题',p.tl1_sub_zh,p.tl1_sub_en,"S.pi.tl1_sub_zh=this.value","S.pi.tl1_sub_en=this.value")
-      +bi('经历2标题',p.tl2_zh,p.tl2_en,"S.pi.tl2_zh=this.value","S.pi.tl2_en=this.value")
-      +bi('经历2副标题',p.tl2_sub_zh,p.tl2_sub_en,"S.pi.tl2_sub_zh=this.value","S.pi.tl2_sub_en=this.value");
+      +'<div class="sect">简介与寄语</div>'
+      +bi('个人简介',p.bio_zh,p.bio_en,"S.pi.bio_zh=this.value","S.pi.bio_en=this.value",true,6)
+      +bi('寄语/座右铭',p.quote_zh,p.quote_en,"S.pi.quote_zh=this.value","S.pi.quote_en=this.value",true);
   },
 
-  research: function() {
-    var r=S.research;
-    return '<div class="pg-title">🧬 研究方向</div><div class="pg-desc">研究方向页面所有文字</div>'
-      +'<div class="sect">页面标题</div>'
-      +bi('标题',r.page_title_zh,r.page_title_en,"S.research.page_title_zh=this.value","S.research.page_title_en=this.value")
-      +bi('描述',r.page_desc_zh,r.page_desc_en,"S.research.page_desc_zh=this.value","S.research.page_desc_en=this.value",true)
-      +r.areas.map(function(a,i){
-        return '<div class="sect">'+a.icon+' 方向'+(i+1)+'</div>'
-          +bi('标题',a.title_zh,a.title_en,"S.research.areas["+i+"].title_zh=this.value","S.research.areas["+i+"].title_en=this.value")
-          +bi('描述',a.desc_zh,a.desc_en,"S.research.areas["+i+"].desc_zh=this.value","S.research.areas["+i+"].desc_en=this.value",true,3)
-          +bi('标签',a.tag_zh,a.tag_en,"S.research.areas["+i+"].tag_zh=this.value","S.research.areas["+i+"].tag_en=this.value");
-      }).join('');
+  research:function(){var r=S.research;return'<div class="pg-title">🧬 研究方向</div><div class="pg-desc">三大研究方向</div>'+r.areas.map(function(a,i){return'<div class="sect">'+a.icon+' 方向'+(i+1)+'</div>'+bi('标题',a.title_zh,a.title_en,"S.research.areas["+i+"].title_zh=this.value","S.research.areas["+i+"].title_en=this.value")+bi('描述',a.desc_zh,a.desc_en,"S.research.areas["+i+"].desc_zh=this.value","S.research.areas["+i+"].desc_en=this.value",true,3)+bi('标签',a.tag_zh,a.tag_en,"S.research.areas["+i+"].tag_zh=this.value","S.research.areas["+i+"].tag_en=this.value");}).join('');},
+
+  team:function(){return'<div class="pg-title">👥 团队成员</div><div class="pg-desc">所有成员信息，头像支持拖拽上传</div><div id="ml">'+S.team.members.map(mc).join('')+'</div><button class="addbtn" onclick="addM()">＋ 添加成员</button>';},
+
+  pubs:function(){
+    var total=S.pubs.papers.length;
+    var byY={};S.pubs.papers.forEach(function(p){var y=p.year||'?';if(!byY[y])byY[y]=0;byY[y]++;});
+    var ykeys=Object.keys(byY).sort(function(a,b){return b-a;});
+    var stats='<div class="stat-row">'+ykeys.map(function(y){return'<span class="stat-chip">'+y+'年：'+byY[y]+'篇</span>';}).join('')+'<span class="stat-chip">共'+total+'篇</span></div>';
+    return'<div class="pg-title">📄 发表论文</div><div class="pg-desc">点击徽章标记封面/高被引/十大进展</div>'+stats+'<div id="pl">'+S.pubs.papers.map(pc).join('')+'</div><button class="addbtn" onclick="addP()">＋ 添加论文</button>';
   },
 
-  team: function() {
-    return '<div class="pg-title">👥 团队成员</div><div class="pg-desc">管理所有成员信息</div>'
-      +'<div id="ml">'+S.team.members.map(mc).join('')+'</div>'
-      +'<button class="addbtn" onclick="addM()">＋ 添加成员</button>';
-  },
+  news:function(){return'<div class="pg-title">📢 新闻动态</div><div class="pg-desc">最新的放最上面，照片支持拖拽上传</div><div id="nl">'+S.news.items.map(nc).join('')+'</div><button class="addbtn" onclick="addN()">＋ 添加动态</button>';},
 
-  pubs: function() {
-    return '<div class="pg-title">📄 发表论文</div><div class="pg-desc">点击徽章标记封面/高被引/十大进展</div>'
-      +'<div id="pl">'+S.pubs.papers.map(pc).join('')+'</div>'
-      +'<button class="addbtn" onclick="addP()">＋ 添加论文</button>';
-  },
+  life:function(){var l=S.life;return'<div class="pg-title">🎉 实验室生活</div><div class="pg-desc">照片墙和实验室传统，照片直接拖拽上传</div><div class="sect">页面标题</div>'+bi('大标题',l.title_zh,l.title_en,"S.life.title_zh=this.value","S.life.title_en=this.value")+bi('描述',l.desc_zh,l.desc_en,"S.life.desc_zh=this.value","S.life.desc_en=this.value",true)+'<div class="sect">实验室传统</div>'+bi('版块标题',l.trad_title_zh,l.trad_title_en,"S.life.trad_title_zh=this.value","S.life.trad_title_en=this.value")+l.traditions.map(function(t,i){return'<div class="card"><div style="font-size:20px;margin-bottom:8px;">'+t.emoji+'</div><div class="bi" style="margin-bottom:7px;"><input type="text" value="'+v(t.name_zh)+'" placeholder="名称中文" oninput="S.life.traditions['+i+'].name_zh=this.value"><input type="text" value="'+v(t.name_en)+'" placeholder="Name EN" oninput="S.life.traditions['+i+'].name_en=this.value"></div><div class="bi"><textarea oninput="S.life.traditions['+i+'].desc_zh=this.value" style="min-height:52px;">'+( t.desc_zh||'')+'</textarea><textarea oninput="S.life.traditions['+i+'].desc_en=this.value" style="min-height:52px;">'+( t.desc_en||'')+'</textarea></div></div>';}).join('')+'<div class="sect">照片墙</div><div id="ll">'+l.photos.map(lc).join('')+'</div><button class="addbtn" onclick="addL()">＋ 添加照片</button>';},
 
-  news: function() {
-    return '<div class="pg-title">📢 新闻动态</div><div class="pg-desc">实验室最新动态</div>'
-      +'<div id="nl">'+S.news.items.map(nc).join('')+'</div>'
-      +'<button class="addbtn" onclick="addN()">＋ 添加动态</button>';
-  },
+  join:function(){var j=S.join;return'<div class="pg-title">🎓 加入我们</div><div class="pg-desc">招生页面所有文字</div>'+bi('页面标题',j.page_title_zh,j.page_title_en,"S.join.page_title_zh=this.value","S.join.page_title_en=this.value")+bi('欢迎语',j.intro_zh,j.intro_en,"S.join.intro_zh=this.value","S.join.intro_en=this.value",true)+'<div class="sect">博士后要求</div>'+bi('要求（每行一条）',j.postdoc_req_zh,j.postdoc_req_en,"S.join.postdoc_req_zh=this.value","S.join.postdoc_req_en=this.value",true,4)+'<div class="sect">博士生要求</div>'+bi('要求',j.phd_req_zh,j.phd_req_en,"S.join.phd_req_zh=this.value","S.join.phd_req_en=this.value",true,3)+'<div class="sect">硕士生要求</div>'+bi('要求',j.master_req_zh,j.master_req_en,"S.join.master_req_zh=this.value","S.join.master_req_en=this.value",true,3)+'<div class="sect">号召行动</div>'+bi('标题',j.cta_zh,j.cta_en,"S.join.cta_zh=this.value","S.join.cta_en=this.value")+bi('描述',j.cta_desc_zh,j.cta_desc_en,"S.join.cta_desc_zh=this.value","S.join.cta_desc_en=this.value",true);},
 
-  life: function() {
-    var l=S.life;
-    return '<div class="pg-title">🎉 实验室生活</div><div class="pg-desc">照片墙和实验室传统</div>'
-      +'<div class="sect">页面标题</div>'
-      +bi('大标题',l.title_zh,l.title_en,"S.life.title_zh=this.value","S.life.title_en=this.value")
-      +bi('描述',l.desc_zh,l.desc_en,"S.life.desc_zh=this.value","S.life.desc_en=this.value",true)
-      +'<div class="sect">实验室传统</div>'
-      +bi('版块标题',l.trad_title_zh,l.trad_title_en,"S.life.trad_title_zh=this.value","S.life.trad_title_en=this.value")
-      +l.traditions.map(function(t,i){
-        return '<div class="card">'
-          +'<div style="font-size:20px;margin-bottom:8px;">'+t.emoji+'</div>'
-          +'<div class="bi" style="margin-bottom:7px;">'
-          +'<input type="text" value="'+v(t.name_zh)+'" placeholder="名称中文" oninput="S.life.traditions['+i+'].name_zh=this.value">'
-          +'<input type="text" value="'+v(t.name_en)+'" placeholder="Name EN" oninput="S.life.traditions['+i+'].name_en=this.value">'
-          +'</div>'
-          +'<div class="bi">'
-          +'<textarea oninput="S.life.traditions['+i+'].desc_zh=this.value" style="min-height:60px;">'+( t.desc_zh||'')+'</textarea>'
-          +'<textarea oninput="S.life.traditions['+i+'].desc_en=this.value" style="min-height:60px;">'+( t.desc_en||'')+'</textarea>'
-          +'</div></div>';
-      }).join('')
-      +'<div class="sect">照片墙</div>'
-      +'<div class="note">💡 图片链接：https://drive.google.com/uc?id=文件ID</div>'
-      +'<div id="ll">'+l.photos.map(lc).join('')+'</div>'
-      +'<button class="addbtn" onclick="addL()">＋ 添加照片</button>';
-  },
-
-  join: function() {
-    var j=S.join;
-    return '<div class="pg-title">🎓 加入我们</div><div class="pg-desc">招生页面所有文字</div>'
-      +'<div class="sect">页面标题</div>'
-      +bi('标题',j.page_title_zh,j.page_title_en,"S.join.page_title_zh=this.value","S.join.page_title_en=this.value")
-      +bi('欢迎语',j.intro_zh,j.intro_en,"S.join.intro_zh=this.value","S.join.intro_en=this.value",true)
-      +'<div class="sect">博士后要求</div>'
-      +bi('职位名',j.postdoc_title_zh,j.postdoc_title_en,"S.join.postdoc_title_zh=this.value","S.join.postdoc_title_en=this.value")
-      +bi('要求（每行一条）',j.postdoc_req_zh,j.postdoc_req_en,"S.join.postdoc_req_zh=this.value","S.join.postdoc_req_en=this.value",true,4)
-      +'<div class="sect">博士生要求</div>'
-      +bi('职位名',j.phd_title_zh,j.phd_title_en,"S.join.phd_title_zh=this.value","S.join.phd_title_en=this.value")
-      +bi('要求',j.phd_req_zh,j.phd_req_en,"S.join.phd_req_zh=this.value","S.join.phd_req_en=this.value",true,3)
-      +'<div class="sect">硕士生要求</div>'
-      +bi('职位名',j.master_title_zh,j.master_title_en,"S.join.master_title_zh=this.value","S.join.master_title_en=this.value")
-      +bi('要求',j.master_req_zh,j.master_req_en,"S.join.master_req_zh=this.value","S.join.master_req_en=this.value",true,3)
-      +'<div class="sect">为什么加入我们</div>'
-      +bi('版块标题',j.why_title_zh,j.why_title_en,"S.join.why_title_zh=this.value","S.join.why_title_en=this.value")
-      +[1,2,3,4,5,6].map(function(n){
-        return bi('亮点'+n+'标题',j['why'+n+'_zh'],j['why'+n+'_en'],"S.join.why"+n+"_zh=this.value","S.join.why"+n+"_en=this.value")
-          +bi('亮点'+n+'描述',j['why'+n+'d_zh'],j['why'+n+'d_en'],"S.join.why"+n+"d_zh=this.value","S.join.why"+n+"d_en=this.value");
-      }).join('')
-      +'<div class="sect">号召行动</div>'
-      +bi('标题',j.cta_zh,j.cta_en,"S.join.cta_zh=this.value","S.join.cta_en=this.value")
-      +bi('描述',j.cta_desc_zh,j.cta_desc_en,"S.join.cta_desc_zh=this.value","S.join.cta_desc_en=this.value",true);
-  },
-
-  contact: function() {
-    var c=S.contact;
-    return '<div class="pg-title">📍 联系方式</div><div class="pg-desc">联系页面所有文字</div>'
-      +'<div class="sect">页面标题</div>'
-      +bi('标题',c.page_title_zh,c.page_title_en,"S.contact.page_title_zh=this.value","S.contact.page_title_en=this.value")
-      +bi('描述',c.page_desc_zh,c.page_desc_en,"S.contact.page_desc_zh=this.value","S.contact.page_desc_en=this.value",true)
-      +'<div class="sect">联系信息</div>'
-      +si('电子邮箱',c.email,"S.contact.email=this.value")
-      +bi('地址',c.address_zh,c.address_en,"S.contact.address_zh=this.value","S.contact.address_en=this.value",true,3)
-      +bi('所属机构',c.dept_zh,c.dept_en,"S.contact.dept_zh=this.value","S.contact.dept_en=this.value")
-      +bi('交通信息',c.transit_zh,c.transit_en,"S.contact.transit_zh=this.value","S.contact.transit_en=this.value",true,3);
-  }
+  contact:function(){var c=S.contact;return'<div class="pg-title">📍 联系方式</div><div class="pg-desc">联系页面所有文字</div>'+bi('页面标题',c.page_title_zh,c.page_title_en,"S.contact.page_title_zh=this.value","S.contact.page_title_en=this.value")+bi('描述',c.page_desc_zh,c.page_desc_en,"S.contact.page_desc_zh=this.value","S.contact.page_desc_en=this.value",true)+si('电子邮箱',c.email,"S.contact.email=this.value")+bi('地址',c.address_zh,c.address_en,"S.contact.address_zh=this.value","S.contact.address_en=this.value",true,3)+bi('所属机构',c.dept_zh,c.dept_en,"S.contact.dept_zh=this.value","S.contact.dept_en=this.value")+bi('交通信息',c.transit_zh,c.transit_en,"S.contact.transit_zh=this.value","S.contact.transit_en=this.value",true,3);}
 };
 
+// ── Card builders ─────────────────────────────────────────────
 function mc(m,i){
-  return '<div class="card"><div class="ch">'
-    +'<div class="av">'+(m.name_zh||'?')[0]+'</div>'
-    +'<input type="text" value="'+v(m.name_zh||'')+'" placeholder="中文姓名" oninput="S.team.members['+i+'].name_zh=this.value" style="flex:1;">'
-    +'<select onchange="S.team.members['+i+'].role=this.value">'
-    +['PI','Postdoc','PhD','Master','Undergrad','Staff'].map(function(r){return '<option '+(m.role===r?'selected':'')+'>'+r+'</option>';}).join('')
-    +'</select>'
-    +'<button class="xbtn" onclick="S.team.members.splice('+i+',1);render()">✕</button>'
-    +'</div>'
-    +'<div class="bi" style="margin-bottom:7px;">'
-    +'<input type="text" value="'+v(m.name_en||'')+'" placeholder="English name" oninput="S.team.members['+i+'].name_en=this.value">'
-    +'<input type="text" value="'+v(m.email||'')+'" placeholder="Email" oninput="S.team.members['+i+'].email=this.value">'
-    +'</div>'
-    +'<div class="bi" style="margin-bottom:7px;">'
-    +'<input type="text" value="'+v(m.focus_zh||'')+'" placeholder="研究方向（中文）" oninput="S.team.members['+i+'].focus_zh=this.value">'
-    +'<input type="text" value="'+v(m.focus_en||'')+'" placeholder="Research focus (EN)" oninput="S.team.members['+i+'].focus_en=this.value">'
-    +'</div>'
-    +'<input type="text" value="'+v(m.photo||'')+'" placeholder="头像链接 https://drive.google.com/uc?id=..." oninput="S.team.members['+i+'].photo=this.value">'
+  var hasPhoto=m.photo&&m.photo.length>10;
+  var avContent=hasPhoto?'<img src="'+m.photo+'" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">':(m.name_zh||'?')[0];
+  return'<div class="card"><div class="ch"><div class="av">'+avContent+'</div><input type="text" value="'+v(m.name_zh||'')+'" placeholder="中文姓名" oninput="S.team.members['+i+'].name_zh=this.value;document.querySelector(\'#ml .card:nth-child('+(i+1)+') .av\').textContent=this.value[0]||\'?\';" style="flex:1;"><select onchange="S.team.members['+i+'].role=this.value">'+['PI','Postdoc','PhD','Master','Undergrad','Staff'].map(function(r){return'<option '+(m.role===r?'selected':'')+'>'+r+'</option>';}).join('')+'</select><button class="xbtn" onclick="S.team.members.splice('+i+',1);render()">✕</button></div>'
+    +'<div class="bi" style="margin-bottom:7px;"><input type="text" value="'+v(m.name_en||'')+'" placeholder="English name" oninput="S.team.members['+i+'].name_en=this.value"><input type="text" value="'+v(m.email||'')+'" placeholder="Email" oninput="S.team.members['+i+'].email=this.value"></div>'
+    +'<div class="bi" style="margin-bottom:7px;"><input type="text" value="'+v(m.focus_zh||'')+'" placeholder="研究方向（中文）" oninput="S.team.members['+i+'].focus_zh=this.value"><input type="text" value="'+v(m.focus_en||'')+'" placeholder="Research focus (EN)" oninput="S.team.members['+i+'].focus_en=this.value"></div>'
+    +'<div class="fl" style="margin-top:10px;">头像（拖拽或点击上传）</div>'
+    +'<div class="img-drop" id="member-photo-'+i+'"><input type="file" accept="image/*"><div class="img-drop-icon">📷</div><div class="img-drop-text">'+(hasPhoto?'点击替换':'点击或拖拽上传头像')+'</div></div>'
+    +'<script>setupDrop("member-photo-'+i+'",function(b64){S.team.members['+i+'].photo=b64;render();});<\/script>'
     +'</div>';
 }
 
 function pc(p,i){
-  var t=function(k,l){return '<button class="bt '+(p[k]?'bt-on':'bt-off')+'" onclick="S.pubs.papers['+i+'].'+k+'=!S.pubs.papers['+i+'].'+k+';render()">'+l+'</button>';};
-  return '<div class="card">'
-    +'<div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin-bottom:10px;">'
-    +t('cover','📰 封面')+t('cited','🔥 高被引')+t('advance','🏆 十大进展')
-    +'<button class="xbtn" style="margin-left:auto;" onclick="S.pubs.papers.splice('+i+',1);render()">✕</button>'
-    +'</div>'
+  var t=function(k,l){return'<button class="bt '+(p[k]?'bt-on':'bt-off')+'" onclick="S.pubs.papers['+i+'].'+k+'=!S.pubs.papers['+i+'].'+k+';render()">'+l+'</button>';};
+  return'<div class="card" style="border-left:3px solid '+(p.advance?'#F5C842':p.cited?'#E8734A':p.cover?'#81D8D0':'rgba(255,255,255,0.08))+'">'
+    +'<div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin-bottom:10px;">'+t('cover','📰 封面')+t('cited','🔥 高被引')+t('advance','🏆 十大进展')+'<button class="xbtn" style="margin-left:auto;" onclick="S.pubs.papers.splice('+i+',1);render()">✕</button></div>'
     +'<input type="text" value="'+v(p.title||'')+'" placeholder="论文标题" oninput="S.pubs.papers['+i+'].title=this.value" style="margin-bottom:7px;">'
-    +'<input type="text" value="'+v(p.authors||'')+'" placeholder="作者列表" oninput="S.pubs.papers['+i+'].authors=this.value" style="margin-bottom:7px;">'
-    +'<div class="bi" style="margin-bottom:7px;">'
-    +'<input type="text" value="'+v(p.journal||'')+'" placeholder="期刊" oninput="S.pubs.papers['+i+'].journal=this.value">'
-    +'<input type="text" value="'+v(p.year||'')+'" placeholder="年份" oninput="S.pubs.papers['+i+'].year=this.value">'
-    +'</div>'
+    +'<input type="text" value="'+v(p.authors||'')+'" placeholder="作者列表（通讯作者用*标注）" oninput="S.pubs.papers['+i+'].authors=this.value" style="margin-bottom:7px;">'
+    +'<div class="bi" style="margin-bottom:7px;"><input type="text" value="'+v(p.journal||'')+'" placeholder="期刊" oninput="S.pubs.papers['+i+'].journal=this.value"><input type="text" value="'+v(p.year||'')+'" placeholder="年份" style="max-width:80px;" oninput="S.pubs.papers['+i+'].year=this.value"></div>'
     +'<input type="text" value="'+v(p.doi||'')+'" placeholder="DOI链接（可选）" oninput="S.pubs.papers['+i+'].doi=this.value">'
     +'</div>';
 }
 
 function nc(n,i){
-  return '<div class="card">'
-    +'<div style="display:flex;gap:6px;align-items:center;margin-bottom:8px;">'
-    +'<input type="text" value="'+v(n.date||'')+'" placeholder="2024-06-20" oninput="S.news.items['+i+'].date=this.value" style="width:120px;flex-shrink:0;">'
-    +'<input type="text" value="'+v(n.tag_zh||'')+'" placeholder="标签中文" oninput="S.news.items['+i+'].tag_zh=this.value">'
-    +'<input type="text" value="'+v(n.tag_en||'')+'" placeholder="Tag EN" oninput="S.news.items['+i+'].tag_en=this.value">'
-    +'<button class="xbtn" onclick="S.news.items.splice('+i+',1);render()">✕</button>'
-    +'</div>'
-    +'<div class="bi" style="margin-bottom:7px;">'
-    +'<input type="text" value="'+v(n.title_zh||'')+'" placeholder="标题（中文）" oninput="S.news.items['+i+'].title_zh=this.value">'
-    +'<input type="text" value="'+v(n.title_en||'')+'" placeholder="Title (EN)" oninput="S.news.items['+i+'].title_en=this.value">'
-    +'</div>'
-    +'<div class="bi">'
-    +'<textarea oninput="S.news.items['+i+'].desc_zh=this.value" placeholder="简介（中文）" style="min-height:56px;">'+(n.desc_zh||'')+'</textarea>'
-    +'<textarea oninput="S.news.items['+i+'].desc_en=this.value" placeholder="Description (EN)" style="min-height:56px;">'+(n.desc_en||'')+'</textarea>'
-    +'</div></div>';
+  var hasPhoto=n.photo&&n.photo.length>10;
+  return'<div class="card">'
+    +'<div style="display:flex;gap:6px;align-items:center;margin-bottom:8px;"><input type="text" value="'+v(n.date||'')+'" placeholder="2025-03-27" oninput="S.news.items['+i+'].date=this.value" style="width:120px;flex-shrink:0;"><input type="text" value="'+v(n.tag_zh||'')+'" placeholder="标签中文" oninput="S.news.items['+i+'].tag_zh=this.value"><input type="text" value="'+v(n.tag_en||'')+'" placeholder="Tag EN" oninput="S.news.items['+i+'].tag_en=this.value"><button class="xbtn" onclick="S.news.items.splice('+i+',1);render()">✕</button></div>'
+    +'<div class="bi" style="margin-bottom:7px;"><input type="text" value="'+v(n.title_zh||'')+'" placeholder="标题（中文）" oninput="S.news.items['+i+'].title_zh=this.value"><input type="text" value="'+v(n.title_en||'')+'" placeholder="Title (EN)" oninput="S.news.items['+i+'].title_en=this.value"></div>'
+    +'<div class="bi" style="margin-bottom:10px;"><textarea oninput="S.news.items['+i+'].desc_zh=this.value" placeholder="简介（中文）" style="min-height:56px;">'+( n.desc_zh||'')+'</textarea><textarea oninput="S.news.items['+i+'].desc_en=this.value" placeholder="Description (EN)" style="min-height:56px;">'+( n.desc_en||'')+'</textarea></div>'
+    +'<div class="fl">配图（可选，拖拽上传）</div>'
+    +(hasPhoto?'<img src="'+n.photo+'" style="max-height:100px;border-radius:6px;margin-bottom:6px;display:block;">':'')
+    +'<div class="img-drop" id="news-photo-'+i+'"><input type="file" accept="image/*"><div class="img-drop-icon">📷</div><div class="img-drop-text">'+(hasPhoto?'点击替换图片':'点击或拖拽上传配图（可选）')+'</div></div>'
+    +'<script>setupDrop("news-photo-'+i+'",function(b64){S.news.items['+i+'].photo=b64;render();});<\/script>'
+    +'</div>';
 }
 
 function lc(p,i){
-  return '<div class="card"><div class="pg">'
-    +'<div class="pthumb">'+(p.url?'<img src="'+p.url+'" onerror="this.style.display=\'none\'">':'📸')+'</div>'
-    +'<div>'
-    +'<input type="text" value="'+v(p.url||'')+'" placeholder="图片链接 https://drive.google.com/uc?id=..." oninput="S.life.photos['+i+'].url=this.value;render()" style="margin-bottom:7px;">'
-    +'<div class="bi">'
-    +'<input type="text" value="'+v(p.caption_zh||'')+'" placeholder="说明（中文）" oninput="S.life.photos['+i+'].caption_zh=this.value">'
-    +'<input type="text" value="'+v(p.caption_en||'')+'" placeholder="Caption (EN)" oninput="S.life.photos['+i+'].caption_en=this.value">'
-    +'</div></div></div>'
-    +'<button class="xbtn" style="position:absolute;right:10px;top:10px;" onclick="S.life.photos.splice('+i+',1);render()">✕</button>'
-    +'</div>';
+  var hasPhoto=p.url&&p.url.length>10;
+  return'<div class="card"><div class="photo-row">'
+    +'<div>'+(hasPhoto?'<img src="'+p.url+'" style="width:130px;height:100px;object-fit:cover;border-radius:7px;margin-bottom:6px;display:block;">':'')
+    +'<div class="img-drop" id="life-photo-'+i+'" style="min-height:80px;"><input type="file" accept="image/*"><div class="img-drop-icon" style="font-size:18px;">📷</div><div class="img-drop-text" style="font-size:10px;">'+(hasPhoto?'替换':'拖拽上传')+'</div></div>'
+    +'<script>setupDrop("life-photo-'+i+'",function(b64){S.life.photos['+i+'].url=b64;render();});<\/script></div>'
+    +'<div><div class="bi"><input type="text" value="'+v(p.caption_zh||'')+'" placeholder="说明（中文）" oninput="S.life.photos['+i+'].caption_zh=this.value"><input type="text" value="'+v(p.caption_en||'')+'" placeholder="Caption (EN)" oninput="S.life.photos['+i+'].caption_en=this.value"></div></div>'
+    +'</div><button class="xbtn" style="position:absolute;right:10px;top:10px;" onclick="S.life.photos.splice('+i+',1);render()">✕</button></div>';
 }
 
 function addM(){S.team.members.push({name_zh:'新成员',name_en:'New member',role:'PhD',focus_zh:'',focus_en:'',email:'',photo:''});render();}
 function addP(){S.pubs.papers.unshift({title:'',authors:'',journal:'',year:new Date().getFullYear()+'',doi:'',cover:false,cited:false,advance:false});render();}
-function addN(){S.news.items.unshift({date:new Date().toISOString().slice(0,10),title_zh:'',title_en:'',desc_zh:'',desc_en:'',tag_zh:'实验室动态',tag_en:'Lab Update'});render();}
+function addN(){S.news.items.unshift({date:new Date().toISOString().slice(0,10),title_zh:'',title_en:'',desc_zh:'',desc_en:'',tag_zh:'实验室动态',tag_en:'Lab Update',photo:''});render();}
 function addL(){S.life.photos.push({url:'',caption_zh:'',caption_en:''});render();}
 
 function render(){document.getElementById('editor').innerHTML=PAGES[cur]();}
 function save(){
-  localStorage.setItem('yanlab_cms',JSON.stringify(S));
-  var t=document.getElementById('toast');t.style.opacity='1';
-  setTimeout(function(){t.style.opacity='0';},2000);
+  try{localStorage.setItem('yanlab_cms',JSON.stringify(S));}
+  catch(e){alert('存储空间不足！图片过多或过大。请减少图片数量或压缩图片后重试。');return;}
+  var t=document.getElementById('toast');t.style.opacity='1';setTimeout(function(){t.style.opacity='0';},2200);
 }
 
 document.querySelectorAll('.s-item').forEach(function(el){
   el.addEventListener('click',function(){
     cur=el.dataset.p;
     document.querySelectorAll('.s-item').forEach(function(x){x.classList.remove('on');});
-    el.classList.add('on');
-    render();
+    el.classList.add('on');render();
     document.getElementById('editor').scrollTop=0;
   });
 });
 
 render();
 var saved=localStorage.getItem('yanlab_cms');
-if(saved){try{S=JSON.parse(saved);merge(S,DEF);render();}catch(e){}}
+if(saved){try{var parsed=JSON.parse(saved);merge(parsed,DEF);S=parsed;render();}catch(e){}}
 </script>
 </body>
 </html>
