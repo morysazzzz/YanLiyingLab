@@ -3,123 +3,79 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>学术成果 · YanLab</title>
+  <title>发表论文 · YanLab</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@400;500;600&family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../css/style.css">
   <style>
-    .page-hero {
-      padding: calc(var(--nav-height) + 48px) 0 52px;
-      background: var(--nav-bg);
-      position: relative; overflow: hidden;
-    }
-    .page-hero h1, .page-hero .section-tag { color: #fff; }
-    .page-hero p { color: rgba(255,255,255,0.75); }
-    .page-hero .blob { position:absolute;border-radius:50%;opacity:0.12; }
+    .page-hero { padding: calc(var(--nav-height) + 48px) 0 52px; background: var(--nav-bg); position:relative; overflow:hidden; }
+    .page-hero h1, .page-hero p { color: #fff; }
+    .pub-stats { display:flex; gap:32px; margin-top:24px; flex-wrap:wrap; }
+    .pub-stat { }
+    .pub-stat-num { font-size:2rem; font-weight:700; color:#81D8D0; font-family:'Playfair Display',serif; }
+    .pub-stat-label { font-size:0.8rem; color:rgba(255,255,255,0.55); margin-top:2px; }
 
-    /* stats row */
-    .pub-stats {
-      display: flex; gap: 32px; flex-wrap: wrap; margin-top: 28px;
-    }
-    .pub-stat { text-align: left; }
-    .pub-stat-n {
-      font-family: var(--font-display);
-      font-size: 2rem;
-      font-weight: 700;
-      color: var(--coral);
-      line-height: 1;
-    }
-    .pub-stat-l { font-size: 0.78rem; color: rgba(255,255,255,0.65); margin-top: 3px; }
-
-    /* filter bar */
-    .filter-bar {
-      display: flex; gap: 8px; flex-wrap: wrap;
-      margin-bottom: 36px;
-    }
+    /* Filter chips */
+    .filter-bar { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:32px; }
     .filter-chip {
-      padding: 6px 16px; border-radius: 20px;
-      font-size: 0.8rem; font-weight: 600; cursor: pointer;
-      border: 1.5px solid rgba(44,36,22,0.12);
-      background: var(--white); color: var(--text-mid);
-      transition: all 0.2s;
+      padding:7px 18px; border-radius:20px; font-size:0.82rem; font-weight:500;
+      cursor:pointer; border:1.5px solid rgba(44,36,22,0.12);
+      background:var(--white); color:var(--text-mid); transition:all 0.2s;
+      user-select:none;
     }
-    .filter-chip.active, .filter-chip:hover {
-      background: var(--coral); color: #fff; border-color: var(--coral);
-    }
-
-    /* paper card */
-    .paper-card {
-      background: var(--white);
-      border-radius: var(--radius-md);
-      padding: 24px 28px;
-      box-shadow: var(--shadow-sm);
-      margin-bottom: 16px;
-      border-left: 4px solid transparent;
-      transition: box-shadow 0.2s, transform 0.2s;
-      position: relative;
-    }
-    .paper-card:hover { box-shadow: var(--shadow-md); transform: translateX(2px); }
-    .paper-card.featured { border-left-color: var(--gold); }
-    .paper-card.high-cited { border-left-color: var(--coral); }
-    .paper-card.top-advance { border-left-color: var(--mint); }
-
-    .paper-badges { display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px; }
-
-    .badge-cover  { background: var(--gold-light);   color: #7a5c00; }
-    .badge-cited  { background: var(--coral-light);  color: var(--coral-dark); }
-    .badge-advance{ background: var(--mint-light);   color: #0F6B45; }
-    .badge-nature { background: var(--blue-light);   color: var(--blue-dark); }
-
-    .paper-title {
-      font-size: 0.97rem;
-      font-weight: 600;
-      color: var(--text-dark);
-      margin-bottom: 6px;
-      line-height: 1.45;
-      font-family: var(--font-body);
-    }
-    .paper-title a { color: var(--blue); }
-    .paper-title a:hover { text-decoration: underline; }
-
-    .paper-authors { font-size: 0.82rem; color: var(--text-light); margin-bottom: 6px; }
-    .paper-authors strong { color: var(--coral-dark); }
-
-    .paper-journal {
-      display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
-    }
-    .journal-name { font-size: 0.82rem; font-style: italic; color: var(--text-mid); font-weight: 600; }
-    .paper-year { font-size: 0.78rem; color: var(--text-light); }
+    .filter-chip:hover { border-color:var(--tiffany); color:var(--tiffany-dark); }
+    .filter-chip.active { background:var(--nav-bg); color:#fff; border-color:var(--nav-bg); }
 
     .year-divider {
-      font-family: var(--font-display);
-      font-size: 1.4rem;
-      color: var(--text-dark);
-      margin: 40px 0 20px;
-      padding-bottom: 8px;
-      border-bottom: 2px solid var(--coral-light);
+      font-size:1.5rem; font-weight:700; color:var(--nav-bg);
+      margin:40px 0 16px; padding-bottom:8px;
+      border-bottom:2px solid rgba(13,27,42,0.08);
+      font-family:'Playfair Display',serif;
     }
+    .paper-card {
+      background:var(--white); border-radius:var(--radius-lg);
+      padding:20px 24px; margin-bottom:12px;
+      border-left:4px solid var(--tiffany-light);
+      box-shadow:var(--shadow-sm); transition:all 0.2s;
+    }
+    .paper-card:hover { box-shadow:var(--shadow-md); transform:translateX(2px); }
+    .paper-card.featured { border-left-color:var(--gold); }
+    .paper-card.high-cited { border-left-color:var(--coral); }
+    .paper-card.top-advance { border-left-color:var(--mint); }
+    .paper-card.hidden { display:none; }
+
+    .paper-badges { display:flex; gap:6px; flex-wrap:wrap; margin-bottom:8px; }
+    .paper-title { font-size:0.95rem; font-weight:600; line-height:1.5; margin-bottom:6px; color:var(--text-dark); }
+    .paper-title a { color:inherit; text-decoration:none; }
+    .paper-title a:hover { color:var(--tiffany-dark); }
+    .paper-authors { font-size:0.82rem; color:var(--text-mid); margin-bottom:8px; }
+    .paper-journal { display:flex; align-items:center; gap:12px; font-size:0.8rem; color:var(--text-light); }
+    .journal-name { font-style:italic; font-weight:500; }
+    .paper-year { }
+
+    .badge-cover { background:rgba(245,200,66,0.15); color:#B8860B; }
+    .badge-cited { background:rgba(232,115,74,0.12); color:#C85000; }
+    .badge-advance { background:rgba(129,216,208,0.15); color:var(--tiffany-dark); }
+    .badge-nature { background:rgba(13,27,42,0.08); color:var(--text-mid); }
   </style>
 </head>
 <body class="lang-zh">
   <script src="../js/nav-footer.js"></script>
 
   <div class="page-hero">
-    <div class="blob" style="width:300px;height:300px;background:var(--coral);top:-60px;right:-40px;"></div>
-    <div class="blob" style="width:180px;height:180px;background:var(--gold);bottom:-30px;left:15%;"></div>
     <div class="container" style="position:relative;z-index:1;">
       <span class="section-tag" style="background:rgba(129,216,208,0.15);color:var(--tiffany);">
         <span data-zh>学术成果</span><span data-en>Publications</span>
       </span>
-      <h1 style="color:#fff;margin-bottom:10px;">
-        <span data-zh>发表论文</span><span data-en>Our Publications</span>
-      </h1>
-      <p><span data-zh>在 Nature、Cell、Nature Genetics 等顶级期刊发表论文45篇，他引超过2200次。</span><span data-en>45 papers published in Nature, Cell, Nature Genetics and other top journals, with over 2,200 citations.</span></p>
+      <h1><span data-zh>发表论文</span><span data-en>Publications</span></h1>
+      <p><span data-zh>在 Nature、Cell、Nature Genetics 等顶级期刊发表论文198篇，被引11,791次。</span>
+         <span data-en>198 papers published in Nature, Cell, Nature Genetics and other top journals, cited 11,791 times.</span></p>
       <div class="pub-stats">
-        <div class="pub-stat"><div class="pub-stat-n">45+</div><div class="pub-stat-l"><span data-zh>发表论文</span><span data-en>Publications</span></div></div>
-        <div class="pub-stat"><div class="pub-stat-n">2200+</div><div class="pub-stat-l"><span data-zh>被引次数</span><span data-en>Citations</span></div></div>
-        <div class="pub-stat"><div class="pub-stat-n">655</div><div class="pub-stat-l"><span data-zh>单篇最高被引</span><span data-en>Top single-paper citations</span></div></div>
-        <div class="pub-stat"><div class="pub-stat-n">3</div><div class="pub-stat-l"><span data-zh>高被引论文</span><span data-en>Highly Cited Papers</span></div></div>
+        <div class="pub-stat"><div class="pub-stat-num">198</div><div class="pub-stat-label"><span data-zh>发表论文</span><span data-en>Publications</span></div></div>
+        <div class="pub-stat"><div class="pub-stat-num">11,791</div><div class="pub-stat-label"><span data-zh>被引次数</span><span data-en>Citations</span></div></div>
+        <div class="pub-stat"><div class="pub-stat-num">×2</div><div class="pub-stat-label"><span data-zh>中国科学十大进展</span><span data-en>China Top-10 Advances</span></div></div>
+        <div class="pub-stat"><div class="pub-stat-num">3</div><div class="pub-stat-label"><span data-zh>高被引论文</span><span data-en>Highly Cited Papers</span></div></div>
       </div>
     </div>
   </div>
@@ -127,88 +83,175 @@
   <section class="section">
     <div class="container">
       <div id="pubs-container">
-      <!-- Filter -->
-      <div class="filter-bar">
-        <span class="filter-chip active"><span data-zh>全部</span><span data-en>All</span></span>
-        <span class="filter-chip">Nature / Cell</span>
-        <span class="filter-chip"><span data-zh>高被引</span><span data-en>Highly Cited</span></span>
-        <span class="filter-chip"><span data-zh>中国科学十大进展</span><span data-en>Top-10 Advance</span></span>
-        <span class="filter-chip">2024</span>
-        <span class="filter-chip">2023</span>
-        <span class="filter-chip">2022</span>
-      </div>
 
-      <!-- 2024 -->
-      <div class="year-divider">2024</div>
+        <!-- Filter bar -->
+        <div class="filter-bar">
+          <span class="filter-chip active" data-filter="all"><span data-zh>全部</span><span data-en>All</span></span>
+          <span class="filter-chip" data-filter="nature"><span data-zh>Nature / Cell</span><span data-en>Nature / Cell</span></span>
+          <span class="filter-chip" data-filter="cited"><span data-zh>高被引</span><span data-en>Highly Cited</span></span>
+          <span class="filter-chip" data-filter="advance"><span data-zh>中国科学十大进展</span><span data-en>Top-10 Advance</span></span>
+          <span class="filter-chip" data-filter="2026">2026</span>
+          <span class="filter-chip" data-filter="2025">2025</span>
+          <span class="filter-chip" data-filter="2024">2024</span>
+          <span class="filter-chip" data-filter="2023">2023</span>
+        </div>
 
-      <div class="paper-card featured reveal">
-        <div class="paper-badges">
-          <span class="tag badge-nature">Advanced Science</span>
-        </div>
-        <div class="paper-title">
-          Concurrent Preimplantation Genetic Testing and Competence Assessment of Human Embryos by Transcriptome Sequencing
-        </div>
-        <div class="paper-authors">
-          Wang Y, Li Y, Zhu X, … <strong><span data-zh>闫丽盈</span><span data-en>Yan L</span>*</strong>, Qiao J*
-        </div>
-        <div class="paper-journal">
-          <span class="journal-name">Advanced Science</span>
-          <span class="paper-year">2024</span>
-        </div>
-      </div>
+        <!-- 2026 -->
+        <div class="year-divider" data-year="2026">2026</div>
 
-      <!-- Placeholder for more papers -->
-      <div class="paper-card reveal" style="border-left-color:var(--coral);">
-        <div class="paper-badges">
-          <span class="tag badge-cited"><span data-zh>高被引</span><span data-en>Highly Cited</span></span>
-          <span class="tag badge-cover">Cell <span data-zh>封面</span><span data-en>Cover</span></span>
+        <div class="paper-card" data-year="2026" data-tags="">
+          <div class="paper-badges"><span class="tag badge-nature">Human Reproduction</span></div>
+          <div class="paper-title">Third-generation sequencing enables accurate preimplantation genetic testing of monogenic defects for de novo variants and incomplete pedigrees</div>
+          <div class="paper-authors">Fang Y, Wang Y, Zhan Y, […], <strong>Yan L*</strong></div>
+          <div class="paper-journal"><span class="journal-name">Human Reproduction</span><span class="paper-year">2026</span></div>
         </div>
-        <div class="paper-title">
-          <span data-zh>封面论文 — 待实验室同学补充完整引用信息</span>
-          <span data-en>Cover paper — citation details to be added by lab members</span>
-        </div>
-        <div class="paper-authors">
-          <strong><span data-zh>闫丽盈</span><span data-en>Yan L</span>*</strong> et al.
-        </div>
-        <div class="paper-journal">
-          <span class="journal-name">Cell</span>
-          <span class="paper-year"><span data-zh>年份待填</span><span data-en>Year TBD</span></span>
-        </div>
-      </div>
 
-      <div class="paper-card reveal" style="border-left-color:var(--mint);">
-        <div class="paper-badges">
-          <span class="tag badge-advance"><span data-zh>中国科学十大进展</span><span data-en>China Top-10 Advance</span></span>
+        <div class="paper-card" data-year="2026" data-tags="">
+          <div class="paper-badges"><span class="tag badge-nature">EBioMedicine</span></div>
+          <div class="paper-title">Multi-omics profiling identifies inosine as a key metabolite associated with embryonic arrest in hydrosalpinx-associated infertility</div>
+          <div class="paper-authors">Peng Y, Fang Y, Wang N, […], Qiao J*</div>
+          <div class="paper-journal"><span class="journal-name">EBioMedicine</span><span class="paper-year">2026</span></div>
         </div>
-        <div class="paper-title">
-          <span data-zh>入选"中国科学十大进展"论文 — 待补充</span>
-          <span data-en>China Top-10 Advance paper — to be filled</span>
-        </div>
-        <div class="paper-authors">
-          <strong><span data-zh>闫丽盈</span><span data-en>Yan L</span></strong> et al.
-        </div>
-        <div class="paper-journal">
-          <span class="journal-name">Nature / Nature Genetics</span>
-          <span class="paper-year"><span data-zh>年份待填</span><span data-en>Year TBD</span></span>
-        </div>
-      </div>
 
-      <div style="text-align:center;margin-top:40px;padding:32px;background:var(--white);border-radius:var(--radius-lg);box-shadow:var(--shadow-sm);" class="reveal">
-        <p style="color:var(--text-light);font-size:0.9rem;margin-bottom:16px;">
-          <span data-zh>完整论文列表由实验室同学整理补充。总计45+篇。</span>
-          <span data-en>Full publication list to be compiled by lab members. Total: 45+ papers.</span>
-        </p>
-        <a href="https://pubmed.ncbi.nlm.nih.gov/?term=Yan+Liying%5Bauthor%5D" target="_blank" class="btn btn-outline">
-          <span data-zh>在 PubMed 查看全部</span>
-          <span data-en>View all on PubMed</span>
-          ↗
-        </a>
+        <div class="paper-card" data-year="2026" data-tags="">
+          <div class="paper-badges"><span class="tag badge-nature">Cell Communication and Signaling</span></div>
+          <div class="paper-title">The dynamic expression pattern of signaling pathways involved in early embryo development</div>
+          <div class="paper-authors">Song Z, Song S, Wang N, […], Yuan P*</div>
+          <div class="paper-journal"><span class="journal-name">Cell Communication and Signaling</span><span class="paper-year">2026</span></div>
+        </div>
+
+        <div class="paper-card" data-year="2026" data-tags="">
+          <div class="paper-badges"><span class="tag badge-nature">Cell Death and Differentiation</span></div>
+          <div class="paper-title">Ypel5 preserves female fertility by regulating folliculogenesis and oocyte maturation</div>
+          <div class="paper-authors">Ding L, Guo Q, Li Y, […], <strong>Yan L*</strong></div>
+          <div class="paper-journal"><span class="journal-name">Cell Death and Differentiation</span><span class="paper-year">2026</span></div>
+        </div>
+
+        <div class="paper-card" data-year="2026" data-tags="nature">
+          <div class="paper-badges"><span class="tag badge-nature">Nature Communications</span></div>
+          <div class="paper-title">Uridine restores oocyte quality and mitigates female reproductive aging by inhibition of ferroptosis in mice</div>
+          <div class="paper-authors">Chen J, Shen J, Li D, […], Qiao J*</div>
+          <div class="paper-journal"><span class="journal-name">Nature Communications</span><span class="paper-year">2026</span></div>
+        </div>
+
+        <div class="paper-card" data-year="2026" data-tags="nature">
+          <div class="paper-badges"><span class="tag badge-nature">Nature Communications</span></div>
+          <div class="paper-title">Single-oocyte full-length isoform sequencing unveils the impact of transposable elements on RNA diversity and stability</div>
+          <div class="paper-authors">Wang Y, Wei W, Liu Y, […], Yuan P*</div>
+          <div class="paper-journal"><span class="journal-name">Nature Communications</span><span class="paper-year">2026</span></div>
+        </div>
+
+        <div class="paper-card" data-year="2026" data-tags="">
+          <div class="paper-badges"><span class="tag badge-nature">Journal of Assisted Reproduction and Genetics</span></div>
+          <div class="paper-title">Identification of candidate genes associated with mitotic-origin aneuploidy: a genome-wide association study</div>
+          <div class="paper-authors">Lyu Z, An J, Song S, […], Qiao J*</div>
+          <div class="paper-journal"><span class="journal-name">J Assisted Reproduction and Genetics</span><span class="paper-year">2026</span></div>
+        </div>
+
+        <div class="paper-card" data-year="2026" data-tags="">
+          <div class="paper-badges"><span class="tag badge-nature">Reproduction</span></div>
+          <div class="paper-title">Ncbp1 deficiency affects morula-to-blastocyst transition through lipid metabolic dysregulation</div>
+          <div class="paper-authors">Liu Y, He Y, Wang X, […], <strong>Yan L*</strong></div>
+          <div class="paper-journal"><span class="journal-name">Reproduction</span><span class="paper-year">2026</span></div>
+        </div>
+
+        <!-- 2025 -->
+        <div class="year-divider" data-year="2025">2025</div>
+
+        <div class="paper-card top-advance" data-year="2025" data-tags="nature advance cited">
+          <div class="paper-badges">
+            <span class="tag badge-advance"><span data-zh>中国科学十大进展</span><span data-en>Top-10 Advance</span></span>
+            <span class="tag badge-cited"><span data-zh>高被引</span><span data-en>Highly Cited</span></span>
+            <span class="tag badge-nature">Nature</span>
+          </div>
+          <div class="paper-title">Extra X chromosome affects male germ cell development — research on Klinefelter syndrome selected as China's Top-10 Science Advance of 2024</div>
+          <div class="paper-authors"><strong>Qiao J*, Yuan P, Yan L*, Wei Y*</strong> et al.</div>
+          <div class="paper-journal"><span class="journal-name">Nature</span><span class="paper-year">2025</span></div>
+        </div>
+
+        <div class="paper-card" data-year="2025" data-tags="">
+          <div class="paper-badges"><span class="tag badge-nature">Human Reproduction Update</span></div>
+          <div class="paper-title">Moving toward totipotency: the molecular and cellular features of totipotent and naive pluripotent stem cells</div>
+          <div class="paper-authors">Hua L, Peng Y, <strong>Yan L</strong>, […], Qiao J*</div>
+          <div class="paper-journal"><span class="journal-name">Human Reproduction Update</span><span class="paper-year">2025</span></div>
+        </div>
+
+        <div class="paper-card" data-year="2025" data-tags="">
+          <div class="paper-badges"><span class="tag badge-nature">Molecular Human Reproduction</span></div>
+          <div class="paper-title">Single-cell metabolomics reveals that bisphosphoglycerate mutase influences oocyte maturation through glucose metabolism</div>
+          <div class="paper-authors">Wang J, Liu Q, Yan Z, […], <strong>Yan L*</strong></div>
+          <div class="paper-journal"><span class="journal-name">Molecular Human Reproduction</span><span class="paper-year">2025</span></div>
+        </div>
+
+        <div class="paper-card" data-year="2025" data-tags="">
+          <div class="paper-badges"><span class="tag badge-nature">Journal of Assisted Reproduction and Genetics</span></div>
+          <div class="paper-title">Chromosomal segregation and recombination in human sperm cells from reciprocal translocation carriers</div>
+          <div class="paper-authors">Yang Y, Yang M, Shao M, […], Yan Z*</div>
+          <div class="paper-journal"><span class="journal-name">J Assisted Reproduction and Genetics</span><span class="paper-year">2025</span></div>
+        </div>
+
+        <div class="paper-card" data-year="2025" data-tags="">
+          <div class="paper-badges"><span class="tag badge-nature">Frontiers of Medicine</span></div>
+          <div class="paper-title">RRS1 regulates proliferation, migration, and invasion of HTR-8/SVneo human trophoblasts</div>
+          <div class="paper-authors">Wu Y, Li Y, Wang J, […], Yuan P*</div>
+          <div class="paper-journal"><span class="journal-name">Frontiers of Medicine</span><span class="paper-year">2025</span></div>
+        </div>
+
+        <!-- 2024 -->
+        <div class="year-divider" data-year="2024">2024</div>
+
+        <div class="paper-card featured" data-year="2024" data-tags="">
+          <div class="paper-badges"><span class="tag badge-nature">Advanced Science</span></div>
+          <div class="paper-title">Concurrent Preimplantation Genetic Testing and Competence Assessment of Human Embryos by Transcriptome Sequencing</div>
+          <div class="paper-authors">Wang Y, Li Y, Zhu X, […], <strong>Yan L*</strong>, Qiao J*</div>
+          <div class="paper-journal"><span class="journal-name">Advanced Science</span><span class="paper-year">2024</span></div>
+        </div>
+
+        <div style="text-align:center;margin-top:32px;padding:24px;background:var(--white);border-radius:var(--radius-lg);box-shadow:var(--shadow-sm);">
+          <p style="color:var(--text-light);font-size:0.9rem;margin-bottom:16px;">
+            <span data-zh>以上为近期代表性论文，共计198篇。在 PubMed 查看完整列表。</span>
+            <span data-en>Recent representative papers shown. 198 total. View complete list on PubMed.</span>
+          </p>
+          <a href="https://pubmed.ncbi.nlm.nih.gov/?term=Yan+Liying%5Bauthor%5D&sort=date" target="_blank" class="btn btn-outline">
+            <span data-zh>在 PubMed 查看全部 ↗</span>
+            <span data-en>View all on PubMed ↗</span>
+          </a>
+        </div>
+
       </div>
     </div>
   </section>
 
   <script src="../js/main.js"></script>
+  <script>
+  // Filter logic
+  document.querySelectorAll('.filter-chip').forEach(function(chip) {
+    chip.addEventListener('click', function() {
+      document.querySelectorAll('.filter-chip').forEach(function(c) { c.classList.remove('active'); });
+      chip.classList.add('active');
+      var filter = chip.dataset.filter;
+      document.querySelectorAll('.paper-card').forEach(function(card) {
+        if (filter === 'all') {
+          card.classList.remove('hidden');
+        } else if (['2026','2025','2024','2023'].includes(filter)) {
+          card.classList.toggle('hidden', card.dataset.year !== filter);
+        } else {
+          card.classList.toggle('hidden', !card.dataset.tags.includes(filter));
+        }
+      });
+      // Show/hide year dividers
+      document.querySelectorAll('.year-divider').forEach(function(div) {
+        if (filter === 'all') { div.style.display = ''; return; }
+        var year = div.dataset.year;
+        var hasVisible = false;
+        document.querySelectorAll('.paper-card[data-year="'+year+'"]').forEach(function(c) {
+          if (!c.classList.contains('hidden')) hasVisible = true;
+        });
+        div.style.display = hasVisible ? '' : 'none';
+      });
+    });
+  });
+  </script>
   <script src="../js/cms.js"></script>
-  <script src="../js/sheets.js"></script>
 </body>
 </html>

@@ -1,265 +1,348 @@
-/* sheets.js — Google Sheets content loader for YanLab
+/**
+ * YanLab Website — Google Sheets Data Loader
  * 
- * HOW TO USE:
- * 1. Create a Google Sheet with tabs: Members, Publications, News, LabLife
- * 2. Publish it: File → Share → Publish to web → CSV format
- * 3. Replace SHEET_ID below with your actual sheet ID
- * 4. Each tab's CSV URL follows the pattern in SHEETS config
+ * Sheet ID: 1cUrnhyRFKKQFK2AwbuOE8yBYbff5xkFcc1ZzlPe8Hyc
+ * 
+ * Tab结构:
+ *   基本信息 | 团队成员 | 论文 | 新闻 | LabLife | 研究方向
  */
 
-const SHEET_ID = '1cUrnhyRFKKQFK2AwbuOE8yBYbff5xkFcc1ZzlPe8Hyc';
+(function(){
+if(window.__ADMIN_PAGE__) return;
 
-const SHEETS = {
-  members:      `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&sheet=Members`,
-  publications: `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&sheet=Publications`,
-  news:         `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&sheet=News`,
-  lablife:      `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&sheet=LabLife`,
-  pi:           `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&sheet=PI`,
-};
+var SHEET_ID = '1cUrnhyRFKKQFK2AwbuOE8yBYbff5xkFcc1ZzlPe8Hyc';
+var BASE = 'https://docs.google.com/spreadsheets/d/'+SHEET_ID+'/gviz/tq?tqx=out:csv&sheet=';
 
-// Parse CSV text into array of objects
-function parseCSV(text) {
-  const lines = text.trim().split('\n');
-  if (lines.length < 2) return [];
-  
-  const headers = lines[0].split(',').map(h => h.replace(/^"|"$/g, '').trim());
-  return lines.slice(1).map(line => {
-    // Handle quoted fields with commas inside
-    const values = [];
-    let inQuote = false, current = '';
-    for (let i = 0; i < line.length; i++) {
-      if (line[i] === '"') { inQuote = !inQuote; continue; }
-      if (line[i] === ',' && !inQuote) { values.push(current.trim()); current = ''; continue; }
-      current += line[i];
-    }
-    values.push(current.trim());
-    
-    const obj = {};
-    headers.forEach((h, i) => obj[h] = values[i] || '');
+// Image base URL (GitHub raw)
+var IMG_BASE = 'https://raw.githubusercontent.com/morysazzzz/YanLiyingLab/main/images/';
+
+function imgUrl(path){
+  if(!path||path.trim()==='') return '';
+  if(path.startsWith('http')) return path;
+  return IMG_BASE + path.trim();
+}
+
+// Parse CSV → array of objects
+function parseCSV(text){
+  var lines = text.trim().split('\n');
+  if(lines.length < 2) return [];
+  var headers = splitCSVLine(lines[0]).map(function(h){ return h.trim(); });
+  return lines.slice(1).map(function(line){
+    var vals = splitCSVLine(line);
+    var obj = {};
+    headers.forEach(function(h,i){ obj[h] = (vals[i]||'').trim(); });
     return obj;
-  }).filter(row => Object.values(row).some(v => v)); // skip empty rows
+  }).filter(function(row){
+    return Object.values(row).some(function(v){ return v !== ''; });
+  });
 }
 
-// Fetch a sheet tab
-async function fetchSheet(name) {
-  try {
-    const res = await fetch(SHEETS[name]);
-    if (!res.ok) throw new Error('fetch failed');
+function splitCSVLine(line){
+  var result = [], cur = '', inQ = false;
+  for(var i=0; i<line.length; i++){
+    var ch = line[i];
+    if(ch==='"'){ inQ=!inQ; }
+    else if(ch===','&&!inQ){ result.push(cur); cur=''; }
+    else { cur+=ch; }
+  }
+  result.push(cur);
+  return result;
+}
+
+async function fetchTab(tab){
+  try{
+    var res = await fetch(BASE + encodeURIComponent(tab));
+    if(!res.ok) return null;
     return parseCSV(await res.text());
-  } catch (e) {
-    console.warn(`Could not load sheet: ${name}`, e);
-    return null;
+  } catch(e){ console.warn('Sheets: failed to load tab:', tab, e); return null; }
+}
+
+function isZh(){ return !document.body.classList.contains('lang-en'); }
+
+// ── Apply basic info to ALL pages ─────────────────────────────
+function applyBasicInfo(rows){
+  if(!rows) return;
+  var info = {};
+  rows.forEach(function(row){
+    if(row['键'] && row['值_中文']) info[row['键']] = row;
+  });
+
+  function set(key, selector){
+    var row = info[key]; if(!row) return;
+    var zh = row['值_中文']||'', en = row['值_英文']||zh;
+    document.querySelectorAll(selector+'[data-zh]').forEach(function(el){ if(zh) el.textContent=zh; });
+    document.querySelectorAll(selector+'[data-en]').forEach(function(el){ if(en) el.textContent=en; });
+    // Also replace by content matching
+    document.querySelectorAll('[data-zh]').forEach(function(el){
+      if(el.children.length===0 && el.getAttribute('data-cms')===key) el.textContent=isZh()?zh:en;
+    });
+  }
+
+  // Set email everywhere
+  var emailRow = info['email'];
+  if(emailRow && emailRow['值_中文']){
+    var email = emailRow['值_中文'];
+    document.querySelectorAll('a[href^="mailto:"]').forEach(function(a){
+      a.href='mailto:'+email;
+      if(a.textContent.indexOf('@')!==-1) a.textContent=email;
+    });
+  }
+
+  // Replace text content by key matching
+  rows.forEach(function(row){
+    var key=row['键'], zh=row['值_中文']||'', en=row['值_英文']||zh;
+    if(!key||!zh) return;
+    var orig_zh=row['原文_中文']||'', orig_en=row['原文_英文']||'';
+    if(orig_zh){
+      document.querySelectorAll('[data-zh]').forEach(function(el){
+        if(el.children.length===0&&el.textContent.trim()===orig_zh.trim()) el.textContent=isZh()?zh:en;
+      });
+    }
+    if(orig_en){
+      document.querySelectorAll('[data-en]').forEach(function(el){
+        if(el.children.length===0&&el.textContent.trim()===orig_en.trim()) el.textContent=en;
+      });
+    }
+  });
+}
+
+// ── Team page ─────────────────────────────────────────────────
+function renderTeam(members){
+  var c=document.getElementById('members-container'); if(!c||!members) return;
+  var zh=isZh();
+  var COLORS={PI:'#E8734A',Postdoc:'#81D8D0',PhD:'#A78BCA',Master:'#5BA8D8',Undergrad:'#F5C842',Staff:'#81D8D0'};
+  var RZH={PI:'PI · 研究员',Postdoc:'博士后',PhD:'博士生',Master:'硕士生',Undergrad:'本科生',Staff:'科研人员'};
+  var REN={PI:'PI · Professor',Postdoc:'Postdoc',PhD:'PhD Student',Master:"Master's",Undergrad:'Undergrad',Staff:'Staff'};
+  var GZH={PI:'课题组长',Postdoc:'博士后',PhD:'博士研究生',Master:'硕士研究生',Undergrad:'本科生',Staff:'科研人员'};
+  var GEN={PI:'Principal Investigator',Postdoc:'Postdoctoral Researchers',PhD:'PhD Students',Master:"Master's Students",Undergrad:'Undergraduate',Staff:'Research Staff'};
+  var order=['PI','Postdoc','PhD','Master','Undergrad','Staff'], groups={};
+  order.forEach(function(r){groups[r]=[];});
+  members.forEach(function(m){var r=m['角色']||'Staff';if(!groups[r])groups[r]=[];groups[r].push(m);});
+  var html='';
+  order.forEach(function(role){
+    if(!groups[role].length) return;
+    var col=COLORS[role]||'#81D8D0';
+    html+='<div class="group-label">'+(zh?GZH[role]:GEN[role])+'</div><div class="member-grid">';
+    groups[role].forEach(function(m){
+      var name=zh?(m['姓名_中文']||m['姓名_英文']):(m['姓名_英文']||m['姓名_中文'])||'';
+      var focus=zh?(m['研究方向_中文']||m['研究方向_英文']):(m['研究方向_英文']||m['研究方向_中文'])||'';
+      var email=m['邮箱']||'';
+      var photo=imgUrl(m['照片']||'');
+      var letter=(m['姓名_中文']||m['姓名_英文']||'?')[0];
+      html+='<div class="member-card">'
+        +'<div class="member-stripe" style="height:5px;background:'+col+';"></div>'
+        +'<div class="member-body">'
+        +'<div class="member-avatar" style="'+(photo?'background:url('+photo+') center/cover no-repeat;':'background:'+col+';')+'">'+( photo?'':letter)+'</div>'
+        +'<div class="member-name">'+name+'</div>'
+        +'<div class="member-role"><span class="tag" style="background:'+col+'22;color:'+col+';">'+(zh?RZH[role]:REN[role])+'</span></div>'
+        +'<div class="member-focus">'+focus+'</div>'
+        +(email?'<a href="mailto:'+email+'" style="font-size:0.75rem;color:var(--tiffany-dark);">✉ '+email+'</a>':'')
+        +'</div></div>';
+    });
+    html+='</div>';
+  });
+  c.innerHTML=html;
+}
+
+// ── Publications page ─────────────────────────────────────────
+function renderPubs(papers){
+  var c=document.getElementById('pubs-container'); if(!c||!papers) return;
+  var zh=isZh();
+  var filterBar=c.querySelector('.filter-bar');
+  var byY={};
+  papers.forEach(function(p){
+    var y=p['年份']||'2024';
+    if(!byY[y]) byY[y]=[];
+    byY[y].push(p);
+  });
+  var html=filterBar?filterBar.outerHTML:'';
+  Object.keys(byY).sort(function(a,b){return b-a;}).forEach(function(y){
+    html+='<div class="year-divider">'+y+'</div>';
+    byY[y].forEach(function(p){
+      var badges=[];
+      if(p['封面']==='TRUE'||p['封面']==='是') badges.push('<span class="tag badge-cover">Cover</span>');
+      if(p['高被引']==='TRUE'||p['高被引']==='是') badges.push('<span class="tag badge-cited">'+(zh?'高被引':'Highly Cited')+'</span>');
+      if(p['十大进展']==='TRUE'||p['十大进展']==='是') badges.push('<span class="tag badge-advance">'+(zh?'中国科学十大进展':'Top-10 Advance')+'</span>');
+      if(p['期刊']) badges.push('<span class="tag badge-nature">'+p['期刊']+'</span>');
+      var doi=p['DOI']||'';
+      var title=p['标题']||'';
+      html+='<div class="paper-card">'
+        +(badges.length?'<div class="paper-badges">'+badges.join('')+'</div>':'')
+        +'<div class="paper-title">'+(doi?'<a href="'+doi+'" target="_blank">'+title+'</a>':title)+'</div>'
+        +'<div class="paper-authors">'+(p['作者']||'')+'</div>'
+        +'<div class="paper-journal"><span class="journal-name">'+(p['期刊']||'')+'</span><span class="paper-year">'+y+'</span>'
+        +(doi?'<a href="'+doi+'" target="_blank" style="font-size:0.78rem;color:var(--tiffany-dark);margin-left:auto;">DOI ↗</a>':'')
+        +'</div></div>';
+    });
+  });
+  c.innerHTML=html;
+}
+
+// ── News page ─────────────────────────────────────────────────
+function renderNews(items){
+  var c=document.getElementById('news-container'); if(!c||!items) return;
+  var zh=isZh();
+  var months=['','一月','二月','三月','四月','五月','六月','七月','八月','九月','十月','十一月','十二月'];
+  var monthsEn=['','Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  var html='';
+  items.sort(function(a,b){ return (b['日期']||'').localeCompare(a['日期']||''); });
+  items.forEach(function(n){
+    var title=zh?(n['标题_中文']||n['标题_英文']):(n['标题_英文']||n['标题_中文'])||'';
+    var desc=zh?(n['内容_中文']||n['内容_英文']):(n['内容_英文']||n['内容_中文'])||'';
+    var tag=zh?(n['标签_中文']||n['标签_英文']):(n['标签_英文']||n['标签_中文'])||'';
+    var parts=(n['日期']||'').split('-');
+    var mNum=parseInt(parts[1])||0;
+    var monthStr=zh?(months[mNum]||parts[1]):(monthsEn[mNum]||parts[1]);
+    var photo=imgUrl(n['图片']||'');
+    html+='<div class="news-item">'
+      +'<div class="news-date">'
+      +'<div class="news-date-month">'+monthStr+'</div>'
+      +'<div class="news-date-day">'+(parts[2]||'—')+'</div>'
+      +'<div style="font-size:0.7rem;color:var(--text-light);">'+(parts[0]||'')+'</div>'
+      +'</div>'
+      +'<div class="news-content">'
+      +(photo?'<div style="background:url('+photo+') center/cover;height:160px;border-radius:8px;margin-bottom:12px;"></div>':'')
+      +(tag?'<div style="margin-bottom:8px;"><span class="tag tag-coral">'+tag+'</span></div>':'')
+      +'<h4>'+title+'</h4><p>'+desc+'</p>'
+      +'</div></div>';
+  });
+  if(html) c.innerHTML=html;
+}
+
+// ── Lab Life page ─────────────────────────────────────────────
+function renderLabLife(photos, traditions){
+  var zh=isZh();
+  // Polaroid wall
+  var c=document.getElementById('lablife-container');
+  if(c&&photos){
+    var rots=[-2,1.5,-1,2,-2.5,1,-1.5,2.5,-0.5,1.8];
+    var bgs=['var(--mint-light)','var(--coral-light)','var(--gold-light)','var(--purple-light)','var(--sky-light)'];
+    var html='';
+    photos.forEach(function(p,i){
+      var cap=zh?(p['说明_中文']||p['说明_英文']):(p['说明_英文']||p['说明_中文'])||'';
+      var photo=imgUrl(p['图片']||'');
+      var style=photo?'background:url('+photo+') center/cover no-repeat':'background:'+bgs[i%bgs.length];
+      html+='<div class="polaroid-item"><div class="polaroid-card" style="--rot:'+rots[i%rots.length]+'deg;">'
+        +'<div class="polaroid-img" style="'+style+';">'
+        +(!photo?'<span style="font-size:0.7rem;color:var(--text-light);padding:8px;text-align:center;">📸</span>':'')
+        +'</div><div class="polaroid-cap">'+cap+'</div></div></div>';
+    });
+    if(html) c.innerHTML=html;
+  }
+  // Traditions
+  if(traditions){
+    var tradCards=document.querySelectorAll('.tradition-card');
+    traditions.forEach(function(t,i){
+      if(!tradCards[i]) return;
+      var nameEl=tradCards[i].querySelector('[data-zh]');
+      var nameEnEl=tradCards[i].querySelector('[data-en]');
+      var descEl=tradCards[i].querySelectorAll('[data-zh]')[1];
+      var descEnEl=tradCards[i].querySelectorAll('[data-en]')[1];
+      if(nameEl&&t['名称_中文']) nameEl.textContent=t['名称_中文'];
+      if(nameEnEl&&t['名称_英文']) nameEnEl.textContent=t['名称_英文'];
+      if(descEl&&t['描述_中文']) descEl.textContent=t['描述_中文'];
+      if(descEnEl&&t['描述_英文']) descEnEl.textContent=t['描述_英文'];
+    });
   }
 }
 
-// Role color mapping
-const ROLE_CONFIG = {
-  'PI':       { stripe: 'var(--coral)',   tag: 'tag-coral',  label_zh: 'PI · 研究员',   label_en: 'PI · Professor' },
-  'Postdoc':  { stripe: 'var(--tiffany)', tag: 'tag-mint',   label_zh: '博士后',        label_en: 'Postdoc' },
-  'PhD':      { stripe: 'var(--purple)',  tag: 'tag-purple', label_zh: '博士生',        label_en: 'PhD Student' },
-  'Master':   { stripe: 'var(--sky)',     tag: 'tag-sky',    label_zh: '硕士生',        label_en: "Master's Student" },
-  'Undergrad':{ stripe: 'var(--gold)',    tag: 'tag-gold',   label_zh: '本科生',        label_en: 'Undergraduate' },
-  'Staff':    { stripe: 'var(--tiffany-dark)', tag: 'tag-blue', label_zh: '科研人员',  label_en: 'Research Staff' },
-};
-
-// ── RENDER: Team page ──────────────────────────────────────────
-function renderMembers(members, lang) {
-  const container = document.getElementById('members-container');
-  if (!container || !members) return;
-
-  // Group by role
-  const groups = {};
-  const roleOrder = ['PI','Postdoc','PhD','Master','Undergrad','Staff'];
-  roleOrder.forEach(r => groups[r] = []);
-  members.forEach(m => {
-    const role = m.Role || 'Staff';
-    if (!groups[role]) groups[role] = [];
-    groups[role].push(m);
+// ── Research page ─────────────────────────────────────────────
+function renderResearch(areas){
+  if(!areas) return;
+  var zh=isZh();
+  var cards=document.querySelectorAll('.research-card, .direction-card, [data-direction]');
+  areas.forEach(function(a,i){
+    if(!cards[i]) return;
+    var titleZh=cards[i].querySelector('h3[data-zh], h2[data-zh]');
+    var titleEn=cards[i].querySelector('h3[data-en], h2[data-en]');
+    var descZh=cards[i].querySelector('p[data-zh]');
+    var descEn=cards[i].querySelector('p[data-en]');
+    if(titleZh&&a['标题_中文']) titleZh.textContent=a['标题_中文'];
+    if(titleEn&&a['标题_英文']) titleEn.textContent=a['标题_英文'];
+    if(descZh&&a['描述_中文']) descZh.textContent=a['描述_中文'];
+    if(descEn&&a['描述_英文']) descEn.textContent=a['描述_英文'];
   });
+}
 
-  const groupLabels = {
-    PI:       { zh: '课题组长', en: 'Principal Investigator' },
-    Postdoc:  { zh: '博士后',   en: 'Postdoctoral Researchers' },
-    PhD:      { zh: '博士研究生', en: 'PhD Students' },
-    Master:   { zh: '硕士研究生', en: "Master's Students" },
-    Undergrad:{ zh: '本科生',   en: 'Undergraduate Students' },
-    Staff:    { zh: '科研人员', en: 'Research Staff' },
-  };
+// ── PI page ───────────────────────────────────────────────────
+function renderPI(info){
+  if(!info||!info.length) return;
+  var row={};
+  info.forEach(function(r){ if(r['键']) row[r['键']]=r; });
+  var zh=isZh();
+  function get(key){ var r=row[key]; if(!r) return ''; return zh?(r['值_中文']||r['值_英文']):(r['值_英文']||r['值_中文'])||''; }
 
-  let html = '';
-  roleOrder.forEach(role => {
-    const group = groups[role];
-    if (!group.length) return;
-    const cfg = ROLE_CONFIG[role] || ROLE_CONFIG['Staff'];
-    const label = groupLabels[role];
+  // Name
+  var nameEl=document.querySelector('[data-zh].pi-name, h1[data-zh]');
+  if(nameEl&&get('姓名_中文')) { if(zh) nameEl.textContent=get('姓名_中文'); }
 
-    html += `<div class="group-label">
-      <span data-zh>${label.zh}</span>
-      <span data-en>${label.en}</span>
-    </div>
-    <div class="member-grid">`;
-
-    group.forEach(m => {
-      const name = lang === 'zh' ? (m.Name_ZH || m.Name_EN || '') : (m.Name_EN || m.Name_ZH || '');
-      const focus = lang === 'zh' ? (m.Focus_ZH || m.Focus_EN || '') : (m.Focus_EN || m.Focus_ZH || '');
-      const avatarLetter = (m.Name_ZH || m.Name_EN || '?')[0];
-      const avatarStyle = m.Photo 
-        ? `background:url('${m.Photo}') center/cover no-repeat`
-        : `background:${cfg.stripe}`;
-
-      html += `<div class="member-card">
-        <div class="member-stripe" style="height:5px;background:${cfg.stripe};"></div>
-        <div class="member-body">
-          <div class="member-avatar" style="${avatarStyle};">
-            ${m.Photo ? '' : avatarLetter}
-          </div>
-          <div class="member-name">${name}</div>
-          <div class="member-role">
-            <span class="tag ${cfg.tag}">
-              ${lang === 'zh' ? cfg.label_zh : cfg.label_en}
-            </span>
-          </div>
-          <div class="member-focus">${focus}</div>
-          ${m.Email ? `<a href="mailto:${m.Email}" style="font-size:0.75rem;color:var(--tiffany-dark);">✉ ${m.Email}</a>` : ''}
-        </div>
-      </div>`;
+  // Bio - find by partial match
+  if(get('简介')){
+    document.querySelectorAll('[data-zh]').forEach(function(el){
+      if(el.children.length===0&&el.textContent.indexOf('闫丽盈研究员现任职于')!==-1) el.textContent=get('简介');
     });
+  }
 
-    html += `</div>`;
-  });
-
-  container.innerHTML = html || '<p style="color:var(--text-light);text-align:center;padding:40px;">内容加载中...</p>';
-}
-
-// ── RENDER: Publications page ──────────────────────────────────
-function renderPublications(pubs, lang) {
-  const container = document.getElementById('pubs-container');
-  if (!container || !pubs) return;
-
-  // Group by year
-  const byYear = {};
-  pubs.forEach(p => {
-    const y = p.Year || '2024';
-    if (!byYear[y]) byYear[y] = [];
-    byYear[y].push(p);
-  });
-
-  const years = Object.keys(byYear).sort((a,b) => b-a);
-  let html = '';
-
-  years.forEach(year => {
-    html += `<div class="year-divider">${year}</div>`;
-    byYear[year].forEach(p => {
-      const badges = [];
-      if (p.Cover === 'TRUE' || p.Cover === '1') badges.push(`<span class="tag badge-cover">Cover</span>`);
-      if (p.HighlyCited === 'TRUE' || p.HighlyCited === '1') badges.push(`<span class="tag badge-cited">${lang==='zh'?'高被引':'Highly Cited'}</span>`);
-      if (p.TopAdvance === 'TRUE' || p.TopAdvance === '1') badges.push(`<span class="tag badge-advance">${lang==='zh'?'中国科学十大进展':'Top-10 Advance'}</span>`);
-      if (p.Journal) badges.push(`<span class="tag badge-nature">${p.Journal}</span>`);
-
-      html += `<div class="paper-card ${p.Cover==='TRUE'?'featured':''} ${p.HighlyCited==='TRUE'?'high-cited':''} ${p.TopAdvance==='TRUE'?'top-advance':''}">
-        ${badges.length ? `<div class="paper-badges">${badges.join('')}</div>` : ''}
-        <div class="paper-title">${p.DOI ? `<a href="${p.DOI}" target="_blank">${p.Title}</a>` : p.Title}</div>
-        <div class="paper-authors">${p.Authors}</div>
-        <div class="paper-journal">
-          <span class="journal-name">${p.Journal}</span>
-          <span class="paper-year">${p.Year}</span>
-          ${p.DOI ? `<a href="${p.DOI}" target="_blank" style="font-size:0.78rem;color:var(--tiffany-dark);margin-left:auto;">DOI ↗</a>` : ''}
-        </div>
-      </div>`;
+  // Photo
+  var piPhotoPath=row['照片']?row['照片']['值_中文']:'';
+  if(piPhotoPath){
+    var url=imgUrl(piPhotoPath);
+    document.querySelectorAll('.pi-photo, .hero-photo, [data-cms="pi-photo"]').forEach(function(el){
+      el.style.backgroundImage='url('+url+')';
+      el.style.backgroundSize='cover';
+      var img=el.querySelector('img'); if(img) img.src=url;
     });
-  });
-
-  container.innerHTML = html || `<p style="text-align:center;color:var(--text-light);padding:40px;">${lang==='zh'?'论文列表加载中...':'Loading publications...'}</p>`;
+  }
 }
 
-// ── RENDER: News page ──────────────────────────────────────────
-function renderNews(news, lang) {
-  const container = document.getElementById('news-container');
-  if (!container || !news) return;
+// ── Main loader ───────────────────────────────────────────────
+async function loadAndRender(){
+  var pg=location.pathname.split('/').pop()||'index.html';
+  var promises=[];
 
-  const tagColors = { '论文发表':'tag-coral', 'Publication':'tag-coral', '荣誉奖项':'tag-mint', 'Award':'tag-mint', '活动':'tag-purple', 'Event':'tag-purple', '招生':'tag-gold', 'Recruitment':'tag-gold' };
+  // Always load basic info
+  promises.push(fetchTab('基本信息'));
 
-  let html = '';
-  news.forEach(n => {
-    const title = lang==='zh' ? (n.Title_ZH||n.Title_EN||'') : (n.Title_EN||n.Title_ZH||'');
-    const desc  = lang==='zh' ? (n.Desc_ZH||n.Desc_EN||'')   : (n.Desc_EN||n.Desc_ZH||'');
-    const tag   = lang==='zh' ? (n.Tag_ZH||n.Tag_EN||'')     : (n.Tag_EN||n.Tag_ZH||'');
-    const date  = n.Date || '';
-    const parts = date.split('-');
-    const tagColor = tagColors[tag] || 'tag-sky';
+  if(pg==='team.html') promises.push(fetchTab('团队成员'));
+  else promises.push(Promise.resolve(null));
 
-    html += `<div class="news-item">
-      <div class="news-date">
-        <div class="news-date-month">${parts[1]||''}</div>
-        <div class="news-date-day">${parts[2]||'—'}</div>
-        <div style="font-size:0.7rem;color:var(--text-light);">${parts[0]||''}</div>
-      </div>
-      <div class="news-content">
-        ${tag ? `<div style="margin-bottom:8px;"><span class="tag ${tagColor}">${tag}</span></div>` : ''}
-        <h4>${title}</h4>
-        <p>${desc}</p>
-      </div>
-    </div>`;
-  });
+  if(pg==='publications.html') promises.push(fetchTab('论文'));
+  else promises.push(Promise.resolve(null));
 
-  container.innerHTML = html || `<p style="text-align:center;color:var(--text-light);padding:40px;">${lang==='zh'?'动态加载中...':'Loading news...'}</p>`;
+  if(pg==='news.html') promises.push(fetchTab('新闻'));
+  else promises.push(Promise.resolve(null));
+
+  if(pg==='lablife.html'){
+    promises.push(fetchTab('LabLife照片'));
+    promises.push(fetchTab('实验室传统'));
+  } else {
+    promises.push(Promise.resolve(null));
+    promises.push(Promise.resolve(null));
+  }
+
+  if(pg==='research.html') promises.push(fetchTab('研究方向'));
+  else promises.push(Promise.resolve(null));
+
+  if(pg==='pi.html') promises.push(fetchTab('PI信息'));
+  else promises.push(Promise.resolve(null));
+
+  var results=await Promise.all(promises);
+  var basicInfo=results[0], team=results[1], pubs=results[2], news=results[3];
+  var lifePhotos=results[4], lifeTrad=results[5], research=results[6], piInfo=results[7];
+
+  applyBasicInfo(basicInfo);
+  if(team) renderTeam(team);
+  if(pubs) renderPubs(pubs);
+  if(news) renderNews(news);
+  if(lifePhotos||lifeTrad) renderLabLife(lifePhotos, lifeTrad);
+  if(research) renderResearch(research);
+  if(piInfo) renderPI(piInfo);
 }
 
-// ── RENDER: Lab Life page ──────────────────────────────────────
-function renderLabLife(photos, lang) {
-  const container = document.getElementById('lablife-container');
-  if (!container || !photos) return;
-
-  const rots = [-2, 1.5, -1, 2, -2.5, 1, -1.5, 2.5, -0.5, 1.8];
-  const bgColors = ['var(--mint-light)','var(--coral-light)','var(--gold-light)','var(--purple-light)','var(--sky-light)','var(--tiffany-light)'];
-
-  let html = '';
-  photos.forEach((p, i) => {
-    const caption = lang==='zh' ? (p.Caption_ZH||p.Caption_EN||'') : (p.Caption_EN||p.Caption_ZH||'');
-    const rot = rots[i % rots.length];
-    const bg  = bgColors[i % bgColors.length];
-
-    html += `<div class="polaroid-item">
-      <div class="polaroid-card" style="--rot:${rot}deg;">
-        <div class="polaroid-img" style="${p.URL ? `background:url('${p.URL}') center/cover no-repeat` : `background:${bg}`};">
-          ${!p.URL ? `<span style="font-size:0.7rem;color:var(--text-light);padding:8px;text-align:center;">📸 ${lang==='zh'?'照片待上传':'Photo coming'}</span>` : ''}
-        </div>
-        <div class="polaroid-cap">${caption}</div>
-      </div>
-    </div>`;
+document.addEventListener('DOMContentLoaded', function(){
+  loadAndRender();
+  document.querySelectorAll('.lang-btn').forEach(function(btn){
+    btn.addEventListener('click', function(){ setTimeout(loadAndRender, 100); });
   });
-
-  container.innerHTML = html;
-}
-
-// ── MAIN: auto-detect page and load ───────────────────────────
-document.addEventListener('DOMContentLoaded', async () => {
-  const page = location.pathname.split('/').pop();
-  const lang = document.body.classList.contains('lang-en') ? 'en' : 'zh';
-
-  // Listen for language changes
-  document.querySelectorAll('.lang-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const newLang = btn.dataset.lang;
-      setTimeout(() => rerender(page, newLang), 50);
-    });
-  });
-
-  await rerender(page, lang);
 });
-
-async function rerender(page, lang) {
-  if (page === 'team.html') {
-    const data = await fetchSheet('members');
-    renderMembers(data, lang);
-  } else if (page === 'publications.html') {
-    const data = await fetchSheet('publications');
-    renderPublications(data, lang);
-  } else if (page === 'news.html') {
-    const data = await fetchSheet('news');
-    renderNews(data, lang);
-  } else if (page === 'lablife.html') {
-    const data = await fetchSheet('lablife');
-    renderLabLife(data, lang);
-  }
-}
+})();
