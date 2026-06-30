@@ -98,31 +98,75 @@
     .two-col { display:grid;grid-template-columns:1fr 1fr;gap:48px; }
 
     .quote-block {
-      background:var(--nav-bg);
-      border-radius:var(--radius-lg);
-      padding:40px 48px;
-      text-align:center;
-      position:relative;
-      overflow:hidden;
+      background: linear-gradient(135deg, #0D1B2A 0%, #1a2f45 100%);
+      border-radius: 20px;
+      padding: 56px 64px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(129,216,208,0.15);
+      box-shadow: 0 20px 60px rgba(13,27,42,0.3);
+    }
+    .quote-block::before {
+      content: '';
+      position: absolute;
+      top: -60px; left: -60px;
+      width: 200px; height: 200px;
+      background: radial-gradient(circle, rgba(129,216,208,0.12) 0%, transparent 70%);
+      border-radius: 50%;
+    }
+    .quote-block::after {
+      content: '';
+      position: absolute;
+      bottom: -60px; right: -60px;
+      width: 200px; height: 200px;
+      background: radial-gradient(circle, rgba(232,115,74,0.1) 0%, transparent 70%);
+      border-radius: 50%;
     }
     .quote-mark {
-      font-family:var(--font-display);
-      font-size:5rem;
-      color:var(--coral);
-      opacity:0.3;
-      line-height:1;
-      position:absolute;
-      top:10px;left:24px;
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 7rem;
+      color: #81D8D0;
+      opacity: 0.2;
+      line-height: 0.7;
+      position: absolute;
+      top: 24px; left: 32px;
+    }
+    .quote-label {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: #81D8D0;
+      margin-bottom: 24px;
+      position: relative; z-index: 1;
     }
     .quote-text {
-      font-family:var(--font-display);
-      font-size:1.3rem;
-      color:#fff;
-      font-style:italic;
-      position:relative;z-index:1;
-      margin-bottom:16px;
+      font-family: 'Noto Serif SC', 'Playfair Display', Georgia, serif;
+      font-size: 1.45rem;
+      color: #fff;
+      font-style: normal;
+      font-weight: 400;
+      line-height: 1.9;
+      position: relative; z-index: 1;
+      margin-bottom: 28px;
+      max-width: 680px;
+      margin-left: auto;
+      margin-right: auto;
     }
-    .quote-attr { color:rgba(255,255,255,0.6);font-size:0.85rem; }
+    .quote-divider {
+      width: 40px; height: 2px;
+      background: linear-gradient(90deg, #81D8D0, #E8734A);
+      margin: 0 auto 20px;
+      border-radius: 2px;
+      position: relative; z-index: 1;
+    }
+    .quote-attr {
+      color: rgba(255,255,255,0.5);
+      font-size: 0.82rem;
+      letter-spacing: 0.05em;
+      position: relative; z-index: 1;
+    }
 
     @media(max-width:768px){
       .page-hero-inner { grid-template-columns:1fr;text-align:center; }
@@ -274,12 +318,13 @@
   <section class="section">
     <div class="container">
       <div class="quote-block reveal">
-        <div class="blob" style="width:200px;height:200px;background:var(--coral);top:-60px;right:10%;opacity:0.15;position:absolute;"></div>
         <div class="quote-mark">"</div>
+        <div class="quote-label"><span data-zh>闫老师名言</span><span data-en>Words from Prof. Yan</span></div>
         <p class="quote-text">
-          <span data-zh>这里是闫老师的一句话或寄语，<br>由实验室同学帮助补充。</span>
-          <span data-en>A quote or message from Prof. Yan,<br>to be added by lab members.</span>
+          <span data-zh>请在这里填写闫老师的名言或寄语，<br>可以是她在课堂、演讲或日常中说过的话。</span>
+          <span data-en>A memorable quote from Prof. Yan —<br>from a lecture, speech, or everyday conversation.</span>
         </p>
+        <div class="quote-divider"></div>
         <p class="quote-attr">— <span data-zh>闫丽盈</span><span data-en>Prof. Liying Yan</span></p>
       </div>
     </div>
