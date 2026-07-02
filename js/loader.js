@@ -21,16 +21,7 @@ el.innerHTML='<canvas id="yl-c"></canvas>'
   +'<div id="yl-logo-text"></div>'
   +'<div id="yl-logo-sub"><div id="yl-logo-line"></div><div id="yl-logo-lab">闫丽盈实验室 · 北医三院</div></div>'
   +'</div>';
-function start(){
-  document.body.insertBefore(el,document.body.firstChild);
-  initPts();initGrid();
-  st=Date.now();
-  document.fonts.ready.then(function(){draw();});
-}
-if(document.body) start();
-else document.addEventListener('DOMContentLoaded',start);
-
-var c=document.getElementById('yl-c'),ctx=c.getContext('2d');
+var c,ctx;
 var W,H,cx,cy,raf,st;
 
 function resize(){
@@ -39,8 +30,18 @@ function resize(){
   H=c.height=p.offsetHeight||window.innerHeight;
   cx=W/2;cy=H/2;
 }
-resize();
-window.addEventListener('resize',resize);
+
+function start(){
+  document.body.insertBefore(el,document.body.firstChild);
+  c=document.getElementById('yl-c');ctx=c.getContext('2d');
+  resize();
+  window.addEventListener('resize',resize);
+  initPts();initGrid();
+  st=Date.now();
+  document.fonts.ready.then(function(){draw();});
+}
+if(document.body) start();
+else document.addEventListener('DOMContentLoaded',start);
 
 var COLS=['129,216,208','232,115,74','167,139,202','245,200,66'];
 var BASES=['A','T','C','G'];
