@@ -43,7 +43,9 @@
       background:var(--blue-light); border-radius:var(--radius-lg);
       height:280px; display:flex;align-items:center;justify-content:center;
       color:var(--blue); flex-direction:column; gap:8px; font-size:0.85rem; text-align:center;
+      overflow:hidden; position:relative; padding:0;
     }
+    .map-placeholder iframe { width:100%; height:100%; border:0; display:block; }
 
     .social-links { display:flex;gap:12px;margin-top:20px;flex-wrap:wrap; }
     .social-link {
@@ -134,21 +136,17 @@
         <div class="reveal" style="transition-delay:0.1s;">
           <h2 style="margin-bottom:24px;"><span data-zh>如何到达</span><span data-en>Getting here</span></h2>
           <div class="map-placeholder">
-            <span style="font-size:2rem;">🗺️</span>
-            <span>
-              <span data-zh>北京大学第三医院<br>海淀区花园北路49号<br>（地图待嵌入）</span>
-              <span data-en>Peking University Third Hospital<br>49 North Garden Road, Haidian<br>(Map to be embedded)</span>
-            </span>
+            <iframe src="https://api.map.baidu.com/geocoder?address=%E5%8C%97%E4%BA%AC%E5%B8%82%E6%B5%B7%E6%B7%80%E5%8C%BA%E8%8A%B1%E5%9B%AD%E5%8C%97%E8%B7%AF49%E5%8F%B7&output=html&src=webapp.YanLab.contact" loading="lazy" allowfullscreen title="北京大学第三医院地图"></iframe>
           </div>
           <div style="margin-top:16px;padding:16px 20px;background:var(--white);border-radius:var(--radius-md);box-shadow:var(--shadow-sm);">
             <div style="font-size:0.82rem;color:var(--text-mid);line-height:1.8;">
               <span data-zh>
-                🚇 地铁：4号线/16号线 海淀黄庄站，步行约15分钟<br>
-                🚌 公交：多路公交直达北医三院站
+                🚇 地铁：10号线 西土城站B口，步行约900米（14分钟）；或牡丹园站A口，步行约1.4公里（21分钟）<br>
+                🚌 公交：331、94、606、484路 → 北医三院站下车即到
               </span>
               <span data-en>
-                🚇 Metro: Line 4/16, Haidian Huangzhuang Station, ~15 min walk<br>
-                🚌 Bus: Multiple routes to PUTH stop
+                🚇 Metro: Line 10, Xitucheng Station Exit B (~900m, 14 min walk); or Mudanyuan Station Exit A (~1.4km, 21 min walk)<br>
+                🚌 Bus: Routes 331, 94, 606, 484 → get off at "Beiyisanyuan" (PUTH) stop
               </span>
             </div>
           </div>
