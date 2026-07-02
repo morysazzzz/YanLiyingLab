@@ -21,7 +21,14 @@ el.innerHTML='<canvas id="yl-c"></canvas>'
   +'<div id="yl-logo-text"></div>'
   +'<div id="yl-logo-sub"><div id="yl-logo-line"></div><div id="yl-logo-lab">闫丽盈实验室 · 北医三院</div></div>'
   +'</div>';
-document.body.insertBefore(el,document.body.firstChild);
+function start(){
+  document.body.insertBefore(el,document.body.firstChild);
+  initPts();initGrid();
+  st=Date.now();
+  document.fonts.ready.then(function(){draw();});
+}
+if(document.body) start();
+else document.addEventListener('DOMContentLoaded',start);
 
 var c=document.getElementById('yl-c'),ctx=c.getContext('2d');
 var W,H,cx,cy,raf,st;
@@ -265,8 +272,6 @@ function draw(){
   }
 }
 
-initPts();initGrid();
-st=Date.now();
-document.fonts.ready.then(function(){draw();});
+
 
 })();
